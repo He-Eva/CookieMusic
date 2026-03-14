@@ -1,0 +1,16 @@
+2024-05-21 16:20:26 INFO [com.example.cookiemusicdemo.CookieMusicDemoApplication]: Starting CookieMusicDemoApplication using Java 1.8.0_181 on wangyuyan with PID 14444 (D:\CookieMusicDemo\target\classes started by wangqing in D:\CookieMusicDemo)
+2024-05-21 16:20:26 INFO [com.example.cookiemusicdemo.CookieMusicDemoApplication]: The following profiles are active: dev
+2024-05-21 16:20:26 INFO [org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor]: Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2024-05-21 16:20:26 INFO [org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor]: For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2024-05-21 16:20:27 INFO [org.springframework.data.repository.config.RepositoryConfigurationDelegate]: Multiple Spring Data modules found, entering strict repository configuration mode!
+2024-05-21 16:20:27 INFO [org.springframework.data.repository.config.RepositoryConfigurationDelegate]: Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2024-05-21 16:20:27 INFO [org.springframework.data.repository.config.RepositoryConfigurationDelegate]: Finished Spring Data repository scanning in 10 ms. Found 0 Redis repository interfaces.
+2024-05-21 16:20:28 INFO [org.springframework.boot.web.embedded.tomcat.TomcatWebServer]: Tomcat initialized with port(s): 8888 (http)
+2024-05-21 16:20:29 INFO [org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext]: Root WebApplicationContext: initialization completed in 2408 ms
+2024-05-21 16:20:29 INFO [org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer]: LiveReload server is running on port 35729
+2024-05-21 16:20:29 INFO [org.springframework.boot.web.embedded.tomcat.TomcatWebServer]: Tomcat started on port(s): 8888 (http) with context path ''
+2024-05-21 16:20:29 INFO [com.example.cookiemusicdemo.CookieMusicDemoApplication]: Started CookieMusicDemoApplication in 3.182 seconds (JVM running for 4.147)
+2024-05-21 16:21:52 INFO [org.springframework.web.servlet.DispatcherServlet]: Initializing Servlet 'dispatcherServlet'
+2024-05-21 16:21:52 INFO [org.springframework.web.servlet.DispatcherServlet]: Completed initialization in 1 ms
+2024-05-21 16:21:52 INFO [com.zaxxer.hikari.HikariDataSource]: HikariPool-1 - Starting...
+2024-05-21 16:21:52 INFO [com.zaxxer.hikari.HikariDataSource]: HikariPool-1 - Start completed.

@@ -1,0 +1,111 @@
+2024-06-01 12:48:43 INFO [com.example.cookiemusicdemo.CookieMusicDemoApplication]: Starting CookieMusicDemoApplication using Java 1.8.0_181 on wangyuyan with PID 13060 (D:\CookieMusicDemo\target\classes started by wangqing in D:\CookieMusicDemo)
+2024-06-01 12:48:43 INFO [com.example.cookiemusicdemo.CookieMusicDemoApplication]: The following profiles are active: dev
+2024-06-01 12:48:43 INFO [org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor]: Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2024-06-01 12:48:43 INFO [org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor]: For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2024-06-01 12:48:44 INFO [org.springframework.data.repository.config.RepositoryConfigurationDelegate]: Multiple Spring Data modules found, entering strict repository configuration mode!
+2024-06-01 12:48:44 INFO [org.springframework.data.repository.config.RepositoryConfigurationDelegate]: Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2024-06-01 12:48:44 INFO [org.springframework.data.repository.config.RepositoryConfigurationDelegate]: Finished Spring Data repository scanning in 10 ms. Found 0 Redis repository interfaces.
+2024-06-01 12:48:46 INFO [org.springframework.boot.web.embedded.tomcat.TomcatWebServer]: Tomcat initialized with port(s): 8888 (http)
+2024-06-01 12:48:46 INFO [org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext]: Root WebApplicationContext: initialization completed in 2343 ms
+2024-06-01 12:48:46 INFO [org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer]: LiveReload server is running on port 35729
+2024-06-01 12:48:46 INFO [org.springframework.boot.web.embedded.tomcat.TomcatWebServer]: Tomcat started on port(s): 8888 (http) with context path ''
+2024-06-01 12:48:46 INFO [com.example.cookiemusicdemo.CookieMusicDemoApplication]: Started CookieMusicDemoApplication in 3.085 seconds (JVM running for 4.078)
+2024-06-01 12:49:14 INFO [org.springframework.web.servlet.DispatcherServlet]: Initializing Servlet 'dispatcherServlet'
+2024-06-01 12:49:14 INFO [org.springframework.web.servlet.DispatcherServlet]: Completed initialization in 0 ms
+2024-06-01 12:49:14 INFO [com.zaxxer.hikari.HikariDataSource]: HikariPool-1 - Starting...
+2024-06-01 12:49:14 INFO [com.zaxxer.hikari.HikariDataSource]: HikariPool-1 - Start completed.
+2024-06-01 12:49:15 WARN [org.springframework.web.servlet.PageNotFound]: No mapping for GET /assets/images/user.png
+2024-06-01 13:10:31 INFO [com.zaxxer.hikari.HikariDataSource]: HikariPool-1 - Shutdown initiated...
+2024-06-01 13:10:31 INFO [com.zaxxer.hikari.HikariDataSource]: HikariPool-1 - Shutdown completed.
+2024-06-01 13:10:47 INFO [com.example.cookiemusicdemo.CookieMusicDemoApplication]: Starting CookieMusicDemoApplication using Java 1.8.0_181 on wangyuyan with PID 4924 (D:\CookieMusicDemo\target\classes started by wangqing in D:\CookieMusicDemo)
+2024-06-01 13:10:47 INFO [com.example.cookiemusicdemo.CookieMusicDemoApplication]: The following profiles are active: dev
+2024-06-01 13:10:47 INFO [org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor]: Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2024-06-01 13:10:47 INFO [org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor]: For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2024-06-01 13:10:47 INFO [org.springframework.data.repository.config.RepositoryConfigurationDelegate]: Multiple Spring Data modules found, entering strict repository configuration mode!
+2024-06-01 13:10:47 INFO [org.springframework.data.repository.config.RepositoryConfigurationDelegate]: Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2024-06-01 13:10:47 INFO [org.springframework.data.repository.config.RepositoryConfigurationDelegate]: Finished Spring Data repository scanning in 9 ms. Found 0 Redis repository interfaces.
+2024-06-01 13:10:49 INFO [org.springframework.boot.web.embedded.tomcat.TomcatWebServer]: Tomcat initialized with port(s): 8888 (http)
+2024-06-01 13:10:49 INFO [org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext]: Root WebApplicationContext: initialization completed in 1727 ms
+2024-06-01 13:10:49 INFO [org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer]: LiveReload server is running on port 35729
+2024-06-01 13:10:49 INFO [org.springframework.boot.web.embedded.tomcat.TomcatWebServer]: Tomcat started on port(s): 8888 (http) with context path ''
+2024-06-01 13:10:49 INFO [com.example.cookiemusicdemo.CookieMusicDemoApplication]: Started CookieMusicDemoApplication in 2.351 seconds (JVM running for 3.14)
+2024-06-01 13:16:35 INFO [org.springframework.web.servlet.DispatcherServlet]: Initializing Servlet 'dispatcherServlet'
+2024-06-01 13:16:35 INFO [org.springframework.web.servlet.DispatcherServlet]: Completed initialization in 0 ms
+2024-06-01 13:16:35 INFO [com.zaxxer.hikari.HikariDataSource]: HikariPool-1 - Starting...
+2024-06-01 13:16:35 INFO [com.zaxxer.hikari.HikariDataSource]: HikariPool-1 - Start completed.
+2024-06-01 13:16:35 WARN [org.springframework.web.servlet.PageNotFound]: No mapping for GET /assets/images/user.png
+2024-06-01 14:51:50 WARN [org.springframework.web.servlet.PageNotFound]: No mapping for GET /assets/images/user.png
+2024-06-01 19:00:06 WARN [com.zaxxer.hikari.pool.HikariPool]: HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1h50m29s261ms703µs600ns).
+2024-06-01 19:32:33 INFO [com.example.cookiemusicdemo.CookieMusicDemoApplication]: Starting CookieMusicDemoApplication using Java 1.8.0_181 on wangyuyan with PID 5764 (D:\CookieMusicDemo\target\classes started by wangqing in D:\CookieMusicDemo)
+2024-06-01 19:32:33 INFO [com.example.cookiemusicdemo.CookieMusicDemoApplication]: The following profiles are active: dev
+2024-06-01 19:32:33 INFO [org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor]: Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2024-06-01 19:32:33 INFO [org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor]: For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2024-06-01 19:32:33 INFO [org.springframework.data.repository.config.RepositoryConfigurationDelegate]: Multiple Spring Data modules found, entering strict repository configuration mode!
+2024-06-01 19:32:33 INFO [org.springframework.data.repository.config.RepositoryConfigurationDelegate]: Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2024-06-01 19:32:33 INFO [org.springframework.data.repository.config.RepositoryConfigurationDelegate]: Finished Spring Data repository scanning in 9 ms. Found 0 Redis repository interfaces.
+2024-06-01 19:32:35 INFO [org.springframework.boot.web.embedded.tomcat.TomcatWebServer]: Tomcat initialized with port(s): 8888 (http)
+2024-06-01 19:32:35 INFO [org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext]: Root WebApplicationContext: initialization completed in 2290 ms
+2024-06-01 19:32:35 WARN [org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer]: Unable to start LiveReload server
+2024-06-01 19:32:35 WARN [org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext]: Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'; nested exception is org.springframework.boot.web.server.PortInUseException: Port 8888 is already in use
+2024-06-01 19:32:36 INFO [org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener]: 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2024-06-01 19:32:36 ERROR [org.springframework.boot.diagnostics.LoggingFailureAnalysisReporter]: 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 8888 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 8888 or configure this application to listen on another port.
+
+2024-06-01 19:45:18 INFO [com.example.cookiemusicdemo.CookieMusicDemoApplication]: Starting CookieMusicDemoApplication using Java 1.8.0_181 on wangyuyan with PID 24192 (D:\CookieMusicDemo\target\classes started by wangqing in D:\CookieMusicDemo)
+2024-06-01 19:45:18 INFO [com.example.cookiemusicdemo.CookieMusicDemoApplication]: The following profiles are active: dev
+2024-06-01 19:45:18 INFO [org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor]: Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2024-06-01 19:45:18 INFO [org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor]: For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2024-06-01 19:45:18 INFO [org.springframework.data.repository.config.RepositoryConfigurationDelegate]: Multiple Spring Data modules found, entering strict repository configuration mode!
+2024-06-01 19:45:18 INFO [org.springframework.data.repository.config.RepositoryConfigurationDelegate]: Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2024-06-01 19:45:18 INFO [org.springframework.data.repository.config.RepositoryConfigurationDelegate]: Finished Spring Data repository scanning in 8 ms. Found 0 Redis repository interfaces.
+2024-06-01 19:45:20 INFO [org.springframework.boot.web.embedded.tomcat.TomcatWebServer]: Tomcat initialized with port(s): 8888 (http)
+2024-06-01 19:45:20 INFO [org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext]: Root WebApplicationContext: initialization completed in 1907 ms
+2024-06-01 19:45:20 WARN [org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer]: Unable to start LiveReload server
+2024-06-01 19:45:20 WARN [org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext]: Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'; nested exception is org.springframework.boot.web.server.PortInUseException: Port 8888 is already in use
+2024-06-01 19:45:20 INFO [org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener]: 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2024-06-01 19:45:20 ERROR [org.springframework.boot.diagnostics.LoggingFailureAnalysisReporter]: 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 8888 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 8888 or configure this application to listen on another port.
+
+2024-06-01 19:49:35 INFO [com.example.cookiemusicdemo.CookieMusicDemoApplication]: Starting CookieMusicDemoApplication using Java 1.8.0_181 on wangyuyan with PID 16736 (D:\CookieMusicDemo\target\classes started by wangqing in D:\CookieMusicDemo)
+2024-06-01 19:49:35 INFO [com.example.cookiemusicdemo.CookieMusicDemoApplication]: The following profiles are active: dev
+2024-06-01 19:49:35 INFO [org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor]: Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2024-06-01 19:49:35 INFO [org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor]: For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2024-06-01 19:49:36 INFO [org.springframework.data.repository.config.RepositoryConfigurationDelegate]: Multiple Spring Data modules found, entering strict repository configuration mode!
+2024-06-01 19:49:36 INFO [org.springframework.data.repository.config.RepositoryConfigurationDelegate]: Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2024-06-01 19:49:36 INFO [org.springframework.data.repository.config.RepositoryConfigurationDelegate]: Finished Spring Data repository scanning in 10 ms. Found 0 Redis repository interfaces.
+2024-06-01 19:49:38 INFO [org.springframework.boot.web.embedded.tomcat.TomcatWebServer]: Tomcat initialized with port(s): 8888 (http)
+2024-06-01 19:49:38 INFO [org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext]: Root WebApplicationContext: initialization completed in 2479 ms
+2024-06-01 19:49:38 INFO [org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer]: LiveReload server is running on port 35729
+2024-06-01 19:49:38 INFO [org.springframework.boot.web.embedded.tomcat.TomcatWebServer]: Tomcat started on port(s): 8888 (http) with context path ''
+2024-06-01 19:49:38 INFO [com.example.cookiemusicdemo.CookieMusicDemoApplication]: Started CookieMusicDemoApplication in 3.279 seconds (JVM running for 4.454)
+2024-06-01 19:50:07 INFO [org.springframework.web.servlet.DispatcherServlet]: Initializing Servlet 'dispatcherServlet'
+2024-06-01 19:50:07 INFO [org.springframework.web.servlet.DispatcherServlet]: Completed initialization in 1 ms
+2024-06-01 19:50:07 INFO [com.zaxxer.hikari.HikariDataSource]: HikariPool-1 - Starting...
+2024-06-01 19:50:08 INFO [com.zaxxer.hikari.HikariDataSource]: HikariPool-1 - Start completed.
+2024-06-01 19:50:08 WARN [org.springframework.web.servlet.PageNotFound]: No mapping for GET /assets/images/user.png
