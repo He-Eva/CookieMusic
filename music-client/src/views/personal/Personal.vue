@@ -20,7 +20,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, nextTick, ref, computed, watch, reactive } from "vue";
+import { defineComponent, nextTick, ref, computed, watch, reactive, getCurrentInstance } from "vue";
 import { useStore } from "vuex";
 import { Edit } from "@element-plus/icons-vue";
 import SongList from "@/components/SongList.vue";
@@ -35,6 +35,7 @@ export default defineComponent({
     Upload,
   },
   setup() {
+    const { proxy } = getCurrentInstance() as any;
     const store = useStore();
 
     const { routerManager } = mixin();
@@ -58,27 +59,33 @@ export default defineComponent({
       routerManager(RouterName.Setting, { path: RouterName.Setting });
     }
     async function getUserInfo(id) {
-      const result = (await HttpManager.getUserOfId(id)) as ResponseBody;
-      personalInfo.username = result.data[0].username;
-      personalInfo.userSex = result.data[0].sex;
-      personalInfo.birth = result.data[0].birth;
-      personalInfo.introduction = result.data[0].introduction;
-      personalInfo.location = result.data[0].location;
+      try {
+        const result = (await HttpManager.getUserOfId(id)) as ResponseBody;
+        const row = result?.data?.[0];
+        if (!row) return;
+        personalInfo.username = row.username;
+        personalInfo.userSex = row.sex;
+        personalInfo.birth = row.birth;
+        personalInfo.introduction = row.introduction;
+        personalInfo.location = row.location;
+      } catch (e: any) {
+        proxy?.$message?.({ message: e?.data?.message || "获取用户信息失败", type: "error" });
+      }
     }
     // 获取收藏的歌曲
     async function getCollection(userId) {
-      collectSongList.value = []
-      const result = (await HttpManager.getCollectionOfUser(userId)) as ResponseBody;
-      const collectIDList = result.data || []; // 存放收藏的歌曲ID
-      // 通过歌曲ID获取歌曲信息
-      for (const item of collectIDList) {
-        if (!item.songId) {
-          console.error(`歌曲${item}异常`);
-          continue;
+      try {
+        collectSongList.value = [];
+        const result = (await HttpManager.getCollectionOfUser(userId)) as ResponseBody;
+        const collectIDList = result?.data || []; // 存放收藏的歌曲ID
+        // 通过歌曲ID获取歌曲信息
+        for (const item of collectIDList) {
+          if (!item.songId) continue;
+          const songRes = (await HttpManager.getSongOfId(item.songId)) as ResponseBody;
+          if (songRes?.data?.[0]) collectSongList.value.push(songRes.data[0]);
         }
-
-        const result = (await HttpManager.getSongOfId(item.songId)) as ResponseBody;
-        collectSongList.value.push(result.data[0]);
+      } catch (e: any) {
+        proxy?.$message?.({ message: e?.data?.message || "获取收藏失败", type: "error" });
       }
     }
 
@@ -87,8 +94,10 @@ export default defineComponent({
     }
 
     nextTick(() => {
-      getUserInfo(userId.value);
-      getCollection(userId.value);
+      if (userId.value) {
+        getUserInfo(userId.value);
+        getCollection(userId.value);
+      }
     });
 
     return {

@@ -24,10 +24,13 @@ export default defineComponent({
     };
 
     const songUrl = computed(() => store.getters.songUrl); // 音乐链接
+    const songId = computed(() => store.getters.songId); // 音乐ID
     const isPlay = computed(() => store.getters.isPlay); // 播放状态
     const volume = computed(() => store.getters.volume); // 音量
     const changeTime = computed(() => store.getters.changeTime); // 指定播放时刻
     const autoNext = computed(() => store.getters.autoNext); // 用于触发自动播放下一首
+    const token = computed(() => store.getters.token);
+    const userId = computed(() => store.getters.userId);
     // 监听播放还是暂停
     watch(isPlay, () => togglePlay());
     // 跳到指定时刻播放
@@ -62,6 +65,23 @@ export default defineComponent({
       proxy.$store.commit("setIsPlay", false);
       proxy.$store.commit("setCurTime", 0);
       proxy.$store.commit("setAutoNext", !autoNext.value);
+
+      // 上报播放记录（避免频繁请求：仅在播放结束时写一次）
+      try {
+        if (token.value && userId.value && songId.value) {
+          const playSeconds = Math.floor(divRef.value.currentTime || 0);
+          if (playSeconds > 0) {
+            HttpManager.addPlayRecord({
+              consumerId: Number(userId.value),
+              songId: Number(songId.value),
+              playSeconds,
+              source: 0,
+            });
+          }
+        }
+      } catch (e) {
+        // ignore client-side record failures
+      }
     }
 
     return {

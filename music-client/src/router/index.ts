@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
+import store from "@/store";
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/:pathMatch(.*)*",
@@ -67,6 +68,24 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import("@/views/search/Search.vue"),
       },
       {
+        path: "/community",
+        name: "community",
+        component: () => import("@/views/community/Community.vue"),
+      },
+      {
+        path: "/community/publish",
+        name: "community-publish",
+        meta: {
+          requireAuth: true,
+        },
+        component: () => import("@/views/community/CommunityPublish.vue"),
+      },
+      {
+        path: "/community/detail/:id",
+        name: "community-detail",
+        component: () => import("@/views/community/CommunityDetail.vue"),
+      },
+      {
         path: "/personal-data",
         name: "personal-data",
         component: () => import("@/views/setting/PersonalData.vue"),
@@ -96,6 +115,16 @@ const routes: Array<RouteRecordRaw> = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
+});
+
+router.beforeEach((to, _from, next) => {
+  const requireAuth = to.matched.some((record) => record.meta && (record.meta as any).requireAuth);
+  const token = store.getters.token;
+  if (requireAuth && !token) {
+    next({ path: "/sign-in" });
+  } else {
+    next();
+  }
 });
 
 export default router;

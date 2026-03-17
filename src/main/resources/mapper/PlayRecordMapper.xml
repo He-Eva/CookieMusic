@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.cookiemusicdemo.mapper.PlayRecordMapper">
+
+    <resultMap id="BaseResultMap" type="com.example.cookiemusicdemo.model.domain.PlayRecord">
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="consumer_id" property="consumerId" jdbcType="INTEGER" />
+        <result column="song_id" property="songId" jdbcType="INTEGER" />
+        <result column="play_time" property="playTime" jdbcType="TIMESTAMP" />
+        <result column="play_seconds" property="playSeconds" jdbcType="INTEGER" />
+        <result column="source" property="source" jdbcType="TINYINT" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, consumer_id, song_id, play_time, play_seconds, source
+    </sql>
+
+</mapper>
+

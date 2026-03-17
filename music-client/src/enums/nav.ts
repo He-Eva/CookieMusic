@@ -4,6 +4,7 @@ export const enum NavName {
   Home = "首页",
   SongSheet = "歌单",
   Singer = "歌手",
+  Community = "笔记社区",
   Personal = "个人主页",
   Setting = "设置",
   SignIn = "登录",
@@ -24,6 +25,10 @@ export const HEADERNAVLIST = [
   {
     name: NavName.Singer,
     path: RouterName.Singer,
+  },
+  {
+    name: NavName.Community,
+    path: RouterName.Community,
   },
 ];
 

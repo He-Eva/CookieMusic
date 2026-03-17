@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.cookiemusicdemo.mapper.PostLikeMapper">
+
+    <resultMap id="BaseResultMap" type="com.example.cookiemusicdemo.model.domain.PostLike">
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="post_id" property="postId" jdbcType="BIGINT" />
+        <result column="consumer_id" property="consumerId" jdbcType="INTEGER" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, post_id, consumer_id, create_time
+    </sql>
+
+    <delete id="deleteByPostAndConsumer">
+        DELETE FROM post_like
+        WHERE post_id = #{postId}
+          AND consumer_id = #{consumerId}
+    </delete>
+
+</mapper>
+

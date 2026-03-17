@@ -93,7 +93,46 @@ const HttpManager = {
   insertUserSupport:({commentId,userId}) => post(`userSupport/insert`, {commentId,userId}),
 
   //获取所有的海报
-  getBannerList: () => get("banner/getAllBanner")
+  getBannerList: () => get("banner/getAllBanner"),
+
+  // =======================> 笔记社区 API
+  // 发布笔记
+  addPost: ({ consumerId, title, content, coverUrl, images, topic }) =>
+    post(`post/add`, { consumerId, title, content, coverUrl, images, topic }),
+  // 笔记列表（分页）
+  getPostList: ({ pageNum = 1, pageSize = 10, order = "latest", topic = "", feed = "all", consumerId }) => {
+    const params = [
+      `pageNum=${pageNum}`,
+      `pageSize=${pageSize}`,
+      `order=${order}`,
+      `feed=${feed}`,
+    ];
+    if (topic) params.push(`topic=${encodeURIComponent(topic)}`);
+    if (feed === "following" && consumerId) params.push(`consumerId=${consumerId}`);
+    return get(`post?${params.join("&")}`);
+  },
+  // 笔记详情
+  getPostDetail: (id) => get(`post/detail?id=${id}`),
+  // 点赞 / 取消 / toggle
+  likePost: ({ postId, consumerId, like }) => post(`post/like`, { postId, consumerId, like }),
+  // 添加评论
+  addPostComment: ({ postId, consumerId, content }) => post(`post/comment/add`, { postId, consumerId, content }),
+  // 评论列表
+  getPostCommentList: ({ postId, pageNum = 1, pageSize = 10 }) =>
+    get(`post/comment?postId=${postId}&pageNum=${pageNum}&pageSize=${pageSize}`),
+
+  // =======================> 关注 API
+  followUser: ({ userId, followUserId }) => post(`follow`, { userId, followUserId }),
+  unfollowUser: ({ userId, followUserId }) => post(`follow/delete`, { userId, followUserId }),
+  followStatus: ({ userId, followUserId }) => post(`follow/status`, { userId, followUserId }),
+  getFollowings: (userId) => get(`followings?userId=${userId}`),
+  getFollowers: (userId) => get(`followers?userId=${userId}`),
+
+  // =======================> 播放记录 API
+  addPlayRecord: ({ consumerId, songId, playSeconds, source }) =>
+    post(`playRecord/add`, { consumerId, songId, playSeconds, source }),
+  getPlayRecordByUser: ({ consumerId, pageNum = 1, pageSize = 10 }) =>
+    get(`playRecord/user?consumerId=${consumerId}&pageNum=${pageNum}&pageSize=${pageSize}`),
 };
 
 
