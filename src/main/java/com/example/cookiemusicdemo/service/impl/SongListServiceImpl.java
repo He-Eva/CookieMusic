@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -50,6 +51,15 @@ public class SongListServiceImpl extends ServiceImpl<SongListMapper, SongList> i
     @Override
     public R allSongList() {
         return R.success(null, songListMapper.selectList(null));
+    }
+
+    @Override
+    public R songListOfId(Integer id) {
+        if (id == null) return R.error("参数错误");
+        SongList songList = songListMapper.selectById(id);
+        if (songList == null) return R.success(null, Collections.emptyList());
+        // 保持与其它 detail 接口一致：返回 List，前端取 data[0]
+        return R.success(null, Collections.singletonList(songList));
     }
 
     @Override

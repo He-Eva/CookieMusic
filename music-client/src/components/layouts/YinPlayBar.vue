@@ -3,8 +3,16 @@
     <div class="fold" :class="{ turn: toggle }">
       <yin-icon :icon="iconList.ZHEDIE" @click="toggle = !toggle"></yin-icon>
     </div>
-    <!--播放进度-->
-    <el-slider class="progress" v-model="nowTime" @change="changeTime" size="small"></el-slider>
+    <!--播放进度（B：松手后跳转）-->
+    <el-slider
+      class="progress"
+      v-model="nowTime"
+      @input="onProgressInput"
+      @change="changeTime"
+      :show-tooltip="true"
+      :format-tooltip="formatProgressTooltip"
+      size="small"
+    ></el-slider>
     <div class="control-box">
       <div class="info-box">
         <!--歌曲图片-->
@@ -143,6 +151,7 @@ export default defineComponent({
       startTime: "00:00",
       endTime: "00:00",
       nowTime: 0, // 进度条的位置
+      isDraggingProgress: false,
       toggle: true,
       volume: 50,
       playState: Icon.XUNHUAN,
@@ -191,8 +200,10 @@ export default defineComponent({
     curTime() {
       this.startTime = formatSeconds(this.curTime);
       this.endTime = formatSeconds(this.duration);
-      // 移动进度条
-      this.nowTime = (this.curTime / this.duration) * 100;
+      // 移动进度条（拖动时不被 curTime 回写打断）
+      if (!this.isDraggingProgress) {
+        this.nowTime = (this.curTime / this.duration) * 100;
+      }
       // console.log("PlayBar-watchCurtime:" + "curtime:" + this.curTime + " nowtime:" + this.nowTime+"%") 
     },
     
@@ -202,6 +213,18 @@ export default defineComponent({
     },
   },
   methods: {
+    formatProgressTooltip(val) {
+      // val 是 0~100 的百分比，显示已播放时长（mm:ss）
+      if (!this.duration || this.duration <= 0 || !Number.isFinite(this.duration)) return "00:00";
+      const t = this.duration * (Number(val) * 0.01);
+      return formatSeconds(t);
+    },
+    onProgressInput() {
+      // 拖动时仅更新显示，不立即 seek
+      this.isDraggingProgress = true;
+      const preview = this.duration * (this.nowTime * 0.01);
+      this.startTime = formatSeconds(preview);
+    },
     changeAside() {
       this.$store.commit("setShowAside", !this.showAside);
     },
@@ -210,7 +233,15 @@ export default defineComponent({
       this.$store.commit("setIsPlay", this.isPlay ? false : true);
     },
     changeTime() {
-      this.$store.commit("setChangeTime", this.duration * (this.nowTime * 0.01));
+      // duration 还没准备好时不跳转，避免跳回 0
+      if (!this.duration || this.duration <= 0 || !Number.isFinite(this.duration)) {
+        this.isDraggingProgress = false;
+        return;
+      }
+      const target = this.duration * (this.nowTime * 0.01);
+      const safe = Math.max(0, Math.min(this.duration - 0.1, target));
+      this.$store.commit("setChangeTime", safe);
+      this.isDraggingProgress = false;
       // console.log("PlayBar-@change:changeTime:" + this.duration * (this.nowTime * 0.01)+"秒")
     },
     changePlayState() {

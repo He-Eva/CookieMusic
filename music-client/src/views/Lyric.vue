@@ -48,30 +48,38 @@ export default defineComponent({
     const currentPlayList = computed(() => store.getters.currentPlayList); // 存放的音乐
     const currentPlayIndex = computed(() => store.getters.currentPlayIndex); // 当前歌曲在歌曲列表的位置
     const curTime = computed(() => store.getters.curTime);
+    const changeTime = computed(() => store.getters.changeTime);
     const songTitle = computed(() => store.getters.songTitle); // 歌名
     const singerName = computed(() => store.getters.singerName); // 歌手名
     const songPic = computed(() => store.getters.songPic); // 歌曲图片
     watch(songId, () => {
       lyricArr.value = parseLyric(currentPlayList.value[currentPlayIndex.value].lyric);
     });
-    // 处理歌词位置及颜色
-    watch(curTime, () => {
-      if (lyricArr.value.length !== 0) {
-        for (let i = 0; i < lyricArr.value.length; i++) {
-          if (curTime.value >= lyricArr.value[i][0]) {
-            for (let j = 0; j < lyricArr.value.length; j++) {
-              (document.querySelectorAll(".has-lyric li") as NodeListOf<HTMLElement>)[j].style.color = "#000";
-              (document.querySelectorAll(".has-lyric li") as NodeListOf<HTMLElement>)[j].style.fontSize = "14px";
-            }
-            if (i >= 0) {
-              lrcTop.value = -i * 30 + 50 + "px";
-              (document.querySelectorAll(".has-lyric li") as NodeListOf<HTMLElement>)[i].style.color = "#95d2f6";
-              (document.querySelectorAll(".has-lyric li") as NodeListOf<HTMLElement>)[i].style.fontSize = "18px";
-            }
-          }
-        }
+    function updateLyricByTime(t: number) {
+      if (!lyricArr.value.length) return;
+      const els = document.querySelectorAll(".has-lyric li") as NodeListOf<HTMLElement>;
+      if (!els || els.length === 0) return;
+      let idx = -1;
+      for (let i = 0; i < lyricArr.value.length; i++) {
+        if (t >= lyricArr.value[i][0]) idx = i;
+        else break;
       }
-    });
+      if (idx < 0) return;
+      for (let j = 0; j < els.length; j++) {
+        els[j].style.color = "#000";
+        els[j].style.fontSize = "14px";
+      }
+      lrcTop.value = -idx * 30 + 50 + "px";
+      if (els[idx]) {
+        els[idx].style.color = "#95d2f6";
+        els[idx].style.fontSize = "18px";
+      }
+    }
+
+    // 正常播放滚动
+    watch(curTime, () => updateLyricByTime(Number(curTime.value) || 0));
+    // 拖动松手 seek 时，立即滚动到对应歌词（不等下一次 timeupdate）
+    watch(changeTime, () => updateLyricByTime(Number(changeTime.value) || 0));
 
     lyricArr.value = lyric.value ? parseLyric(lyric.value) : [];
 

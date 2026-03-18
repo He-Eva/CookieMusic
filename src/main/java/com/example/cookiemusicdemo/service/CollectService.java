@@ -11,7 +11,7 @@ public interface CollectService extends IService<Collect> {
 
     R existSongId(CollectRequest isCollectRequest);
 
-    R deleteCollect(Integer userId,Integer songId);
+    R deleteCollect(Integer userId, Integer songId, Integer songListId, Byte type);
 
     R collectionOfUser(Integer userId);
 }

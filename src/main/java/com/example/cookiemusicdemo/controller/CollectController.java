@@ -23,8 +23,13 @@ public class CollectController {
     //TODO  这些其实有点偏简单的逻辑  所以就一点 所以放在外面  拿到里面
     // 取消收藏的歌曲
     @DeleteMapping("/collection/delete")
-    public R deleteCollection(@RequestParam Integer userId, @RequestParam Integer songId) {
-        return collectService.deleteCollect(userId, songId);
+    public R deleteCollection(
+            @RequestParam Integer userId,
+            @RequestParam(required = false) Integer songId,
+            @RequestParam(required = false) Integer songListId,
+            @RequestParam(required = false) Byte type
+    ) {
+        return collectService.deleteCollect(userId, songId, songListId, type);
     }
 
     // 是否收藏歌曲

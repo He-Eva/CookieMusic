@@ -62,6 +62,7 @@ public class RedisConfig extends CachingConfigurerSupport {
         // 为笔记社区列表单独设置更短 TTL（更及时）
         Map<String, RedisCacheConfiguration> cacheConfigs = new HashMap<>();
         cacheConfigs.put("post_list", defaultConfig.entryTtl(Duration.ofSeconds(120)));
+        cacheConfigs.put("recommend", defaultConfig.entryTtl(Duration.ofSeconds(300)));
 
         return RedisCacheManager.builder(factory)
                 .cacheDefaults(defaultConfig)

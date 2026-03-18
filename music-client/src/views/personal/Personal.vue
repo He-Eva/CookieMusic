@@ -2,7 +2,7 @@
   <div class="personal">
     <div class="personal-info">
       <div class="personal-img" @click="dialogTableVisible = true">
-        <el-image fit="contain" :src="attachImageUrl(userPic)"/>
+        <el-image fit="cover" :src="attachImageUrl(userPic)"/>
       </div>
       <div class="personal-msg">
         <div class="username">{{ personalInfo.username }}</div>
@@ -11,7 +11,38 @@
       <el-button class="edit-info" round :icon="Edit" @click="goPage()">修改个人信息</el-button>
     </div>
     <div class="personal-body">
-      <song-list :songList="collectSongList" :show="true" @changeData="changeData"></song-list>
+      <el-tabs v-model="activeTab">
+        <el-tab-pane label="收藏歌曲" name="collect">
+          <el-empty v-if="!collectSongList.length" description="暂无收藏歌曲"></el-empty>
+          <song-list v-else :songList="collectSongList" :show="true" @changeData="changeData"></song-list>
+        </el-tab-pane>
+        <el-tab-pane label="收藏歌单" name="collect_sheet">
+          <el-empty v-if="!collectSongSheetList.length" description="暂无收藏歌单"></el-empty>
+          <play-list v-else title="" path="song-sheet-detail" :playList="collectSongSheetList"></play-list>
+        </el-tab-pane>
+        <el-tab-pane label="历史播放记录" name="history">
+          <el-empty v-if="!historyRows.length" description="暂无播放记录"></el-empty>
+          <div v-else class="history">
+            <el-table highlight-current-row :data="historyRows" @row-click="handleHistoryRowClick">
+              <el-table-column prop="songName" label="歌曲" />
+              <el-table-column prop="singerName" label="歌手" />
+              <el-table-column prop="introduction" label="专辑" />
+              <el-table-column prop="playTimeText" label="播放时间" width="180" />
+              <el-table-column prop="playSecondsText" label="时长" width="100" />
+            </el-table>
+            <div class="history-pagination">
+              <el-pagination
+                background
+                layout="prev, pager, next, total"
+                :page-size="historyPageSize"
+                :total="historyTotal"
+                :current-page="historyPageNum"
+                @current-change="handleHistoryPageChange"
+              />
+            </div>
+          </div>
+        </el-tab-pane>
+      </el-tabs>
     </div>
     <el-dialog v-model="dialogTableVisible" title="修改头像">
       <upload></upload>
@@ -24,6 +55,7 @@ import { defineComponent, nextTick, ref, computed, watch, reactive, getCurrentIn
 import { useStore } from "vuex";
 import { Edit } from "@element-plus/icons-vue";
 import SongList from "@/components/SongList.vue";
+import PlayList from "@/components/PlayList.vue";
 import Upload from "../setting/Upload.vue";
 import mixin from "@/mixins/mixin";
 import { HttpManager } from "@/api";
@@ -32,6 +64,7 @@ import { RouterName } from "@/enums";
 export default defineComponent({
   components: {
     SongList,
+    PlayList,
     Upload,
   },
   setup() {
@@ -40,8 +73,10 @@ export default defineComponent({
 
     const { routerManager } = mixin();
 
+    const activeTab = ref("collect");
     const dialogTableVisible = ref(false);
     const collectSongList = ref([]); // 收藏的歌曲
+    const collectSongSheetList = ref([]); // 收藏的歌单
     const personalInfo = reactive({
       username: "",
       userSex: "",
@@ -76,14 +111,45 @@ export default defineComponent({
     async function getCollection(userId) {
       try {
         collectSongList.value = [];
+        collectSongSheetList.value = [];
         const result = (await HttpManager.getCollectionOfUser(userId)) as ResponseBody;
-        const collectIDList = result?.data || []; // 存放收藏的歌曲ID
-        // 通过歌曲ID获取歌曲信息
-        for (const item of collectIDList) {
-          if (!item.songId) continue;
-          const songRes = (await HttpManager.getSongOfId(item.songId)) as ResponseBody;
-          if (songRes?.data?.[0]) collectSongList.value.push(songRes.data[0]);
-        }
+        const collectIDList = result?.data || [];
+
+        // type: 0=歌曲, 1=歌单
+        const songIds = Array.from(
+          new Set<number>(
+            collectIDList
+              .filter((x: any) => Number(x?.type) === 0 && x?.songId)
+              .map((x: any) => Number(x.songId))
+              .filter((x: any) => Number.isFinite(x))
+          )
+        );
+        const songListIds = Array.from(
+          new Set<number>(
+            collectIDList
+              .filter((x: any) => Number(x?.type) === 1 && x?.songListId)
+              .map((x: any) => Number(x.songListId))
+              .filter((x: any) => Number.isFinite(x))
+          )
+        );
+
+        const [songs, songSheets] = await Promise.all([
+          Promise.all(
+            songIds.map(async (sid) => {
+              const songRes = (await HttpManager.getSongOfId(sid)) as ResponseBody;
+              return songRes?.data?.[0];
+            })
+          ),
+          Promise.all(
+            songListIds.map(async (lid) => {
+              const listRes = (await HttpManager.getSongListOfId(lid)) as ResponseBody;
+              return listRes?.data?.[0];
+            })
+          ),
+        ]);
+
+        collectSongList.value = songs.filter(Boolean);
+        collectSongSheetList.value = songSheets.filter(Boolean);
       } catch (e: any) {
         proxy?.$message?.({ message: e?.data?.message || "获取收藏失败", type: "error" });
       }
@@ -93,22 +159,133 @@ export default defineComponent({
       getCollection(userId.value);
     }
 
+    // ============= 历史播放记录 =============
+    const historyPageNum = ref(1);
+    const historyPageSize = ref(10);
+    const historyTotal = ref(0);
+    const historyRows = ref<any[]>([]);
+    const songCache = new Map<number, any>();
+
+    function formatPlayTime(v: any) {
+      if (!v) return "";
+      try {
+        const d = new Date(v);
+        if (Number.isNaN(d.getTime())) return String(v);
+        const pad = (n: number) => (n < 10 ? `0${n}` : String(n));
+        return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+      } catch {
+        return String(v);
+      }
+    }
+
+    function formatSeconds(sec: any) {
+      const s = Number(sec);
+      if (!Number.isFinite(s) || s <= 0) return "-";
+      const mm = Math.floor(s / 60);
+      const ss = Math.floor(s % 60);
+      return `${mm}:${ss < 10 ? "0" : ""}${ss}`;
+    }
+
+    async function getSongByIdCached(id: number) {
+      if (songCache.has(id)) return songCache.get(id);
+      const songRes = (await HttpManager.getSongOfId(id)) as ResponseBody;
+      const song = songRes?.data?.[0];
+      if (song) songCache.set(id, song);
+      return song;
+    }
+
+    async function loadPlayHistory() {
+      if (!userId.value) return;
+      try {
+        const res = (await HttpManager.getPlayRecordByUser({
+          consumerId: Number(userId.value),
+          pageNum: historyPageNum.value,
+          pageSize: historyPageSize.value,
+        })) as any;
+        if (!res?.success) return;
+        const data = res?.data || {};
+        const items = Array.isArray(data.items) ? data.items : [];
+        historyTotal.value = Number(data.total || 0);
+
+        const songIds: number[] = Array.from(
+          new Set<number>(items.map((x: any) => Number(x.songId)).filter((x: any) => Number.isFinite(x)))
+        );
+        await Promise.all(songIds.map((sid: number) => getSongByIdCached(sid)));
+
+        historyRows.value = items.map((it: any) => {
+          const sid = Number(it.songId);
+          const song = songCache.get(sid);
+          return {
+            ...song,
+            songId: sid,
+            playTime: it.playTime,
+            playSeconds: it.playSeconds,
+            playTimeText: formatPlayTime(it.playTime),
+            playSecondsText: formatSeconds(it.playSeconds),
+          };
+        }).filter((x: any) => x && x.id);
+      } catch (e: any) {
+        proxy?.$message?.({ message: e?.data?.message || "获取播放历史失败", type: "error" });
+      }
+    }
+
+    function handleHistoryPageChange(p: number) {
+      historyPageNum.value = p;
+      loadPlayHistory();
+    }
+
+    function handleHistoryRowClick(row: any) {
+      // 复用 SongList 的播放逻辑（通过 mixin.playMusic）
+      // 这里为了不改动太多代码，直接调用全局播放：用 SongList 的行数据结构即可
+      try {
+        const { playMusic } = mixin();
+        playMusic({
+          id: row.id,
+          url: row.url,
+          pic: row.pic,
+          index: 0,
+          name: row.name,
+          lyric: row.lyric,
+          currentSongList: historyRows.value.map((x: any) => x),
+        });
+      } catch {
+        // ignore
+      }
+    }
+
     nextTick(() => {
       if (userId.value) {
         getUserInfo(userId.value);
         getCollection(userId.value);
+        loadPlayHistory();
       }
+    });
+
+    watch(userId, (v) => {
+      if (!v) return;
+      historyPageNum.value = 1;
+      getUserInfo(v);
+      getCollection(v);
+      loadPlayHistory();
     });
 
     return {
       Edit,
       userPic,
       dialogTableVisible,
+      activeTab,
       collectSongList,
+      collectSongSheetList,
       personalInfo,
       attachImageUrl: HttpManager.attachImageUrl,
       goPage,
       changeData,
+      historyRows,
+      historyPageNum,
+      historyPageSize,
+      historyTotal,
+      handleHistoryPageChange,
+      handleHistoryRowClick,
     };
   },
 });
@@ -142,6 +319,16 @@ export default defineComponent({
     top: -180px;
     left: 50px;
     cursor: pointer;
+    overflow: hidden;
+    .el-image {
+      width: 100%;
+      height: 100%;
+    }
+    :deep(img) {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
   }
   .personal-msg {
     margin-left: 300px;
@@ -175,5 +362,11 @@ export default defineComponent({
   .edit-info {
     display: none;
   }
+}
+
+.history-pagination {
+  display: flex;
+  justify-content: center;
+  padding: 16px 0 0;
 }
 </style>

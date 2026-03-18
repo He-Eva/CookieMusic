@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.cookiemusicdemo.mapper.RecommendMapper">
+
+    <select id="selectUserSongPlayCounts" resultType="java.util.HashMap">
+        SELECT
+            consumer_id AS consumerId,
+            song_id AS songId,
+            COUNT(1) AS playCount
+        FROM play_record
+        <if test="days != null">
+            WHERE play_time &gt;= DATE_SUB(NOW(), INTERVAL #{days} DAY)
+        </if>
+        GROUP BY consumer_id, song_id
+    </select>
+
+    <select id="selectUserSongCollects" resultType="java.util.HashMap">
+        SELECT
+            user_id AS consumerId,
+            song_id AS songId
+        FROM collect
+        WHERE type = 0
+          AND song_id IS NOT NULL
+    </select>
+
+    <select id="selectUserSongFromSongListRatings" resultType="java.util.HashMap">
+        SELECT
+            r.consumer_id AS consumerId,
+            ls.song_id AS songId,
+            r.score AS score
+        FROM rank_list r
+        INNER JOIN list_song ls
+            ON r.song_list_id = ls.song_list_id
+        <if test="minScore != null">
+            WHERE r.score &gt;= #{minScore}
+        </if>
+    </select>
+
+</mapper>
+

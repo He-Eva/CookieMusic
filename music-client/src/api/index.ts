@@ -25,6 +25,8 @@ const HttpManager = {
   // =======================> 歌单 API 完成
   // 获取全部歌单
   getSongList: () => get("songList"),
+  // 返回指定ID的歌单
+  getSongListOfId: (id) => get(`songList/detail?id=${id}`),
   // 获取歌单类型
   getSongListOfStyle: (style) => get(`songList/style/detail?style=${style}`),
   // 返回标题包含文字的歌单
@@ -41,12 +43,18 @@ const HttpManager = {
   // =======================> 收藏 API 完成
   // 返回的指定用户ID的收藏列表
   getCollectionOfUser: (userId) => get(`collection/detail?userId=${userId}`),
-  // 添加收藏的歌曲 type: 0 代表歌曲， 1 代表歌单
-  setCollection: ({userId,type,songId}) => post(`collection/add`,{userId,type,songId}),
+  // 添加收藏 type: 0=歌曲, 1=歌单（payload 字段按需传）
+  setCollection: (payload) => post(`collection/add`, payload),
 
-  deleteCollection: (userId, songId) => deletes(`collection/delete?userId=${userId}&&songId=${songId}`),
+  // 取消收藏歌曲
+  deleteCollection: (userId, songId) => deletes(`collection/delete?userId=${userId}&&songId=${songId}&&type=0`),
+  // 取消收藏歌单
+  deleteCollectionSongList: (userId, songListId) => deletes(`collection/delete?userId=${userId}&&songListId=${songListId}&&type=1`),
 
-  isCollection: ({userId, type, songId}) => post(`collection/status`, {userId, type, songId}),
+  // 是否收藏（歌曲/歌单均支持，payload 字段按需传）
+  isCollection: (payload) => post(`collection/status`, payload),
+  // 是否收藏歌单
+  isCollectionSongList: ({ userId, songListId }) => post(`collection/status`, { userId, type: 1, songListId }),
 
   // =======================> 评分 API 完成
   // 提交评分
@@ -133,6 +141,10 @@ const HttpManager = {
     post(`playRecord/add`, { consumerId, songId, playSeconds, source }),
   getPlayRecordByUser: ({ consumerId, pageNum = 1, pageSize = 10 }) =>
     get(`playRecord/user?consumerId=${consumerId}&pageNum=${pageNum}&pageSize=${pageSize}`),
+
+  // =======================> 推荐 API
+  getRecommendSongs: ({ consumerId, limit = 10 }) =>
+    get(`recommend/songs?consumerId=${consumerId}&limit=${limit}`),
 };
 
 

@@ -2,6 +2,8 @@ package com.example.cookiemusicdemo.controller;
 
 import io.minio.GetObjectArgs;
 import io.minio.MinioClient;
+import io.minio.StatObjectArgs;
+import io.minio.StatObjectResponse;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,7 +13,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.client.RestTemplate;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.util.List;
 
 
 @Controller
@@ -23,25 +28,66 @@ public class MinioController {
     //获取歌曲
     //"/{fileName:.+}"
     @GetMapping("/user01/song/music/{fileName:.+}")
-    public ResponseEntity<byte[]> getMusic(@PathVariable String fileName) {
+    public ResponseEntity<byte[]> getMusic(@PathVariable String fileName, HttpServletRequest request) {
         System.out.println(fileName);
         try {
+            String objectName = "song/music/" + fileName;
+
+            // 获取对象大小（用于 Range/Content-Range）
+            StatObjectResponse stat = minioClient.statObject(
+                    StatObjectArgs.builder().bucket(bucketName).object(objectName).build()
+            );
+            long fileSize = stat.size();
+
+            // Range 支持：浏览器拖动进度条会发 Range: bytes=start-end
+            String rangeHeader = request.getHeader(HttpHeaders.RANGE);
+            HttpHeaders headers = new HttpHeaders();
+            headers.set(HttpHeaders.ACCEPT_RANGES, "bytes");
+            // 尽量给正确的音频类型（mp3/m4a 等），这里统一用 octet-stream 会影响浏览器 seek
+            headers.setContentType(MediaType.parseMediaType("audio/mpeg"));
+            headers.setCacheControl(CacheControl.noCache().getHeaderValue());
+            headers.setContentDisposition(ContentDisposition.inline().filename(fileName).build());
+
+            if (rangeHeader != null && rangeHeader.startsWith("bytes=")) {
+                List<HttpRange> ranges = HttpRange.parseRanges(rangeHeader);
+                HttpRange r = ranges.isEmpty() ? null : ranges.get(0);
+                if (r == null) {
+                    return new ResponseEntity<>(HttpStatus.REQUESTED_RANGE_NOT_SATISFIABLE);
+                }
+                long start = r.getRangeStart(fileSize);
+                long end = r.getRangeEnd(fileSize);
+                if (start >= fileSize) {
+                    return new ResponseEntity<>(HttpStatus.REQUESTED_RANGE_NOT_SATISFIABLE);
+                }
+                long len = end - start + 1;
+
+                // MinIO 分段读取
+                GetObjectArgs args = GetObjectArgs.builder()
+                        .bucket(bucketName)
+                        .object(objectName)
+                        .offset(start)
+                        .length(len)
+                        .build();
+                try (InputStream inputStream = minioClient.getObject(args);
+                     ByteArrayOutputStream out = new ByteArrayOutputStream()) {
+                    IOUtils.copy(inputStream, out);
+                    byte[] bytes = out.toByteArray();
+                    headers.setContentLength(bytes.length);
+                    headers.add(HttpHeaders.CONTENT_RANGE, "bytes " + start + "-" + (start + bytes.length - 1) + "/" + fileSize);
+                    return new ResponseEntity<>(bytes, headers, HttpStatus.PARTIAL_CONTENT);
+                }
+            }
+
+            // 不带 Range：返回完整文件
             GetObjectArgs args = GetObjectArgs.builder()
                     .bucket(bucketName)
-                    .object("song/music/"+fileName)
+                    .object(objectName)
                     .build();
-            InputStream inputStream = minioClient.getObject(args);
-
-            // 将文件内容读取为字节数组
-            byte[] bytes = IOUtils.toByteArray(inputStream);
-
-            // 设置响应头，指示浏览器如何处理响应内容
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-            headers.setContentDispositionFormData("attachment", fileName); // 如果需要下载文件，可以使用此头部
-
-            // 返回字节数组作为响应
-            return new ResponseEntity<>(bytes, headers, HttpStatus.OK);
+            try (InputStream inputStream = minioClient.getObject(args)) {
+                byte[] bytes = IOUtils.toByteArray(inputStream);
+                headers.setContentLength(bytes.length);
+                return new ResponseEntity<>(bytes, headers, HttpStatus.OK);
+            }
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

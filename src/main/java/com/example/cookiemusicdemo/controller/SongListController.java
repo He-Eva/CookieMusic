@@ -45,6 +45,12 @@ public class SongListController {
         return songListService.likeStyle('%' + style + '%');
     }
 
+    // 返回指定ID的歌单
+    @GetMapping("/songList/detail")
+    public R songListOfId(@RequestParam Integer id) {
+        return songListService.songListOfId(id);
+    }
+
     // 更新歌单信息
     @PostMapping("/songList/update")
     public R updateSongListMsg(@RequestBody SongListRequest updateSongListRequest) {

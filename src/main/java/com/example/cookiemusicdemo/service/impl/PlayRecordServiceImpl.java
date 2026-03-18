@@ -9,6 +9,7 @@ import com.example.cookiemusicdemo.model.request.PlayRecordRequest;
 import com.example.cookiemusicdemo.service.PlayRecordService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -21,6 +22,7 @@ public class PlayRecordServiceImpl extends ServiceImpl<PlayRecordMapper, PlayRec
     private PlayRecordMapper playRecordMapper;
 
     @Override
+    @CacheEvict(value = "recommend", allEntries = true)
     public R addPlayRecord(PlayRecordRequest request) {
         if (request == null || request.getConsumerId() == null || request.getSongId() == null) {
             return R.error("参数错误");

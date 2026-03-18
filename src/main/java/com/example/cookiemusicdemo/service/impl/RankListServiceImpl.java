@@ -9,6 +9,7 @@ import com.example.cookiemusicdemo.model.request.RankListRequest;
 import com.example.cookiemusicdemo.service.RankListService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 
 
@@ -20,6 +21,7 @@ public class RankListServiceImpl extends ServiceImpl<RankListMapper, RankList> i
     private RankListMapper rankMapper;
 
     @Override
+    @CacheEvict(value = "recommend", allEntries = true)
     public R addRank(RankListRequest rankListAddRequest) {
         RankList rankList = new RankList();
         BeanUtils.copyProperties(rankListAddRequest, rankList);

@@ -3,8 +3,18 @@
     <el-aside class="album-slide">
       <el-image class="album-img" fit="contain" :src="attachImageUrl(songDetails.pic)" />
       <h3 class="album-info">{{ songDetails.title }}</h3>
+      <div class="album-actions">
+        <el-button size="small" :type="isCollected ? 'success' : 'primary'" @click="toggleCollectSongList">
+          {{ isCollected ? "已收藏" : "收藏歌单" }}
+        </el-button>
+      </div>
     </el-aside>
     <el-main class="album-main">
+      <div class="album-actions-mobile">
+        <el-button size="small" :type="isCollected ? 'success' : 'primary'" @click="toggleCollectSongList">
+          {{ isCollected ? "已收藏" : "收藏歌单" }}
+        </el-button>
+      </div>
       <h1>简介</h1>
       <p>{{ songDetails.introduction }}</p>
       <!--评分-->
@@ -54,6 +64,7 @@ export default defineComponent({
     // const evaluateList = ref(["很差", "较差", "还行", "推荐", "力推"]);
     const songDetails = computed(() => store.getters.songDetails); // 单个歌单信息
     const nowUserId = computed(() => store.getters.userId);
+    const isCollected = ref(false);
 
     nowSongListId.value = songDetails.value.id; // 给歌单ID赋值
 
@@ -110,6 +121,40 @@ export default defineComponent({
 
     getRank(nowSongListId.value); // 获取评分
     getSongId(nowSongListId.value); // 获取歌单里面的歌曲ID
+
+    async function fetchCollectStatus() {
+      try {
+        if (!nowUserId.value || !nowSongListId.value) return (isCollected.value = false);
+        const res = (await HttpManager.isCollectionSongList({
+          userId: Number(nowUserId.value),
+          songListId: Number(nowSongListId.value),
+        })) as any;
+        isCollected.value = !!res?.data;
+      } catch {
+        isCollected.value = false;
+      }
+    }
+
+    async function toggleCollectSongList() {
+      if (!checkStatus()) return;
+      const userId = Number(nowUserId.value);
+      const songListId = Number(nowSongListId.value);
+      try {
+        let result: any;
+        if (isCollected.value) {
+          result = await HttpManager.deleteCollectionSongList(userId, songListId);
+        } else {
+          // setCollection 走 payload，可选字段；歌单收藏只传 songListId
+          result = await HttpManager.setCollection({ userId, type: 1, songListId });
+        }
+        (proxy as any)?.$message?.({ message: result?.message || "操作成功", type: result?.type || "success" });
+        await fetchCollectStatus();
+      } catch (e: any) {
+        (proxy as any)?.$message?.({ message: e?.data?.message || "操作失败", type: "error" });
+      }
+    }
+
+    fetchCollectStatus();
     
     return {
       songDetails,
@@ -121,6 +166,8 @@ export default defineComponent({
       songListId: nowSongListId,
       attachImageUrl: HttpManager.attachImageUrl,
       pushValue,
+      isCollected,
+      toggleCollectSongList,
     };
   },
 });
@@ -145,9 +192,20 @@ export default defineComponent({
     width: 70%;
     padding-top: 2rem;
   }
+
+  .album-actions {
+    width: 70%;
+    margin-top: 12px;
+    display: flex;
+    justify-content: center;
+  }
 }
 
 .album-main {
+  .album-actions-mobile {
+    display: none;
+    margin: 8px 0 12px;
+  }
   h1 {
     font-size: 22px;
   }
@@ -193,6 +251,12 @@ export default defineComponent({
 @media screen and (max-width: $sm) {
   .album-slide {
     display: none;
+  }
+  .album-main {
+    .album-actions-mobile {
+      display: flex;
+      justify-content: flex-start;
+    }
   }
 }
 </style>

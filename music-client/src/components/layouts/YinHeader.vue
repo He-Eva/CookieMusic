@@ -13,7 +13,7 @@
     <!--设置-->
     <yin-header-nav v-if="!token" :styleList="signList" :activeName="activeNavName" @click="goPage"></yin-header-nav>
     <el-dropdown class="user-wrap" v-if="token" trigger="click">
-      <el-image class="user" fit="contain" :src="attachImageUrl(userPic)" />
+      <el-image class="user" fit="cover" :src="attachImageUrl(userPic)" />
       <template #dropdown>
         <el-dropdown-menu>
           <el-dropdown-item v-for="(item, index) in menuList" :key="index" @click.stop="goMenuList(item.path)">{{ item.name }}</el-dropdown-item>
@@ -68,6 +68,7 @@ export default defineComponent({
     function goMenuList(path) {
       if (path == RouterName.SignOut) {
         proxy.$store.commit("setToken", false);
+        proxy.$store.commit("clearUser");
         changeIndex(NavName.Home);
         routerManager(RouterName.Home, { path: RouterName.Home });
       } else {
@@ -189,6 +190,12 @@ export default defineComponent({
     border-radius: $header-user-radius;
     margin-right: $header-user-margin;
     cursor: pointer;
+    overflow: hidden;
+  }
+  :deep(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 }
 </style>

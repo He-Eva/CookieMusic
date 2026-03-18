@@ -1,0 +1,237 @@
+2026-03-17 20:12:37 INFO [com.example.cookiemusicdemo.CookieMusicDemoApplication]: Starting CookieMusicDemoApplication using Java 1.8.0_201 on DESKTOP-TB9ONMK with PID 32320 (F:\毕业设计\源码\CookieMusicDemo\target\classes started by CHER in F:\毕业设计\源码\CookieMusicDemo)
+2026-03-17 20:12:37 INFO [com.example.cookiemusicdemo.CookieMusicDemoApplication]: The following profiles are active: dev
+2026-03-17 20:12:37 INFO [org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor]: Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-03-17 20:12:37 INFO [org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor]: For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-03-17 20:12:38 INFO [org.springframework.data.repository.config.RepositoryConfigurationDelegate]: Multiple Spring Data modules found, entering strict repository configuration mode!
+2026-03-17 20:12:38 INFO [org.springframework.data.repository.config.RepositoryConfigurationDelegate]: Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-03-17 20:12:38 INFO [org.springframework.data.repository.config.RepositoryConfigurationDelegate]: Finished Spring Data repository scanning in 21 ms. Found 0 Redis repository interfaces.
+2026-03-17 20:12:42 INFO [org.springframework.boot.web.embedded.tomcat.TomcatWebServer]: Tomcat initialized with port(s): 8888 (http)
+2026-03-17 20:12:42 INFO [org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext]: Root WebApplicationContext: initialization completed in 4950 ms
+2026-03-17 20:12:43 INFO [org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer]: LiveReload server is running on port 35729
+2026-03-17 20:12:43 INFO [org.springframework.boot.web.embedded.tomcat.TomcatWebServer]: Tomcat started on port(s): 8888 (http) with context path ''
+2026-03-17 20:12:43 INFO [com.example.cookiemusicdemo.CookieMusicDemoApplication]: Started CookieMusicDemoApplication in 6.21 seconds (JVM running for 8.043)
+2026-03-17 20:13:16 INFO [org.springframework.web.servlet.DispatcherServlet]: Initializing Servlet 'dispatcherServlet'
+2026-03-17 20:13:16 INFO [org.springframework.web.servlet.DispatcherServlet]: Completed initialization in 1 ms
+2026-03-17 20:13:16 INFO [com.zaxxer.hikari.HikariDataSource]: HikariPool-1 - Starting...
+2026-03-17 20:13:16 INFO [com.zaxxer.hikari.HikariDataSource]: HikariPool-1 - Start completed.
+2026-03-17 20:22:23 INFO [com.example.cookiemusicdemo.CookieMusicDemoApplication]: Starting CookieMusicDemoApplication using Java 1.8.0_201 on DESKTOP-TB9ONMK with PID 31420 (F:\毕业设计\源码\CookieMusicDemo\target\classes started by CHER in F:\毕业设计\源码\CookieMusicDemo)
+2026-03-17 20:22:23 INFO [com.example.cookiemusicdemo.CookieMusicDemoApplication]: The following profiles are active: dev
+2026-03-17 20:22:23 INFO [org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor]: Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-03-17 20:22:23 INFO [org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor]: For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-03-17 20:22:24 INFO [org.springframework.data.repository.config.RepositoryConfigurationDelegate]: Multiple Spring Data modules found, entering strict repository configuration mode!
+2026-03-17 20:22:24 INFO [org.springframework.data.repository.config.RepositoryConfigurationDelegate]: Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-03-17 20:22:24 INFO [org.springframework.data.repository.config.RepositoryConfigurationDelegate]: Finished Spring Data repository scanning in 16 ms. Found 0 Redis repository interfaces.
+2026-03-17 20:22:26 INFO [org.springframework.boot.web.embedded.tomcat.TomcatWebServer]: Tomcat initialized with port(s): 8888 (http)
+2026-03-17 20:22:27 INFO [org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext]: Root WebApplicationContext: initialization completed in 3594 ms
+2026-03-17 20:22:27 INFO [org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer]: LiveReload server is running on port 35729
+2026-03-17 20:22:27 INFO [org.springframework.boot.web.embedded.tomcat.TomcatWebServer]: Tomcat started on port(s): 8888 (http) with context path ''
+2026-03-17 20:22:27 INFO [com.example.cookiemusicdemo.CookieMusicDemoApplication]: Started CookieMusicDemoApplication in 4.706 seconds (JVM running for 6.179)
+2026-03-17 20:23:26 INFO [org.springframework.web.servlet.DispatcherServlet]: Initializing Servlet 'dispatcherServlet'
+2026-03-17 20:23:27 INFO [org.springframework.web.servlet.DispatcherServlet]: Completed initialization in 1 ms
+2026-03-17 20:23:27 INFO [com.zaxxer.hikari.HikariDataSource]: HikariPool-1 - Starting...
+2026-03-17 20:23:27 INFO [com.zaxxer.hikari.HikariDataSource]: HikariPool-1 - Start completed.
+2026-03-17 20:56:30 WARN [org.springframework.web.servlet.PageNotFound]: No mapping for POST /post/add
+2026-03-17 20:59:12 INFO [com.example.cookiemusicdemo.CookieMusicDemoApplication]: Starting CookieMusicDemoApplication using Java 1.8.0_201 on DESKTOP-TB9ONMK with PID 34768 (F:\毕业设计\源码\CookieMusicDemo\target\classes started by CHER in F:\毕业设计\源码\CookieMusicDemo)
+2026-03-17 20:59:12 INFO [com.example.cookiemusicdemo.CookieMusicDemoApplication]: The following profiles are active: dev
+2026-03-17 20:59:12 INFO [org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor]: Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-03-17 20:59:12 INFO [org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor]: For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-03-17 20:59:13 INFO [org.springframework.data.repository.config.RepositoryConfigurationDelegate]: Multiple Spring Data modules found, entering strict repository configuration mode!
+2026-03-17 20:59:13 INFO [org.springframework.data.repository.config.RepositoryConfigurationDelegate]: Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-03-17 20:59:13 INFO [org.springframework.data.repository.config.RepositoryConfigurationDelegate]: Finished Spring Data repository scanning in 33 ms. Found 0 Redis repository interfaces.
+2026-03-17 20:59:17 INFO [org.springframework.boot.web.embedded.tomcat.TomcatWebServer]: Tomcat initialized with port(s): 8888 (http)
+2026-03-17 20:59:17 INFO [org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext]: Root WebApplicationContext: initialization completed in 4861 ms
+2026-03-17 20:59:18 INFO [org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer]: LiveReload server is running on port 35729
+2026-03-17 20:59:19 INFO [org.springframework.boot.web.embedded.tomcat.TomcatWebServer]: Tomcat started on port(s): 8888 (http) with context path ''
+2026-03-17 20:59:19 INFO [com.example.cookiemusicdemo.CookieMusicDemoApplication]: Started CookieMusicDemoApplication in 7.081 seconds (JVM running for 8.725)
+2026-03-17 20:59:56 INFO [org.springframework.web.servlet.DispatcherServlet]: Initializing Servlet 'dispatcherServlet'
+2026-03-17 20:59:56 INFO [org.springframework.web.servlet.DispatcherServlet]: Completed initialization in 2 ms
+2026-03-17 20:59:57 INFO [com.zaxxer.hikari.HikariDataSource]: HikariPool-1 - Starting...
+2026-03-17 20:59:57 INFO [com.zaxxer.hikari.HikariDataSource]: HikariPool-1 - Start completed.
+2026-03-17 21:07:19 WARN [org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver]: Resolved [org.springframework.http.converter.HttpMessageNotReadableException: JSON parse error: Invalid UTF-8 start byte 0xbd; nested exception is com.fasterxml.jackson.core.JsonParseException: Invalid UTF-8 start byte 0xbd<EOL> at [Source: (PushbackInputStream); line: 2, column: 15]]
+2026-03-17 21:09:56 WARN [org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver]: Resolved [org.springframework.http.converter.HttpMessageNotReadableException: JSON parse error: Invalid UTF-8 start byte 0xbd; nested exception is com.fasterxml.jackson.core.JsonParseException: Invalid UTF-8 start byte 0xbd<EOL> at [Source: (PushbackInputStream); line: 2, column: 15]]
+2026-03-17 21:10:32 WARN [org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver]: Resolved [org.springframework.web.bind.MissingServletRequestParameterException: Required request parameter 'id' for method parameter type Long is not present]
+2026-03-17 21:22:39 WARN [org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver]: Resolved [org.springframework.web.method.annotation.MethodArgumentTypeMismatchException: Failed to convert value of type 'java.lang.String' to required type 'java.lang.Long'; nested exception is java.lang.NumberFormatException: For input string: "NaN"]
+2026-03-17 21:34:54 INFO [com.example.cookiemusicdemo.CookieMusicDemoApplication]: Starting CookieMusicDemoApplication using Java 1.8.0_201 on DESKTOP-TB9ONMK with PID 22684 (F:\毕业设计\源码\CookieMusicDemo\target\classes started by CHER in F:\毕业设计\源码\CookieMusicDemo)
+2026-03-17 21:34:54 INFO [com.example.cookiemusicdemo.CookieMusicDemoApplication]: The following profiles are active: dev
+2026-03-17 21:34:54 INFO [org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor]: Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-03-17 21:34:54 INFO [org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor]: For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-03-17 21:34:55 INFO [org.springframework.data.repository.config.RepositoryConfigurationDelegate]: Multiple Spring Data modules found, entering strict repository configuration mode!
+2026-03-17 21:34:55 INFO [org.springframework.data.repository.config.RepositoryConfigurationDelegate]: Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-03-17 21:34:55 INFO [org.springframework.data.repository.config.RepositoryConfigurationDelegate]: Finished Spring Data repository scanning in 19 ms. Found 0 Redis repository interfaces.
+2026-03-17 21:34:58 INFO [org.springframework.boot.web.embedded.tomcat.TomcatWebServer]: Tomcat initialized with port(s): 8888 (http)
+2026-03-17 21:34:58 INFO [org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext]: Root WebApplicationContext: initialization completed in 4238 ms
+2026-03-17 21:35:00 INFO [org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer]: LiveReload server is running on port 35729
+2026-03-17 21:35:00 INFO [org.springframework.boot.web.embedded.tomcat.TomcatWebServer]: Tomcat started on port(s): 8888 (http) with context path ''
+2026-03-17 21:35:00 INFO [com.example.cookiemusicdemo.CookieMusicDemoApplication]: Started CookieMusicDemoApplication in 6.09 seconds (JVM running for 7.947)
+2026-03-17 21:35:58 INFO [org.springframework.web.servlet.DispatcherServlet]: Initializing Servlet 'dispatcherServlet'
+2026-03-17 21:35:58 INFO [org.springframework.web.servlet.DispatcherServlet]: Completed initialization in 0 ms
+2026-03-17 21:35:58 INFO [com.zaxxer.hikari.HikariDataSource]: HikariPool-1 - Starting...
+2026-03-17 21:35:58 INFO [com.zaxxer.hikari.HikariDataSource]: HikariPool-1 - Start completed.
+2026-03-17 21:39:32 WARN [org.springframework.web.servlet.PageNotFound]: No mapping for GET /
+2026-03-17 21:39:32 WARN [org.springframework.web.servlet.PageNotFound]: No mapping for GET /favicon.ico
+2026-03-17 21:40:41 INFO [com.example.cookiemusicdemo.CookieMusicDemoApplication]: Starting CookieMusicDemoApplication using Java 1.8.0_201 on DESKTOP-TB9ONMK with PID 24568 (F:\毕业设计\源码\CookieMusicDemo\target\classes started by CHER in F:\毕业设计\源码\CookieMusicDemo)
+2026-03-17 21:40:41 INFO [com.example.cookiemusicdemo.CookieMusicDemoApplication]: The following profiles are active: dev
+2026-03-17 21:40:41 INFO [org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor]: Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-03-17 21:40:41 INFO [org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor]: For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-03-17 21:40:42 INFO [org.springframework.data.repository.config.RepositoryConfigurationDelegate]: Multiple Spring Data modules found, entering strict repository configuration mode!
+2026-03-17 21:40:42 INFO [org.springframework.data.repository.config.RepositoryConfigurationDelegate]: Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-03-17 21:40:42 INFO [org.springframework.data.repository.config.RepositoryConfigurationDelegate]: Finished Spring Data repository scanning in 19 ms. Found 0 Redis repository interfaces.
+2026-03-17 21:40:45 INFO [org.springframework.boot.web.embedded.tomcat.TomcatWebServer]: Tomcat initialized with port(s): 8888 (http)
+2026-03-17 21:40:45 INFO [org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext]: Root WebApplicationContext: initialization completed in 3940 ms
+2026-03-17 21:40:46 INFO [org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer]: LiveReload server is running on port 35729
+2026-03-17 21:40:46 INFO [org.springframework.boot.web.embedded.tomcat.TomcatWebServer]: Tomcat started on port(s): 8888 (http) with context path ''
+2026-03-17 21:40:46 INFO [com.example.cookiemusicdemo.CookieMusicDemoApplication]: Started CookieMusicDemoApplication in 5.315 seconds (JVM running for 7.203)
+2026-03-17 21:40:55 INFO [org.springframework.web.servlet.DispatcherServlet]: Initializing Servlet 'dispatcherServlet'
+2026-03-17 21:40:55 INFO [org.springframework.web.servlet.DispatcherServlet]: Completed initialization in 0 ms
+2026-03-17 21:40:55 INFO [com.zaxxer.hikari.HikariDataSource]: HikariPool-1 - Starting...
+2026-03-17 21:40:55 INFO [com.zaxxer.hikari.HikariDataSource]: HikariPool-1 - Start completed.
+2026-03-17 21:43:36 INFO [com.example.cookiemusicdemo.CookieMusicDemoApplication]: Starting CookieMusicDemoApplication using Java 1.8.0_201 on DESKTOP-TB9ONMK with PID 17584 (F:\毕业设计\源码\CookieMusicDemo\target\classes started by CHER in F:\毕业设计\源码\CookieMusicDemo)
+2026-03-17 21:43:36 INFO [com.example.cookiemusicdemo.CookieMusicDemoApplication]: The following profiles are active: dev
+2026-03-17 21:43:36 INFO [org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor]: Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-03-17 21:43:36 INFO [org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor]: For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-03-17 21:43:37 INFO [org.springframework.data.repository.config.RepositoryConfigurationDelegate]: Multiple Spring Data modules found, entering strict repository configuration mode!
+2026-03-17 21:43:37 INFO [org.springframework.data.repository.config.RepositoryConfigurationDelegate]: Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-03-17 21:43:37 INFO [org.springframework.data.repository.config.RepositoryConfigurationDelegate]: Finished Spring Data repository scanning in 17 ms. Found 0 Redis repository interfaces.
+2026-03-17 21:43:39 INFO [org.springframework.boot.web.embedded.tomcat.TomcatWebServer]: Tomcat initialized with port(s): 8888 (http)
+2026-03-17 21:43:39 INFO [org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext]: Root WebApplicationContext: initialization completed in 3302 ms
+2026-03-17 21:43:40 INFO [org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer]: LiveReload server is running on port 35729
+2026-03-17 21:43:40 INFO [org.springframework.boot.web.embedded.tomcat.TomcatWebServer]: Tomcat started on port(s): 8888 (http) with context path ''
+2026-03-17 21:43:40 INFO [com.example.cookiemusicdemo.CookieMusicDemoApplication]: Started CookieMusicDemoApplication in 4.504 seconds (JVM running for 5.87)
+2026-03-17 21:43:43 INFO [org.springframework.web.servlet.DispatcherServlet]: Initializing Servlet 'dispatcherServlet'
+2026-03-17 21:43:43 INFO [org.springframework.web.servlet.DispatcherServlet]: Completed initialization in 0 ms
+2026-03-17 21:43:43 INFO [com.zaxxer.hikari.HikariDataSource]: HikariPool-1 - Starting...
+2026-03-17 21:43:43 INFO [com.zaxxer.hikari.HikariDataSource]: HikariPool-1 - Start completed.
+2026-03-17 21:48:06 WARN [org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver]: Resolved [org.springframework.web.method.annotation.MethodArgumentTypeMismatchException: Failed to convert value of type 'java.lang.String' to required type 'java.lang.Long'; nested exception is java.lang.NumberFormatException: For input string: "NaN"]
+2026-03-17 21:49:18 WARN [org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver]: Resolved [org.springframework.web.method.annotation.MethodArgumentTypeMismatchException: Failed to convert value of type 'java.lang.String' to required type 'java.lang.Long'; nested exception is java.lang.NumberFormatException: For input string: "NaN"]
+2026-03-17 21:53:19 WARN [org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver]: Resolved [org.springframework.web.method.annotation.MethodArgumentTypeMismatchException: Failed to convert value of type 'java.lang.String' to required type 'java.lang.Long'; nested exception is java.lang.NumberFormatException: For input string: "NaN"]
+2026-03-17 21:55:03 WARN [org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver]: Resolved [org.springframework.web.method.annotation.MethodArgumentTypeMismatchException: Failed to convert value of type 'java.lang.String' to required type 'java.lang.Long'; nested exception is java.lang.NumberFormatException: For input string: "NaN"]
+2026-03-17 21:58:52 WARN [org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver]: Resolved [org.springframework.web.method.annotation.MethodArgumentTypeMismatchException: Failed to convert value of type 'java.lang.String' to required type 'java.lang.Long'; nested exception is java.lang.NumberFormatException: For input string: "NaN"]
+2026-03-17 22:02:54 INFO [com.example.cookiemusicdemo.CookieMusicDemoApplication]: Starting CookieMusicDemoApplication using Java 1.8.0_201 on DESKTOP-TB9ONMK with PID 23476 (F:\毕业设计\源码\CookieMusicDemo\target\classes started by CHER in F:\毕业设计\源码\CookieMusicDemo)
+2026-03-17 22:02:54 INFO [com.example.cookiemusicdemo.CookieMusicDemoApplication]: The following profiles are active: dev
+2026-03-17 22:02:54 INFO [org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor]: Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-03-17 22:02:54 INFO [org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor]: For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-03-17 22:02:55 INFO [org.springframework.data.repository.config.RepositoryConfigurationDelegate]: Multiple Spring Data modules found, entering strict repository configuration mode!
+2026-03-17 22:02:55 INFO [org.springframework.data.repository.config.RepositoryConfigurationDelegate]: Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-03-17 22:02:55 INFO [org.springframework.data.repository.config.RepositoryConfigurationDelegate]: Finished Spring Data repository scanning in 20 ms. Found 0 Redis repository interfaces.
+2026-03-17 22:02:58 INFO [org.springframework.boot.web.embedded.tomcat.TomcatWebServer]: Tomcat initialized with port(s): 8888 (http)
+2026-03-17 22:02:58 INFO [org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext]: Root WebApplicationContext: initialization completed in 4758 ms
+2026-03-17 22:02:59 INFO [org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer]: LiveReload server is running on port 35729
+2026-03-17 22:02:59 INFO [org.springframework.boot.web.embedded.tomcat.TomcatWebServer]: Tomcat started on port(s): 8888 (http) with context path ''
+2026-03-17 22:02:59 INFO [com.example.cookiemusicdemo.CookieMusicDemoApplication]: Started CookieMusicDemoApplication in 6.072 seconds (JVM running for 7.988)
+2026-03-17 22:03:05 INFO [org.springframework.web.servlet.DispatcherServlet]: Initializing Servlet 'dispatcherServlet'
+2026-03-17 22:03:05 INFO [org.springframework.web.servlet.DispatcherServlet]: Completed initialization in 1 ms
+2026-03-17 22:03:05 INFO [com.zaxxer.hikari.HikariDataSource]: HikariPool-1 - Starting...
+2026-03-17 22:03:07 INFO [com.zaxxer.hikari.HikariDataSource]: HikariPool-1 - Start completed.
+2026-03-17 22:13:25 INFO [com.example.cookiemusicdemo.CookieMusicDemoApplication]: Starting CookieMusicDemoApplication using Java 1.8.0_201 on DESKTOP-TB9ONMK with PID 12160 (F:\毕业设计\源码\CookieMusicDemo\target\classes started by CHER in F:\毕业设计\源码\CookieMusicDemo)
+2026-03-17 22:13:25 INFO [com.example.cookiemusicdemo.CookieMusicDemoApplication]: The following profiles are active: dev
+2026-03-17 22:13:25 INFO [org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor]: Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-03-17 22:13:25 INFO [org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor]: For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-03-17 22:13:25 INFO [org.springframework.data.repository.config.RepositoryConfigurationDelegate]: Multiple Spring Data modules found, entering strict repository configuration mode!
+2026-03-17 22:13:25 INFO [org.springframework.data.repository.config.RepositoryConfigurationDelegate]: Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-03-17 22:13:25 INFO [org.springframework.data.repository.config.RepositoryConfigurationDelegate]: Finished Spring Data repository scanning in 18 ms. Found 0 Redis repository interfaces.
+2026-03-17 22:13:29 INFO [org.springframework.boot.web.embedded.tomcat.TomcatWebServer]: Tomcat initialized with port(s): 8888 (http)
+2026-03-17 22:13:29 INFO [org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext]: Root WebApplicationContext: initialization completed in 3971 ms
+2026-03-17 22:13:29 INFO [org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer]: LiveReload server is running on port 35729
+2026-03-17 22:13:29 INFO [org.springframework.boot.web.embedded.tomcat.TomcatWebServer]: Tomcat started on port(s): 8888 (http) with context path ''
+2026-03-17 22:13:29 INFO [com.example.cookiemusicdemo.CookieMusicDemoApplication]: Started CookieMusicDemoApplication in 5.178 seconds (JVM running for 6.677)
+2026-03-17 22:14:01 INFO [org.springframework.web.servlet.DispatcherServlet]: Initializing Servlet 'dispatcherServlet'
+2026-03-17 22:14:01 INFO [org.springframework.web.servlet.DispatcherServlet]: Completed initialization in 0 ms
+2026-03-17 22:14:01 INFO [com.zaxxer.hikari.HikariDataSource]: HikariPool-1 - Starting...
+2026-03-17 22:14:01 INFO [com.zaxxer.hikari.HikariDataSource]: HikariPool-1 - Start completed.
+2026-03-17 22:18:27 INFO [com.example.cookiemusicdemo.CookieMusicDemoApplication]: Starting CookieMusicDemoApplication using Java 1.8.0_201 on DESKTOP-TB9ONMK with PID 17360 (F:\毕业设计\源码\CookieMusicDemo\target\classes started by CHER in F:\毕业设计\源码\CookieMusicDemo)
+2026-03-17 22:18:27 INFO [com.example.cookiemusicdemo.CookieMusicDemoApplication]: The following profiles are active: dev
+2026-03-17 22:18:27 INFO [org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor]: Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-03-17 22:18:27 INFO [org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor]: For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-03-17 22:18:27 INFO [org.springframework.data.repository.config.RepositoryConfigurationDelegate]: Multiple Spring Data modules found, entering strict repository configuration mode!
+2026-03-17 22:18:27 INFO [org.springframework.data.repository.config.RepositoryConfigurationDelegate]: Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-03-17 22:18:28 INFO [org.springframework.data.repository.config.RepositoryConfigurationDelegate]: Finished Spring Data repository scanning in 18 ms. Found 0 Redis repository interfaces.
+2026-03-17 22:18:31 INFO [org.springframework.boot.web.embedded.tomcat.TomcatWebServer]: Tomcat initialized with port(s): 8888 (http)
+2026-03-17 22:18:31 INFO [org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext]: Root WebApplicationContext: initialization completed in 3878 ms
+2026-03-17 22:18:32 INFO [org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer]: LiveReload server is running on port 35729
+2026-03-17 22:18:32 INFO [org.springframework.boot.web.embedded.tomcat.TomcatWebServer]: Tomcat started on port(s): 8888 (http) with context path ''
+2026-03-17 22:18:32 INFO [com.example.cookiemusicdemo.CookieMusicDemoApplication]: Started CookieMusicDemoApplication in 5.489 seconds (JVM running for 6.982)
+2026-03-17 22:18:37 INFO [org.springframework.web.servlet.DispatcherServlet]: Initializing Servlet 'dispatcherServlet'
+2026-03-17 22:18:37 INFO [org.springframework.web.servlet.DispatcherServlet]: Completed initialization in 1 ms
+2026-03-17 22:18:37 INFO [com.zaxxer.hikari.HikariDataSource]: HikariPool-1 - Starting...
+2026-03-17 22:18:37 INFO [com.zaxxer.hikari.HikariDataSource]: HikariPool-1 - Start completed.
+2026-03-17 22:25:51 INFO [com.example.cookiemusicdemo.CookieMusicDemoApplication]: Starting CookieMusicDemoApplication using Java 1.8.0_201 on DESKTOP-TB9ONMK with PID 25236 (F:\毕业设计\源码\CookieMusicDemo\target\classes started by CHER in F:\毕业设计\源码\CookieMusicDemo)
+2026-03-17 22:25:51 INFO [com.example.cookiemusicdemo.CookieMusicDemoApplication]: The following profiles are active: dev
+2026-03-17 22:25:51 INFO [org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor]: Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-03-17 22:25:51 INFO [org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor]: For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-03-17 22:25:52 INFO [org.springframework.data.repository.config.RepositoryConfigurationDelegate]: Multiple Spring Data modules found, entering strict repository configuration mode!
+2026-03-17 22:25:52 INFO [org.springframework.data.repository.config.RepositoryConfigurationDelegate]: Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-03-17 22:25:52 INFO [org.springframework.data.repository.config.RepositoryConfigurationDelegate]: Finished Spring Data repository scanning in 19 ms. Found 0 Redis repository interfaces.
+2026-03-17 22:26:18 INFO [org.springframework.boot.web.embedded.tomcat.TomcatWebServer]: Tomcat initialized with port(s): 8888 (http)
+2026-03-17 22:26:18 INFO [org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext]: Root WebApplicationContext: initialization completed in 27567 ms
+2026-03-17 22:26:34 INFO [org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer]: LiveReload server is running on port 35729
+2026-03-17 22:26:34 INFO [org.springframework.boot.web.embedded.tomcat.TomcatWebServer]: Tomcat started on port(s): 8888 (http) with context path ''
+2026-03-17 22:26:34 INFO [com.example.cookiemusicdemo.CookieMusicDemoApplication]: Started CookieMusicDemoApplication in 44.024 seconds (JVM running for 45.779)
+2026-03-17 22:53:48 INFO [org.springframework.web.servlet.DispatcherServlet]: Initializing Servlet 'dispatcherServlet'
+2026-03-17 22:53:48 INFO [org.springframework.web.servlet.DispatcherServlet]: Completed initialization in 203 ms
+2026-03-17 22:53:49 INFO [com.zaxxer.hikari.HikariDataSource]: HikariPool-1 - Starting...
+2026-03-17 22:53:50 INFO [com.zaxxer.hikari.HikariDataSource]: HikariPool-1 - Start completed.
+2026-03-17 23:01:48 INFO [com.example.cookiemusicdemo.CookieMusicDemoApplication]: Starting CookieMusicDemoApplication using Java 1.8.0_201 on DESKTOP-TB9ONMK with PID 30912 (F:\毕业设计\源码\CookieMusicDemo\target\classes started by CHER in F:\毕业设计\源码\CookieMusicDemo)
+2026-03-17 23:01:48 INFO [com.example.cookiemusicdemo.CookieMusicDemoApplication]: The following profiles are active: dev
+2026-03-17 23:01:48 INFO [org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor]: Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-03-17 23:01:48 INFO [org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor]: For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-03-17 23:01:49 INFO [org.springframework.data.repository.config.RepositoryConfigurationDelegate]: Multiple Spring Data modules found, entering strict repository configuration mode!
+2026-03-17 23:01:49 INFO [org.springframework.data.repository.config.RepositoryConfigurationDelegate]: Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-03-17 23:01:49 INFO [org.springframework.data.repository.config.RepositoryConfigurationDelegate]: Finished Spring Data repository scanning in 17 ms. Found 0 Redis repository interfaces.
+2026-03-17 23:01:55 INFO [org.springframework.boot.web.embedded.tomcat.TomcatWebServer]: Tomcat initialized with port(s): 8888 (http)
+2026-03-17 23:01:55 INFO [org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext]: Root WebApplicationContext: initialization completed in 7363 ms
+2026-03-17 23:01:56 INFO [org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer]: LiveReload server is running on port 35729
+2026-03-17 23:01:56 INFO [org.springframework.boot.web.embedded.tomcat.TomcatWebServer]: Tomcat started on port(s): 8888 (http) with context path ''
+2026-03-17 23:01:56 INFO [com.example.cookiemusicdemo.CookieMusicDemoApplication]: Started CookieMusicDemoApplication in 8.614 seconds (JVM running for 10.062)
+2026-03-17 23:02:48 INFO [org.springframework.web.servlet.DispatcherServlet]: Initializing Servlet 'dispatcherServlet'
+2026-03-17 23:02:48 INFO [org.springframework.web.servlet.DispatcherServlet]: Completed initialization in 0 ms
+2026-03-17 23:02:49 INFO [com.zaxxer.hikari.HikariDataSource]: HikariPool-1 - Starting...
+2026-03-17 23:02:49 INFO [com.zaxxer.hikari.HikariDataSource]: HikariPool-1 - Start completed.
+2026-03-17 23:25:27 INFO [com.example.cookiemusicdemo.CookieMusicDemoApplication]: Starting CookieMusicDemoApplication using Java 1.8.0_201 on DESKTOP-TB9ONMK with PID 7228 (F:\毕业设计\源码\CookieMusicDemo\target\classes started by CHER in F:\毕业设计\源码\CookieMusicDemo)
+2026-03-17 23:25:27 INFO [com.example.cookiemusicdemo.CookieMusicDemoApplication]: The following profiles are active: dev
+2026-03-17 23:25:27 INFO [org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor]: Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-03-17 23:25:27 INFO [org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor]: For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-03-17 23:25:28 INFO [org.springframework.data.repository.config.RepositoryConfigurationDelegate]: Multiple Spring Data modules found, entering strict repository configuration mode!
+2026-03-17 23:25:28 INFO [org.springframework.data.repository.config.RepositoryConfigurationDelegate]: Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-03-17 23:25:28 INFO [org.springframework.data.repository.config.RepositoryConfigurationDelegate]: Finished Spring Data repository scanning in 19 ms. Found 0 Redis repository interfaces.
+2026-03-17 23:25:31 INFO [org.springframework.boot.web.embedded.tomcat.TomcatWebServer]: Tomcat initialized with port(s): 8888 (http)
+2026-03-17 23:25:31 INFO [org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext]: Root WebApplicationContext: initialization completed in 3790 ms
+2026-03-17 23:25:31 INFO [org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer]: LiveReload server is running on port 35729
+2026-03-17 23:25:31 INFO [org.springframework.boot.web.embedded.tomcat.TomcatWebServer]: Tomcat started on port(s): 8888 (http) with context path ''
+2026-03-17 23:25:31 INFO [com.example.cookiemusicdemo.CookieMusicDemoApplication]: Started CookieMusicDemoApplication in 5.114 seconds (JVM running for 7.717)
+2026-03-17 23:26:37 INFO [org.springframework.web.servlet.DispatcherServlet]: Initializing Servlet 'dispatcherServlet'
+2026-03-17 23:26:37 INFO [org.springframework.web.servlet.DispatcherServlet]: Completed initialization in 1 ms
+2026-03-17 23:26:37 INFO [com.zaxxer.hikari.HikariDataSource]: HikariPool-1 - Starting...
+2026-03-17 23:26:37 INFO [com.zaxxer.hikari.HikariDataSource]: HikariPool-1 - Start completed.
+2026-03-17 23:26:58 INFO [com.example.cookiemusicdemo.CookieMusicDemoApplication]: Starting CookieMusicDemoApplication using Java 1.8.0_201 on DESKTOP-TB9ONMK with PID 31496 (F:\毕业设计\源码\CookieMusicDemo\target\classes started by CHER in F:\毕业设计\源码\CookieMusicDemo)
+2026-03-17 23:26:58 INFO [com.example.cookiemusicdemo.CookieMusicDemoApplication]: The following profiles are active: dev
+2026-03-17 23:26:58 INFO [org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor]: Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-03-17 23:26:58 INFO [org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor]: For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-03-17 23:26:59 INFO [org.springframework.data.repository.config.RepositoryConfigurationDelegate]: Multiple Spring Data modules found, entering strict repository configuration mode!
+2026-03-17 23:26:59 INFO [org.springframework.data.repository.config.RepositoryConfigurationDelegate]: Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-03-17 23:26:59 INFO [org.springframework.data.repository.config.RepositoryConfigurationDelegate]: Finished Spring Data repository scanning in 16 ms. Found 0 Redis repository interfaces.
+2026-03-17 23:27:02 INFO [org.springframework.boot.web.embedded.tomcat.TomcatWebServer]: Tomcat initialized with port(s): 8888 (http)
+2026-03-17 23:27:02 INFO [org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext]: Root WebApplicationContext: initialization completed in 3447 ms
+2026-03-17 23:27:03 INFO [org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer]: LiveReload server is running on port 35729
+2026-03-17 23:27:03 INFO [org.springframework.boot.web.embedded.tomcat.TomcatWebServer]: Tomcat started on port(s): 8888 (http) with context path ''
+2026-03-17 23:27:03 INFO [com.example.cookiemusicdemo.CookieMusicDemoApplication]: Started CookieMusicDemoApplication in 4.812 seconds (JVM running for 6.278)
+2026-03-17 23:27:16 INFO [org.springframework.web.servlet.DispatcherServlet]: Initializing Servlet 'dispatcherServlet'
+2026-03-17 23:27:16 INFO [org.springframework.web.servlet.DispatcherServlet]: Completed initialization in 2 ms
+2026-03-17 23:27:16 INFO [com.zaxxer.hikari.HikariDataSource]: HikariPool-1 - Starting...
+2026-03-17 23:27:16 INFO [com.zaxxer.hikari.HikariDataSource]: HikariPool-1 - Start completed.
+2026-03-17 23:40:57 INFO [com.example.cookiemusicdemo.CookieMusicDemoApplication]: Starting CookieMusicDemoApplication using Java 1.8.0_201 on DESKTOP-TB9ONMK with PID 388 (F:\毕业设计\源码\CookieMusicDemo\target\classes started by CHER in F:\毕业设计\源码\CookieMusicDemo)
+2026-03-17 23:40:57 INFO [com.example.cookiemusicdemo.CookieMusicDemoApplication]: The following profiles are active: dev
+2026-03-17 23:40:57 INFO [org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor]: Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-03-17 23:40:57 INFO [org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor]: For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-03-17 23:40:58 INFO [org.springframework.data.repository.config.RepositoryConfigurationDelegate]: Multiple Spring Data modules found, entering strict repository configuration mode!
+2026-03-17 23:40:58 INFO [org.springframework.data.repository.config.RepositoryConfigurationDelegate]: Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-03-17 23:40:58 INFO [org.springframework.data.repository.config.RepositoryConfigurationDelegate]: Finished Spring Data repository scanning in 23 ms. Found 0 Redis repository interfaces.
+2026-03-17 23:41:02 INFO [org.springframework.boot.web.embedded.tomcat.TomcatWebServer]: Tomcat initialized with port(s): 8888 (http)
+2026-03-17 23:41:02 INFO [org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext]: Root WebApplicationContext: initialization completed in 4520 ms
+2026-03-17 23:41:03 INFO [org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer]: LiveReload server is running on port 35729
+2026-03-17 23:41:03 INFO [org.springframework.boot.web.embedded.tomcat.TomcatWebServer]: Tomcat started on port(s): 8888 (http) with context path ''
+2026-03-17 23:41:03 INFO [com.example.cookiemusicdemo.CookieMusicDemoApplication]: Started CookieMusicDemoApplication in 6.322 seconds (JVM running for 8.501)
+2026-03-17 23:45:07 INFO [org.springframework.web.servlet.DispatcherServlet]: Initializing Servlet 'dispatcherServlet'
+2026-03-17 23:45:07 INFO [org.springframework.web.servlet.DispatcherServlet]: Completed initialization in 131 ms
+2026-03-17 23:45:10 INFO [com.zaxxer.hikari.HikariDataSource]: HikariPool-1 - Starting...
+2026-03-17 23:45:10 INFO [com.zaxxer.hikari.HikariDataSource]: HikariPool-1 - Start completed.
+2026-03-17 23:47:30 WARN [org.springframework.web.servlet.PageNotFound]: No mapping for GET /.well-known/appspecific/com.chrome.devtools.json
