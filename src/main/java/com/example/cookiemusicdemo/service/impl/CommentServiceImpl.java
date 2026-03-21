@@ -11,6 +11,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Service
 public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> implements CommentService {
     @Autowired
@@ -61,5 +64,23 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         QueryWrapper<Comment> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("song_list_id",songListId);
         return R.success(null, commentMapper.selectList(queryWrapper));
+    }
+
+    @Override
+    public R adminCommentPage(Integer pageNum, Integer pageSize, String keyword) {
+        int pn = (pageNum == null || pageNum < 1) ? 1 : pageNum;
+        int ps = (pageSize == null || pageSize < 1 || pageSize > 50) ? 10 : pageSize;
+        int offset = (pn - 1) * ps;
+        Map<String, Object> data = new HashMap<>();
+        data.put("items", commentMapper.selectAdminCommentPage(offset, ps, keyword));
+        data.put("total", commentMapper.countAdminComments(keyword));
+        data.put("pageNum", pn);
+        data.put("pageSize", ps);
+        return R.success("管理员评论列表", data);
+    }
+
+    @Override
+    public R adminDeleteComment(Integer id) {
+        return deleteComment(id);
     }
 }

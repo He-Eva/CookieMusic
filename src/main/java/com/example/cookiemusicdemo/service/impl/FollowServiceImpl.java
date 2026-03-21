@@ -86,5 +86,21 @@ public class FollowServiceImpl extends ServiceImpl<FollowMapper, Follow> impleme
         data.put("ids", followMapper.selectFollowerIds(userId));
         return R.success("粉丝列表", data);
     }
+
+    @Override
+    public R followingUsers(Integer userId) {
+        if (userId == null) return R.error("参数错误");
+        Map<String, Object> data = new HashMap<>();
+        data.put("items", followMapper.selectFollowingUsers(userId));
+        return R.success("关注用户列表", data);
+    }
+
+    @Override
+    public R followerUsers(Integer userId) {
+        if (userId == null) return R.error("参数错误");
+        Map<String, Object> data = new HashMap<>();
+        data.put("items", followMapper.selectFollowerUsers(userId));
+        return R.success("粉丝用户列表", data);
+    }
 }
 

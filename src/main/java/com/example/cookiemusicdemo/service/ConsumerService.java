@@ -30,4 +30,8 @@ public interface ConsumerService extends IService<Consumer> {
 
     R loginStatus(ConsumerRequest loginRequest, HttpSession session);
 
+    R adminUserPage(Integer pageNum, Integer pageSize, String keyword, Integer status);
+
+    R adminUpdateUserStatus(Integer userId, Integer status);
+
 }

@@ -1,7 +1,7 @@
 import { AREA } from "./area";
 import { Icon } from "./icon";
 import { MUSICNAME } from "./music-name";
-import { NavName, HEADERNAVLIST, SIGNLIST, MENULIST } from "./nav";
+import { NavName, HEADERNAVLIST, ADMIN_HEADERNAVLIST, SIGNLIST, MENULIST } from "./nav";
 import { singerStyle } from "./singer";
 import { SONGSTYLE } from "./songList";
 import { RouterName } from "./router-name";
@@ -13,6 +13,7 @@ export {
   MUSICNAME,
   NavName,
   HEADERNAVLIST,
+  ADMIN_HEADERNAVLIST,
   RouterName,
   SIGNLIST,
   MENULIST,

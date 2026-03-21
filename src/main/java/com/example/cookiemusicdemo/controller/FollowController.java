@@ -41,5 +41,17 @@ public class FollowController {
     public R followerList(@RequestParam Integer userId) {
         return followService.followerList(userId);
     }
+
+    // 我关注的用户详情列表
+    @GetMapping("/followings/users")
+    public R followingUsers(@RequestParam Integer userId) {
+        return followService.followingUsers(userId);
+    }
+
+    // 粉丝用户详情列表
+    @GetMapping("/followers/users")
+    public R followerUsers(@RequestParam Integer userId) {
+        return followService.followerUsers(userId);
+    }
 }
 

@@ -4,6 +4,10 @@
     <div class="sign-head">
       <span>帐号登录</span>
     </div>
+    <el-radio-group v-model="loginType" style="margin-bottom: 12px">
+      <el-radio-button label="user">用户登录</el-radio-button>
+      <el-radio-button label="admin">管理员登录</el-radio-button>
+    </el-radio-group>
     <el-form ref="signInForm" status-icon :model="registerForm" :rules="SignInRules">
       <el-form-item prop="username">
         <el-input placeholder="用户名" v-model="registerForm.username"></el-input>
@@ -20,7 +24,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, getCurrentInstance } from "vue";
+import { defineComponent, reactive, getCurrentInstance, ref } from "vue";
 import mixin from "@/mixins/mixin";
 import YinLoginLogo from "@/components/layouts/YinLoginLogo.vue";
 import { HttpManager } from "@/api";
@@ -39,7 +43,7 @@ export default defineComponent({
       username: "",
       password: "",
     });
-
+    const loginType = ref("user");
     async function handleLoginIn() {
       let canRun = true;
       (proxy.$refs["signInForm"] as any).validate((valid) => {
@@ -49,21 +53,37 @@ export default defineComponent({
 
 
       try {
-        const username = registerForm.username;
-        const password = registerForm.password;
-        const result = (await HttpManager.signIn({username,password})) as ResponseBody;
+        const result = (await (loginType.value === "admin"
+          ? HttpManager.adminSignIn({
+              username: registerForm.username,
+              password: registerForm.password,
+            })
+          : HttpManager.signIn({
+              username: registerForm.username,
+              password: registerForm.password,
+            }))) as ResponseBody;
         (proxy as any).$message({
           message: result.message,
           type: result.type,
         });
 
         if (result.success) {
-          proxy.$store.commit("setUserId", result.data[0].id);
-          proxy.$store.commit("setUsername", result.data[0].username);
-          proxy.$store.commit("setUserPic", result.data[0].avator);
           proxy.$store.commit("setToken", true);
-          changeIndex(NavName.Home);
-          routerManager(RouterName.Home, { path: RouterName.Home });
+          if (loginType.value === "admin") {
+            proxy.$store.commit("setIsAdmin", true);
+            proxy.$store.commit("setUserId", "");
+            proxy.$store.commit("setUsername", registerForm.username);
+            proxy.$store.commit("setUserPic", "/user01/consumer/img/default.jpg");
+            changeIndex(NavName.AdminAudit);
+            routerManager(RouterName.AdminDashboard, { path: RouterName.AdminDashboard });
+          } else {
+            proxy.$store.commit("setIsAdmin", false);
+            proxy.$store.commit("setUserId", result.data[0].id);
+            proxy.$store.commit("setUsername", result.data[0].username);
+            proxy.$store.commit("setUserPic", result.data[0].avator);
+            changeIndex(NavName.Home);
+            routerManager(RouterName.Home, { path: RouterName.Home });
+          }
         }
       } catch (error) {
         console.error(error);
@@ -76,6 +96,7 @@ export default defineComponent({
 
     return {
       registerForm,
+      loginType,
       SignInRules,
       handleLoginIn,
       handleSignUp,

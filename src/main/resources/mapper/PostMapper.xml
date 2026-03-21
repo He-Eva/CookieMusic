@@ -112,6 +112,83 @@
         </if>
     </select>
 
+    <select id="selectUserPostPage" resultMap="VOResultMap">
+        SELECT
+        p.id, p.consumer_id, p.title, p.content, p.cover_url, p.images, p.topic, p.status,
+        p.like_count, p.comment_count, p.create_time, p.update_time,
+        c.username AS author_name,
+        c.avator AS author_avatar
+        FROM post p
+        LEFT JOIN consumer c ON p.consumer_id = c.id
+        WHERE p.status = 1
+          AND p.consumer_id = #{consumerId}
+        ORDER BY p.create_time DESC
+        LIMIT #{offset}, #{limit}
+    </select>
+
+    <select id="countUserPosts" resultType="long">
+        SELECT COUNT(1)
+        FROM post
+        WHERE status = 1
+          AND consumer_id = #{consumerId}
+    </select>
+
+    <select id="selectLikedPostPage" resultMap="VOResultMap">
+        SELECT
+        p.id, p.consumer_id, p.title, p.content, p.cover_url, p.images, p.topic, p.status,
+        p.like_count, p.comment_count, p.create_time, p.update_time,
+        c.username AS author_name,
+        c.avator AS author_avatar
+        FROM post_like pl
+        INNER JOIN post p ON pl.post_id = p.id
+        LEFT JOIN consumer c ON p.consumer_id = c.id
+        WHERE pl.consumer_id = #{consumerId}
+          AND p.status = 1
+        ORDER BY pl.create_time DESC
+        LIMIT #{offset}, #{limit}
+    </select>
+
+    <select id="countLikedPosts" resultType="long">
+        SELECT COUNT(1)
+        FROM post_like pl
+        INNER JOIN post p ON pl.post_id = p.id
+        WHERE pl.consumer_id = #{consumerId}
+          AND p.status = 1
+    </select>
+
+    <select id="selectAdminPostPage" resultMap="VOResultMap">
+        SELECT
+        p.id, p.consumer_id, p.title, p.content, p.cover_url, p.images, p.topic, p.status,
+        p.like_count, p.comment_count, p.create_time, p.update_time,
+        c.username AS author_name,
+        c.avator AS author_avatar
+        FROM post p
+        LEFT JOIN consumer c ON p.consumer_id = c.id
+        <where>
+            <if test="status != null">
+                p.status = #{status}
+            </if>
+        </where>
+        ORDER BY p.create_time DESC
+        LIMIT #{offset}, #{limit}
+    </select>
+
+    <select id="countAdminPosts" resultType="long">
+        SELECT COUNT(1)
+        FROM post p
+        <where>
+            <if test="status != null">
+                p.status = #{status}
+            </if>
+        </where>
+    </select>
+
+    <update id="updatePostStatus">
+        UPDATE post
+        SET status = #{status}
+        WHERE id = #{postId}
+    </update>
+
     <update id="incrementLikeCount">
         UPDATE post SET like_count = like_count + 1 WHERE id = #{postId}
     </update>

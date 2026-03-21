@@ -2,11 +2,67 @@ import { getBaseURL, get, post, deletes } from "./request";
 
 const HttpManager = {
   // 获取图片信息
-  attachImageUrl: (url) => url ? `${getBaseURL()}/${url}` : "https://cube.elemecdn.com/e/fd/0fc7d20532fdaf769a25683617711png.png"
+  attachImageUrl: (url) => {
+    const fallback = `${getBaseURL()}/user01/consumer/img/default.jpg`;
+    return url ? `${getBaseURL()}/${url}` : fallback;
+  }
   ,
   // =======================> 用户 API 完成
   // 登录
   signIn: ({username,password}) => post(`user/login/status`, {username,password}),
+  // 管理员登录
+  adminSignIn: ({ username, password }) => post(`admin/login/status`, { username, password }),
+  // 管理员退出
+  adminLogout: () => get(`admin/logout`),
+  // 管理员改密
+  adminUpdatePassword: ({ oldPassword, password }) => post(`admin/password/update`, { oldPassword, password }),
+  // 管理员帖子审核列表
+  adminPostList: ({ pageNum = 1, pageSize = 10, status }: { pageNum?: number; pageSize?: number; status?: number | string } = {}) => {
+    const qs = [`pageNum=${pageNum}`, `pageSize=${pageSize}`];
+    if (status !== undefined && status !== null && status !== "") qs.push(`status=${status}`);
+    return get(`admin/post?${qs.join("&")}`);
+  },
+  // 管理员帖子详情
+  adminPostDetail: (id) => get(`admin/post/detail?id=${id}`),
+  // 管理员用户分页
+  adminUserPage: ({
+    pageNum = 1,
+    pageSize = 10,
+    keyword = "",
+    status,
+  }: {
+    pageNum?: number;
+    pageSize?: number;
+    keyword?: string;
+    status?: number | string;
+  } = {}) => {
+    const qs = [`pageNum=${pageNum}`, `pageSize=${pageSize}`];
+    if (keyword) qs.push(`keyword=${encodeURIComponent(keyword)}`);
+    if (status !== undefined && status !== null && status !== "") qs.push(`status=${status}`);
+    return get(`admin/user?${qs.join("&")}`);
+  },
+  // 管理员禁用/解禁用户
+  adminUpdateUserStatus: ({ userId, status }) => post(`admin/user/status?userId=${userId}&status=${status}`),
+  // 管理员评论分页
+  adminCommentPage: ({
+    pageNum = 1,
+    pageSize = 10,
+    keyword = "",
+  }: {
+    pageNum?: number;
+    pageSize?: number;
+    keyword?: string;
+  } = {}) => {
+    const qs = [`pageNum=${pageNum}`, `pageSize=${pageSize}`];
+    if (keyword) qs.push(`keyword=${encodeURIComponent(keyword)}`);
+    return get(`admin/comment?${qs.join("&")}`);
+  },
+  // 管理员删除评论
+  adminDeleteComment: (id) => post(`admin/comment/delete?id=${id}`),
+  // 审核帖子（通过/驳回）
+  adminAuditPost: ({ postId, status, reason }) => post(`admin/post/audit`, { postId, status, reason }),
+  // 下架帖子
+  adminOfflinePost: ({ postId }) => post(`admin/post/offline`, { postId }),
   // 注册
   SignUp: ({username,password,sex,phoneNum,email,birth,introduction,location}) => post(`user/add`, {username,password,sex,phoneNum,email,birth,introduction,location}),
   // 删除用户
@@ -83,6 +139,8 @@ const HttpManager = {
   },
 
   // =======================> 歌曲 API
+  // 返回全部歌曲
+  getAllSong: () => get(`song`),
   // 返回指定歌曲ID的歌曲
   getSongOfId: (id) => get(`song/detail?id=${id}`),
   // 返回指定歌手ID的歌曲
@@ -121,6 +179,12 @@ const HttpManager = {
   },
   // 笔记详情
   getPostDetail: (id) => get(`post/detail?id=${id}`),
+  // 我的笔记
+  getUserPostList: ({ consumerId, pageNum = 1, pageSize = 10 }) =>
+    get(`post/user?consumerId=${consumerId}&pageNum=${pageNum}&pageSize=${pageSize}`),
+  // 我点赞的笔记
+  getLikedPostList: ({ consumerId, pageNum = 1, pageSize = 10 }) =>
+    get(`post/liked?consumerId=${consumerId}&pageNum=${pageNum}&pageSize=${pageSize}`),
   // 点赞 / 取消 / toggle
   likePost: ({ postId, consumerId, like }) => post(`post/like`, { postId, consumerId, like }),
   // 添加评论
@@ -135,6 +199,8 @@ const HttpManager = {
   followStatus: ({ userId, followUserId }) => post(`follow/status`, { userId, followUserId }),
   getFollowings: (userId) => get(`followings?userId=${userId}`),
   getFollowers: (userId) => get(`followers?userId=${userId}`),
+  getFollowingUsers: (userId) => get(`followings/users?userId=${userId}`),
+  getFollowerUsers: (userId) => get(`followers/users?userId=${userId}`),
 
   // =======================> 播放记录 API
   addPlayRecord: ({ consumerId, songId, playSeconds, source }) =>

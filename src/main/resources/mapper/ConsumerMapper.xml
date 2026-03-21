@@ -12,11 +12,54 @@
         <result column="introduction" property="introduction" jdbcType="VARCHAR" />
         <result column="location" property="location" jdbcType="VARCHAR" />
         <result column="avator" property="avator" jdbcType="VARCHAR" />
+        <result column="status" property="status" jdbcType="TINYINT" />
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
         <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
     </resultMap>
     <sql id="Base_Column_List">
-        id, username, password, sex, phone_num, email, birth, introduction, location, avator, create_time, update_time
+        id, username, password, sex, phone_num, email, birth, introduction, location, avator, status, create_time, update_time
     </sql>
 
+    <select id="selectAdminUserPage" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM consumer
+        <where>
+            <if test="keyword != null and keyword != ''">
+                username LIKE CONCAT('%', #{keyword}, '%')
+            </if>
+            <if test="status != null">
+                <choose>
+                    <when test="status == 1">
+                        AND (status = 1 OR status IS NULL)
+                    </when>
+                    <otherwise>
+                        AND status = #{status}
+                    </otherwise>
+                </choose>
+            </if>
+        </where>
+        ORDER BY create_time DESC
+        LIMIT #{offset}, #{limit}
+    </select>
+
+    <select id="countAdminUsers" resultType="long">
+        SELECT COUNT(1)
+        FROM consumer
+        <where>
+            <if test="keyword != null and keyword != ''">
+                username LIKE CONCAT('%', #{keyword}, '%')
+            </if>
+            <if test="status != null">
+                <choose>
+                    <when test="status == 1">
+                        AND (status = 1 OR status IS NULL)
+                    </when>
+                    <otherwise>
+                        AND status = #{status}
+                    </otherwise>
+                </choose>
+            </if>
+        </where>
+    </select>
 </mapper>

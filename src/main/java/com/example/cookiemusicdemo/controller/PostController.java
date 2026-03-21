@@ -60,5 +60,25 @@ public class PostController {
     ) {
         return postService.listComment(postId, pageNum, pageSize);
     }
+
+    // 我的笔记（分页）
+    @GetMapping("/post/user")
+    public R listUserPost(
+            @RequestParam Integer consumerId,
+            @RequestParam(required = false) Integer pageNum,
+            @RequestParam(required = false) Integer pageSize
+    ) {
+        return postService.listUserPost(consumerId, pageNum, pageSize);
+    }
+
+    // 我点赞的笔记（分页）
+    @GetMapping("/post/liked")
+    public R listLikedPost(
+            @RequestParam Integer consumerId,
+            @RequestParam(required = false) Integer pageNum,
+            @RequestParam(required = false) Integer pageSize
+    ) {
+        return postService.listLikedPost(consumerId, pageNum, pageSize);
+    }
 }
 

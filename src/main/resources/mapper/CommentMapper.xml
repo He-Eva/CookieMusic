@@ -15,4 +15,40 @@
         id, user_id, song_id, song_list_id, content, create_time, type, up
     </sql>
 
+    <resultMap id="AdminCommentVOMap" type="com.example.cookiemusicdemo.model.vo.AdminCommentVO">
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="user_id" property="userId" jdbcType="INTEGER" />
+        <result column="username" property="username" jdbcType="VARCHAR" />
+        <result column="song_id" property="songId" jdbcType="INTEGER" />
+        <result column="song_list_id" property="songListId" jdbcType="INTEGER" />
+        <result column="content" property="content" jdbcType="VARCHAR" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="type" property="type" jdbcType="TINYINT" />
+        <result column="up" property="up" jdbcType="INTEGER" />
+    </resultMap>
+
+    <select id="selectAdminCommentPage" resultMap="AdminCommentVOMap">
+        SELECT
+        c.id, c.user_id, u.username, c.song_id, c.song_list_id, c.content, c.create_time, c.type, c.up
+        FROM comment c
+        LEFT JOIN consumer u ON c.user_id = u.id
+        <where>
+            <if test="keyword != null and keyword != ''">
+                (c.content LIKE CONCAT('%', #{keyword}, '%') OR u.username LIKE CONCAT('%', #{keyword}, '%'))
+            </if>
+        </where>
+        ORDER BY c.create_time DESC
+        LIMIT #{offset}, #{limit}
+    </select>
+
+    <select id="countAdminComments" resultType="long">
+        SELECT COUNT(1)
+        FROM comment c
+        LEFT JOIN consumer u ON c.user_id = u.id
+        <where>
+            <if test="keyword != null and keyword != ''">
+                (c.content LIKE CONCAT('%', #{keyword}, '%') OR u.username LIKE CONCAT('%', #{keyword}, '%'))
+            </if>
+        </where>
+    </select>
 </mapper>

@@ -1,7 +1,6 @@
 <template>
   <audio
     :src="attachImageUrl(songUrl)"
-    controls="true"
     :ref="player"
     preload="metadata"
     @loadedmetadata="loadedmetadata"
@@ -217,6 +216,6 @@ export default defineComponent({
 
 <style scoped>
 audio {
-  /* display: none; */
+  display: none;
 }
 </style>

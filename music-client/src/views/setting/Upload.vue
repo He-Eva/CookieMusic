@@ -1,6 +1,13 @@
 <template>
   <div class="upload">
-    <el-upload drag :action="uploadUrl()" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
+    <el-upload
+      drag
+      :action="uploadUrl()"
+      :show-file-list="false"
+      :on-success="handleAvatarSuccess"
+      :on-error="handleAvatarError"
+      :before-upload="beforeAvatarUpload"
+    >
       <el-icon class="el-icon--upload"><upload-filled /></el-icon>
       <div class="el-upload__text">将文件拖到此处或点击上传</div>
       <template #tip>
@@ -28,22 +35,29 @@ export default defineComponent({
     const userId = computed(() => store.getters.userId);
 
     function uploadUrl() {
+      if (!userId.value) return "";
       return HttpManager.uploadUrl(userId.value);
     }
 
     function beforeAvatarUpload(file) {
       const ltCode = 2;
-      const isLt10M = file.size / 1024 / 1024;
+      const sizeInMB = file.size / 1024 / 1024;
       const isExistFileType = uploadTypes.value.includes(file.type.replace(/image\//, ""));
+      const isValidSize = sizeInMB > 0 && sizeInMB <= ltCode;
 
-      if (isLt10M > ltCode || isLt10M <= 0) {
+      if (!userId.value) {
+        (proxy as any).$message.error("当前账号不支持头像上传");
+        return false;
+      }
+
+      if (!isValidSize) {
         (proxy as any).$message.error(`图片大小范围是 0~${ltCode}MB!`);
       }
       if (!isExistFileType) {
         (proxy as any).$message.error(`图片只支持 ${uploadTypes.value.join("、")} 格式!`);
       }
 
-      return isLt10M && isExistFileType;
+      return isValidSize && isExistFileType;
     }
 
     function handleAvatarSuccess(response, file) {
@@ -54,12 +68,16 @@ export default defineComponent({
 
       if (response.success) proxy.$store.commit("setUserPic", response.data);
     }
+    function handleAvatarError() {
+      (proxy as any).$message.error("上传失败，请检查图片格式/大小或后端服务");
+    }
 
     return {
       uploadTypes,
       uploadUrl,
       beforeAvatarUpload,
       handleAvatarSuccess,
+      handleAvatarError,
     };
   },
 });

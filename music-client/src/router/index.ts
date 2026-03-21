@@ -73,6 +73,14 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import("@/views/community/Community.vue"),
       },
       {
+        path: "/social",
+        name: "social",
+        meta: {
+          requireAuth: true,
+        },
+        component: () => import("@/views/community/SocialCenter.vue"),
+      },
+      {
         path: "/community/publish",
         name: "community-publish",
         meta: {
@@ -110,6 +118,50 @@ const routes: Array<RouteRecordRaw> = [
       },
     ],
   },
+  {
+    path: "/admin",
+    component: () => import("@/views/admin/AdminContainer.vue"),
+    meta: {
+      requireAuth: true,
+      adminOnly: true,
+    },
+    children: [
+      {
+        path: "",
+        redirect: "/admin/dashboard",
+      },
+      {
+        path: "dashboard",
+        name: "admin-dashboard",
+        component: () => import("@/views/admin/Dashboard.vue"),
+      },
+      {
+        path: "post-audit",
+        name: "admin-post-audit",
+        component: () => import("@/views/admin/PostAudit.vue"),
+      },
+      {
+        path: "user",
+        name: "admin-user",
+        component: () => import("@/views/admin/UserManage.vue"),
+      },
+      {
+        path: "comment",
+        name: "admin-comment",
+        component: () => import("@/views/admin/CommentManage.vue"),
+      },
+      {
+        path: "song",
+        name: "admin-song-center",
+        component: () => import("@/views/admin/SongManage.vue"),
+      },
+      {
+        path: "song-list",
+        name: "admin-song-list",
+        component: () => import("@/views/admin/SongListManage.vue"),
+      },
+    ],
+  },
 ];
 
 const router = createRouter({
@@ -119,9 +171,20 @@ const router = createRouter({
 
 router.beforeEach((to, _from, next) => {
   const requireAuth = to.matched.some((record) => record.meta && (record.meta as any).requireAuth);
+  const adminOnly = to.matched.some((record) => record.meta && (record.meta as any).adminOnly);
   const token = store.getters.token;
+  const isAdmin = Boolean(store.getters.isAdmin) || localStorage.getItem("cm_isAdmin") === "true";
+
+  // 管理员模式：优先使用后台路由
+  const adminAllowedPrefix = ["/admin", "/setting", "/sign-in", "/404"];
+  const isAdminAllowed = adminAllowedPrefix.some((prefix) => to.path.startsWith(prefix));
+
   if (requireAuth && !token) {
     next({ path: "/sign-in" });
+  } else if (isAdmin && !isAdminAllowed) {
+    next({ path: "/admin/post-audit" });
+  } else if (adminOnly && !isAdmin) {
+    next({ path: "/" });
   } else {
     next();
   }

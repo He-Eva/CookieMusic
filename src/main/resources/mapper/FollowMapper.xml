@@ -27,5 +27,21 @@
         ORDER BY create_time DESC
     </select>
 
+    <select id="selectFollowingUsers" resultType="java.util.HashMap">
+        SELECT c.id, c.username, c.avator
+        FROM follow f
+        INNER JOIN consumer c ON c.id = f.follow_user_id
+        WHERE f.user_id = #{userId}
+        ORDER BY f.create_time DESC
+    </select>
+
+    <select id="selectFollowerUsers" resultType="java.util.HashMap">
+        SELECT c.id, c.username, c.avator
+        FROM follow f
+        INNER JOIN consumer c ON c.id = f.user_id
+        WHERE f.follow_user_id = #{userId}
+        ORDER BY f.create_time DESC
+    </select>
+
 </mapper>
 

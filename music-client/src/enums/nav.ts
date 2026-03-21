@@ -5,6 +5,8 @@ export const enum NavName {
   SongSheet = "歌单",
   Singer = "歌手",
   Community = "笔记社区",
+  Social = "社交中心",
+  AdminAudit = "审核工作台",
   Personal = "个人主页",
   Setting = "设置",
   SignIn = "登录",
@@ -29,6 +31,18 @@ export const HEADERNAVLIST = [
   {
     name: NavName.Community,
     path: RouterName.Community,
+  },
+  {
+    name: NavName.Social,
+    path: RouterName.Social,
+  },
+];
+
+// 管理员模式导航栏（仅审核相关）
+export const ADMIN_HEADERNAVLIST = [
+  {
+    name: NavName.AdminAudit,
+    path: RouterName.AdminDashboard,
   },
 ];
 

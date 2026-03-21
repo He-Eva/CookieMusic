@@ -1,7 +1,7 @@
 <template>
   <div class="personal">
     <div class="personal-info">
-      <div class="personal-img" @click="dialogTableVisible = true">
+      <div class="personal-img" @click="handleAvatarClick">
         <el-image fit="cover" :src="attachImageUrl(userPic)"/>
       </div>
       <div class="personal-msg">
@@ -86,9 +86,20 @@ export default defineComponent({
     });
     const userId = computed(() => store.getters.userId);
     const userPic = computed(() => store.getters.userPic);
+    const isAdmin = computed(() => {
+      return Boolean(store.getters.isAdmin) || localStorage.getItem("cm_isAdmin") === "true";
+    });
     watch(userPic, () => {
       dialogTableVisible.value = false;
     });
+
+    function handleAvatarClick() {
+      if (isAdmin.value) {
+        proxy?.$message?.({ message: "管理员账号暂不支持头像上传", type: "warning" });
+        return;
+      }
+      dialogTableVisible.value = true;
+    }
 
     function goPage() {
       routerManager(RouterName.Setting, { path: RouterName.Setting });
@@ -279,6 +290,7 @@ export default defineComponent({
       personalInfo,
       attachImageUrl: HttpManager.attachImageUrl,
       goPage,
+      handleAvatarClick,
       changeData,
       historyRows,
       historyPageNum,

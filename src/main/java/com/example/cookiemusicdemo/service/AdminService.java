@@ -10,4 +10,8 @@ import javax.servlet.http.HttpSession;
 public interface AdminService extends IService<Admin> {
 
     R verityPasswd(AdminRequest adminRequest, HttpSession session);
+
+    R logout(HttpSession session);
+
+    R updatePassword(AdminRequest adminRequest, HttpSession session);
 }

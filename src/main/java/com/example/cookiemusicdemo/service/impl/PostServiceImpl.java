@@ -9,6 +9,7 @@ import com.example.cookiemusicdemo.mapper.PostMapper;
 import com.example.cookiemusicdemo.model.domain.Post;
 import com.example.cookiemusicdemo.model.domain.PostComment;
 import com.example.cookiemusicdemo.model.domain.PostLike;
+import com.example.cookiemusicdemo.model.request.AdminPostAuditRequest;
 import com.example.cookiemusicdemo.model.request.PostCommentRequest;
 import com.example.cookiemusicdemo.model.request.PostLikeRequest;
 import com.example.cookiemusicdemo.model.request.PostRequest;
@@ -46,11 +47,12 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
         }
         Post post = new Post();
         BeanUtils.copyProperties(postRequest, post);
-        post.setStatus((byte) 1);
+        // 社区内容先入待审
+        post.setStatus((byte) 0);
         post.setLikeCount(0);
         post.setCommentCount(0);
         if (postMapper.insert(post) > 0) {
-            return R.success("发布成功", post.getId());
+            return R.success("发布成功，待管理员审核", post.getId());
         }
         return R.error("发布失败");
     }
@@ -194,6 +196,86 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
         data.put("pageSize", ps);
 
         return R.success("评论列表", data);
+    }
+
+    @Override
+    public R listUserPost(Integer consumerId, Integer pageNum, Integer pageSize) {
+        if (consumerId == null) return R.error("参数错误");
+        int pn = (pageNum == null || pageNum < 1) ? 1 : pageNum;
+        int ps = (pageSize == null || pageSize < 1 || pageSize > 50) ? 10 : pageSize;
+        int offset = (pn - 1) * ps;
+        Map<String, Object> data = new HashMap<>();
+        data.put("items", postMapper.selectUserPostPage(consumerId, offset, ps));
+        data.put("total", postMapper.countUserPosts(consumerId));
+        data.put("pageNum", pn);
+        data.put("pageSize", ps);
+        return R.success("我的笔记", data);
+    }
+
+    @Override
+    public R listLikedPost(Integer consumerId, Integer pageNum, Integer pageSize) {
+        if (consumerId == null) return R.error("参数错误");
+        int pn = (pageNum == null || pageNum < 1) ? 1 : pageNum;
+        int ps = (pageSize == null || pageSize < 1 || pageSize > 50) ? 10 : pageSize;
+        int offset = (pn - 1) * ps;
+        Map<String, Object> data = new HashMap<>();
+        data.put("items", postMapper.selectLikedPostPage(consumerId, offset, ps));
+        data.put("total", postMapper.countLikedPosts(consumerId));
+        data.put("pageNum", pn);
+        data.put("pageSize", ps);
+        return R.success("我点赞的笔记", data);
+    }
+
+    @Override
+    public R listAdminPost(Integer pageNum, Integer pageSize, Integer status) {
+        int pn = (pageNum == null || pageNum < 1) ? 1 : pageNum;
+        int ps = (pageSize == null || pageSize < 1 || pageSize > 50) ? 10 : pageSize;
+        int offset = (pn - 1) * ps;
+        Integer queryStatus = (status != null && (status < 0 || status > 3)) ? null : status;
+        Map<String, Object> data = new HashMap<>();
+        data.put("items", postMapper.selectAdminPostPage(offset, ps, queryStatus));
+        data.put("total", postMapper.countAdminPosts(queryStatus));
+        data.put("pageNum", pn);
+        data.put("pageSize", ps);
+        return R.success("管理员帖子列表", data);
+    }
+
+    @Override
+    public R adminPostDetail(Long id) {
+        if (id == null) return R.error("参数错误");
+        PostVO post = postMapper.selectPostDetail(id);
+        if (post == null) return R.error("内容不存在");
+        return R.success("管理员帖子详情", post);
+    }
+
+    @Override
+    @CacheEvict(value = "post_list", allEntries = true)
+    public R auditPost(AdminPostAuditRequest request) {
+        if (request == null || request.getPostId() == null || request.getStatus() == null) {
+            return R.error("参数错误");
+        }
+        int target = request.getStatus();
+        if (target != 1 && target != 2) {
+            return R.error("审核状态仅支持通过(1)或驳回(2)");
+        }
+        Post db = postMapper.selectById(request.getPostId());
+        if (db == null) return R.error("内容不存在");
+        if (postMapper.updatePostStatus(request.getPostId(), target) > 0) {
+            return R.success(target == 1 ? "审核通过" : "审核驳回");
+        }
+        return R.error("审核失败");
+    }
+
+    @Override
+    @CacheEvict(value = "post_list", allEntries = true)
+    public R offlinePost(Long postId) {
+        if (postId == null) return R.error("参数错误");
+        Post db = postMapper.selectById(postId);
+        if (db == null) return R.error("内容不存在");
+        if (postMapper.updatePostStatus(postId, 3) > 0) {
+            return R.success("下架成功");
+        }
+        return R.error("下架失败");
     }
 }
 

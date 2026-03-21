@@ -30,6 +30,11 @@ public class Consumer {
 
     private String avator;
 
+    /**
+     * 用户状态：0-禁用，1-正常
+     */
+    private Byte status;
+
     @TableField(fill = FieldFill.INSERT)
     private Date createTime;
 

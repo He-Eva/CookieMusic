@@ -21,6 +21,8 @@ import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.example.cookiemusicdemo.constant.Constants.SALT;
 
@@ -51,6 +53,7 @@ public class ConsumerServiceImpl extends ServiceImpl<ConsumerMapper, Consumer>
             consumer.setEmail(null);
         }
         consumer.setAvator("/user01/consumer/img/default.jpg");
+        consumer.setStatus((byte) 1);
         try {
             if (consumerMapper.insert(consumer) > 0) {
                 return R.success("注册成功");
@@ -154,12 +157,52 @@ public class ConsumerServiceImpl extends ServiceImpl<ConsumerMapper, Consumer>
         String password = loginRequest.getPassword();
 
         if (this.verityPasswd(username, password)) {
-            session.setAttribute("username", username);
             Consumer consumer = new Consumer();
             consumer.setUsername(username);
+            Consumer dbUser = consumerMapper.selectOne(new QueryWrapper<>(consumer));
+            if (dbUser == null) {
+                return R.error("用户名或密码错误");
+            }
+            if (dbUser.getStatus() != null && dbUser.getStatus() == 0) {
+                return R.error("账号已被禁用，请联系管理员");
+            }
+            session.setAttribute("username", username);
             return R.success("登录成功", consumerMapper.selectList(new QueryWrapper<>(consumer)));
         } else {
             return R.error("用户名或密码错误");
         }
+    }
+
+    @Override
+    public R adminUserPage(Integer pageNum, Integer pageSize, String keyword, Integer status) {
+        int pn = (pageNum == null || pageNum < 1) ? 1 : pageNum;
+        int ps = (pageSize == null || pageSize < 1 || pageSize > 50) ? 10 : pageSize;
+        int offset = (pn - 1) * ps;
+        Integer queryStatus = (status != null && (status < 0 || status > 1)) ? null : status;
+
+        Map<String, Object> data = new HashMap<>();
+        data.put("items", consumerMapper.selectAdminUserPage(offset, ps, keyword, queryStatus));
+        data.put("total", consumerMapper.countAdminUsers(keyword, queryStatus));
+        data.put("pageNum", pn);
+        data.put("pageSize", ps);
+        return R.success("管理员用户列表", data);
+    }
+
+    @Override
+    public R adminUpdateUserStatus(Integer userId, Integer status) {
+        if (userId == null || status == null || (status != 0 && status != 1)) {
+            return R.error("参数错误");
+        }
+        Consumer db = consumerMapper.selectById(userId);
+        if (db == null) {
+            return R.error("用户不存在");
+        }
+        Consumer update = new Consumer();
+        update.setId(userId);
+        update.setStatus((byte) status.intValue());
+        if (consumerMapper.updateById(update) > 0) {
+            return R.success(status == 1 ? "已解禁" : "已禁用");
+        }
+        return R.error("操作失败");
     }
 }

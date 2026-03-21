@@ -11,5 +11,7 @@ public interface FollowService extends IService<Follow> {
     R isFollowing(FollowRequest request);
     R followingList(Integer userId);
     R followerList(Integer userId);
+    R followingUsers(Integer userId);
+    R followerUsers(Integer userId);
 }
 
