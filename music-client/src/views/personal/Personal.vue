@@ -12,15 +12,15 @@
     </div>
     <div class="personal-body">
       <el-tabs v-model="activeTab">
-        <el-tab-pane label="收藏歌曲" name="collect">
+        <el-tab-pane label="收藏歌曲" name="collect" lazy>
           <el-empty v-if="!collectSongList.length" description="暂无收藏歌曲"></el-empty>
           <song-list v-else :songList="collectSongList" :show="true" @changeData="changeData"></song-list>
         </el-tab-pane>
-        <el-tab-pane label="收藏歌单" name="collect_sheet">
+        <el-tab-pane label="收藏歌单" name="collect_sheet" lazy>
           <el-empty v-if="!collectSongSheetList.length" description="暂无收藏歌单"></el-empty>
           <play-list v-else title="" path="song-sheet-detail" :playList="collectSongSheetList"></play-list>
         </el-tab-pane>
-        <el-tab-pane label="历史播放记录" name="history">
+        <el-tab-pane label="历史播放记录" name="history" lazy>
           <el-empty v-if="!historyRows.length" description="暂无播放记录"></el-empty>
           <div v-else class="history">
             <el-table highlight-current-row :data="historyRows" @row-click="handleHistoryRowClick">
@@ -268,7 +268,7 @@ export default defineComponent({
       if (userId.value) {
         getUserInfo(userId.value);
         getCollection(userId.value);
-        loadPlayHistory();
+        // 历史记录改为切换到对应 Tab 再拉取，减少与 Tabs 同时布局触发的 ResizeObserver 红屏
       }
     });
 
@@ -277,7 +277,15 @@ export default defineComponent({
       historyPageNum.value = 1;
       getUserInfo(v);
       getCollection(v);
-      loadPlayHistory();
+      if (activeTab.value === "history") {
+        loadPlayHistory();
+      }
+    });
+
+    watch(activeTab, (name) => {
+      if (name === "history" && userId.value) {
+        loadPlayHistory();
+      }
     });
 
     return {

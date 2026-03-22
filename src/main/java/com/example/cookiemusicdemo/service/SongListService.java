@@ -27,4 +27,16 @@ public interface SongListService extends IService<SongList> {
     R likeTitle(String title);
 
     R likeStyle(String style);
+
+    R adminSongListPage(Integer pageNum, Integer pageSize, String keyword, Integer status);
+
+    R adminSongListDetail(Integer id);
+
+    R adminAddSongList(SongListRequest request);
+
+    R adminUpdateSongList(SongListRequest request);
+
+    R adminDeleteSongList(Integer id);
+
+    R adminUpdateSongListStatus(Integer songListId, Integer status);
 }

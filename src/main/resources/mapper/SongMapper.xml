@@ -10,15 +10,62 @@
         <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
         <result column="pic" property="pic" jdbcType="VARCHAR" />
         <result column="url" property="url" jdbcType="VARCHAR" />
+        <result column="status" property="status" jdbcType="TINYINT" />
     </resultMap>
     <resultMap id="ResultMapWithBLOBs" type="com.example.cookiemusicdemo.model.domain.Song" extends="BaseResultMap">
         <result column="lyric" property="lyric" jdbcType="LONGVARCHAR" />
     </resultMap>
     <sql id="Base_Column_List">
-        id, singer_id, name, introduction, create_time, update_time, pic
+        id, singer_id, name, introduction, create_time, update_time, pic, url, status
     </sql>
     <sql id="Blob_Column_List">
         lyric
     </sql>
+
+    <!-- 管理端列表：不含歌词大字段 -->
+    <select id="selectAdminSongPage" resultMap="BaseResultMap">
+        SELECT
+        s.id, s.singer_id, s.name, s.introduction, s.create_time, s.update_time, s.pic, s.url, s.status
+        FROM song s
+        LEFT JOIN singer sg ON s.singer_id = sg.id
+        <where>
+            <if test="keyword != null and keyword != ''">
+                (s.name LIKE CONCAT('%', #{keyword}, '%') OR sg.name LIKE CONCAT('%', #{keyword}, '%'))
+            </if>
+            <if test="status != null">
+                <choose>
+                    <when test="status == 1">
+                        AND (s.status = 1 OR s.status IS NULL)
+                    </when>
+                    <otherwise>
+                        AND s.status = #{status}
+                    </otherwise>
+                </choose>
+            </if>
+        </where>
+        ORDER BY s.create_time DESC
+        LIMIT #{offset}, #{limit}
+    </select>
+
+    <select id="countAdminSongs" resultType="long">
+        SELECT COUNT(1)
+        FROM song s
+        LEFT JOIN singer sg ON s.singer_id = sg.id
+        <where>
+            <if test="keyword != null and keyword != ''">
+                (s.name LIKE CONCAT('%', #{keyword}, '%') OR sg.name LIKE CONCAT('%', #{keyword}, '%'))
+            </if>
+            <if test="status != null">
+                <choose>
+                    <when test="status == 1">
+                        AND (s.status = 1 OR s.status IS NULL)
+                    </when>
+                    <otherwise>
+                        AND s.status = #{status}
+                    </otherwise>
+                </choose>
+            </if>
+        </where>
+    </select>
 
 </mapper>

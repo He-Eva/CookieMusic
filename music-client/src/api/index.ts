@@ -14,6 +14,8 @@ const HttpManager = {
   adminSignIn: ({ username, password }) => post(`admin/login/status`, { username, password }),
   // 管理员退出
   adminLogout: () => get(`admin/logout`),
+  // 管理端看板统计
+  adminDashboardStats: () => get(`admin/dashboard/stats`),
   // 管理员改密
   adminUpdatePassword: ({ oldPassword, password }) => post(`admin/password/update`, { oldPassword, password }),
   // 管理员帖子审核列表
@@ -43,6 +45,52 @@ const HttpManager = {
   },
   // 管理员禁用/解禁用户
   adminUpdateUserStatus: ({ userId, status }) => post(`admin/user/status?userId=${userId}&status=${status}`),
+  // 管理员歌曲分页（keyword 匹配歌名/歌手名；status 0 下架 1 上架）
+  adminSongPage: ({
+    pageNum = 1,
+    pageSize = 10,
+    keyword = "",
+    status,
+  }: {
+    pageNum?: number;
+    pageSize?: number;
+    keyword?: string;
+    status?: number | string;
+  } = {}) => {
+    const qs = [`pageNum=${pageNum}`, `pageSize=${pageSize}`];
+    if (keyword) qs.push(`keyword=${encodeURIComponent(keyword)}`);
+    if (status !== undefined && status !== null && status !== "") qs.push(`status=${status}`);
+    return get(`admin/song/page?${qs.join("&")}`);
+  },
+  adminSongDetail: (id) => get(`admin/song/detail?id=${id}`),
+  adminSongStatus: ({ songId, status }) => post(`admin/song/status?songId=${songId}&status=${status}`),
+  adminSongUpdate: (payload) => post(`admin/song/update`, payload),
+  // 管理员歌单分页
+  adminSongListPage: ({
+    pageNum = 1,
+    pageSize = 10,
+    keyword = "",
+    status,
+  }: {
+    pageNum?: number;
+    pageSize?: number;
+    keyword?: string;
+    status?: number | string;
+  } = {}) => {
+    const qs = [`pageNum=${pageNum}`, `pageSize=${pageSize}`];
+    if (keyword) qs.push(`keyword=${encodeURIComponent(keyword)}`);
+    if (status !== undefined && status !== null && status !== "") qs.push(`status=${status}`);
+    return get(`admin/songList/page?${qs.join("&")}`);
+  },
+  adminSongListDetail: (id) => get(`admin/songList/detail?id=${id}`),
+  adminSongListAdd: (payload) => post(`admin/songList/add`, payload),
+  adminSongListUpdate: (payload) => post(`admin/songList/update`, payload),
+  adminSongListDelete: (id) => post(`admin/songList/delete?id=${id}`),
+  adminSongListStatus: ({ songListId, status }) => post(`admin/songList/status?songListId=${songListId}&status=${status}`),
+  adminSongListSongs: (songListId) => get(`admin/songList/songs?songListId=${songListId}`),
+  adminSongListSongAdd: ({ songListId, songId }) => post(`admin/songList/song/add?songListId=${songListId}&songId=${songId}`),
+  adminSongListSongRemove: ({ songListId, songId }) =>
+    post(`admin/songList/song/remove?songListId=${songListId}&songId=${songId}`),
   // 管理员评论分页
   adminCommentPage: ({
     pageNum = 1,

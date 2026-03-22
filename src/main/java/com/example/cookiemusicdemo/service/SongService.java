@@ -27,4 +27,16 @@ public interface SongService extends IService<Song> {
     R songOfSingerName(String name);
 
     R updateSongLrc(MultipartFile lrcFile, int id);
+
+    /** 管理端：分页列表（含下架），支持歌名/歌手名关键词与状态筛选 */
+    R adminSongPage(Integer pageNum, Integer pageSize, String keyword, Integer status);
+
+    /** 管理端：单条详情（含歌词），不受下架限制 */
+    R adminSongDetail(Integer id);
+
+    /** 管理端：上架/下架 status 0/1 */
+    R adminUpdateSongStatus(Integer songId, Integer status);
+
+    /** 管理端：更新歌名、简介、歌词（JSON） */
+    R adminUpdateSongInfo(SongRequest request);
 }

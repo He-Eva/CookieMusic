@@ -31,6 +31,11 @@ public class Song {
 
     private String url;
 
+    /**
+     * 上架状态：0-下架，1-上架（前台仅展示上架；NULL 视为上架兼容旧数据）
+     */
+    private Byte status;
+
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);

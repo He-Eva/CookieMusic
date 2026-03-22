@@ -19,4 +19,10 @@ public interface ListSongService extends IService<ListSong> {
     List<ListSong> allListSong();
 
     R listSongOfSongId(Integer songListId);
+
+    /** 管理端：向歌单添加歌曲（去重） */
+    R adminAddSongToList(Integer songListId, Integer songId);
+
+    /** 管理端：从歌单移除指定歌曲 */
+    R adminRemoveSongFromList(Integer songListId, Integer songId);
 }

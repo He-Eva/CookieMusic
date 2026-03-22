@@ -2,7 +2,6 @@ import axios from "axios";
 import router from "@/router";
 
 const BASE_URL = process.env.NODE_HOST;
-console.log(BASE_URL)
 axios.defaults.timeout = 5000; // 超时时间设置
 axios.defaults.withCredentials = true; // true允许跨域
 axios.defaults.baseURL = BASE_URL;
@@ -22,37 +21,26 @@ axios.interceptors.response.use(
   },
   // 服务器状态码不是2开头的的情况
   (error) => {
-    if (error.response.status) {
-      switch (error.response.status) {
-        // 401: 未登录
+    const status = error.response?.status;
+    if (status) {
+      switch (status) {
+        // 401: 未登录 / 会话失效
         case 401:
-          router.replace({
-            path: "/",
-            query: {
-              // redirect: router.currentRoute.fullPath
-            },
-          });
+          router.replace({ path: "/sign-in" });
           break;
         case 403:
-          // console.log('管理员权限已修改请重新登录')
-          // 跳转登录页面，并将要浏览的页面fullPath传过去，登录成功后跳转需要访问的页面
           setTimeout(() => {
-            router.replace({
-              path: "/",
-              query: {
-                // redirect: router.currentRoute.fullPath
-              },
-            });
+            router.replace({ path: "/sign-in" });
           }, 1000);
           break;
 
         // 404请求不存在
         case 404:
-          // console.log('请求页面飞到火星去了')
           break;
       }
       return Promise.reject(error.response);
     }
+    return Promise.reject(error);
   }
 );
 

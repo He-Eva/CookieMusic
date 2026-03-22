@@ -26,7 +26,9 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -42,9 +44,17 @@ public class SongServiceImpl extends ServiceImpl<SongMapper, Song> implements So
     @Autowired
     MinioClient minioClient;
 
+    /** 前台仅展示上架：status=1 或 status IS NULL（兼容旧数据） */
+    private void applyOnlineOnly(QueryWrapper<Song> wrapper) {
+        wrapper.and(w -> w.eq("status", 1).or().isNull("status"));
+    }
+
     @Override
     public R allSong() {
-        return R.success(null, songMapper.selectList(null));
+        QueryWrapper<Song> qw = new QueryWrapper<>();
+        applyOnlineOnly(qw);
+        qw.orderByDesc("id");
+        return R.success(null, songMapper.selectList(qw));
     }
 
     @Override
@@ -59,6 +69,7 @@ public class SongServiceImpl extends ServiceImpl<SongMapper, Song> implements So
         song.setUpdateTime(new Date());
         song.setPic(pic);
         song.setUrl(storeUrlPath);
+        song.setStatus((byte) 1);
 
         if (lrcfile!=null&&(song.getLyric().equals("[00:00:00]暂无歌词"))){
             byte[] fileContent = new byte[0];
@@ -191,6 +202,7 @@ public class SongServiceImpl extends ServiceImpl<SongMapper, Song> implements So
     public R songOfSingerId(Integer singerId) {
         QueryWrapper<Song> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("singer_id",singerId);
+        applyOnlineOnly(queryWrapper);
         return R.success(null, songMapper.selectList(queryWrapper));
     }
 
@@ -198,19 +210,28 @@ public class SongServiceImpl extends ServiceImpl<SongMapper, Song> implements So
     public R songOfId(Integer id) {
         QueryWrapper<Song> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("id",id);
-        return R.success(null, songMapper.selectList(queryWrapper));
+        List<Song> list = songMapper.selectList(queryWrapper);
+        if (list == null || list.isEmpty()) {
+            return R.error("内容不存在");
+        }
+        Song s = list.get(0);
+        if (s.getStatus() != null && s.getStatus() == 0) {
+            return R.error("歌曲已下架");
+        }
+        return R.success(null, list);
     }
 
     @Override
     public R songOfSingerName(String name) {
         QueryWrapper<Song> queryWrapper = new QueryWrapper<>();
         queryWrapper.like("name",name);
+        applyOnlineOnly(queryWrapper);
         List<Song> songs = songMapper.selectList(queryWrapper);
         if (songs.isEmpty()){
             return R.error("添加失败，没有找到该歌,无法加入该歌单");
         }
 
-        return R.success(null, songMapper.selectList(queryWrapper));
+        return R.success(null, songs);
     }
 
     @Override
@@ -231,5 +252,69 @@ public class SongServiceImpl extends ServiceImpl<SongMapper, Song> implements So
         } else {
             return R.error("更新失败");
         }
+    }
+
+    @Override
+    public R adminSongPage(Integer pageNum, Integer pageSize, String keyword, Integer status) {
+        int pn = (pageNum == null || pageNum < 1) ? 1 : pageNum;
+        int ps = (pageSize == null || pageSize < 1 || pageSize > 50) ? 10 : pageSize;
+        int offset = (pn - 1) * ps;
+        Integer queryStatus = (status != null && (status < 0 || status > 1)) ? null : status;
+        Map<String, Object> data = new HashMap<>();
+        data.put("items", songMapper.selectAdminSongPage(offset, ps, keyword, queryStatus));
+        data.put("total", songMapper.countAdminSongs(keyword, queryStatus));
+        data.put("pageNum", pn);
+        data.put("pageSize", ps);
+        return R.success("管理员歌曲列表", data);
+    }
+
+    @Override
+    public R adminSongDetail(Integer id) {
+        if (id == null) {
+            return R.error("参数错误");
+        }
+        Song song = songMapper.selectById(id);
+        if (song == null) {
+            return R.error("歌曲不存在");
+        }
+        return R.success("歌曲详情", song);
+    }
+
+    @Override
+    public R adminUpdateSongStatus(Integer songId, Integer status) {
+        if (songId == null || status == null || (status != 0 && status != 1)) {
+            return R.error("参数错误");
+        }
+        Song db = songMapper.selectById(songId);
+        if (db == null) {
+            return R.error("歌曲不存在");
+        }
+        Song update = new Song();
+        update.setId(songId);
+        update.setStatus((byte) status.intValue());
+        if (songMapper.updateById(update) > 0) {
+            return R.success(status == 1 ? "已上架" : "已下架");
+        }
+        return R.error("操作失败");
+    }
+
+    @Override
+    public R adminUpdateSongInfo(SongRequest request) {
+        if (request == null || request.getId() == null) {
+            return R.error("参数错误");
+        }
+        Song db = songMapper.selectById(request.getId());
+        if (db == null) {
+            return R.error("歌曲不存在");
+        }
+        Song song = new Song();
+        song.setId(request.getId());
+        song.setName(request.getName());
+        song.setIntroduction(request.getIntroduction());
+        song.setLyric(request.getLyric());
+        if (songMapper.updateById(song) > 0) {
+            return R.success("保存成功");
+        }
+        return R.error("保存失败");
     }
 }

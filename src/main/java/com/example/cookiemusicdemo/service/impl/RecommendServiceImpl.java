@@ -52,7 +52,11 @@ public class RecommendServiceImpl implements RecommendService {
         Map<Integer, Double> targetVector = userItem.getOrDefault(consumerId, Collections.emptyMap());
         if (targetVector.isEmpty()) {
             // cold-start fallback: return latest songs (or you can choose hot songs)
-            List<Song> latest = songMapper.selectList(new QueryWrapper<Song>().orderByDesc("id").last("LIMIT " + topN));
+            List<Song> latest = songMapper.selectList(
+                    new QueryWrapper<Song>()
+                            .nested(w -> w.eq("status", 1).or().isNull("status"))
+                            .orderByDesc("id")
+                            .last("LIMIT " + topN));
             return R.success("推荐（冷启动：最新歌曲）", latest);
         }
 
@@ -84,7 +88,11 @@ public class RecommendServiceImpl implements RecommendService {
         }
 
         if (candidateScore.isEmpty()) {
-            List<Song> latest = songMapper.selectList(new QueryWrapper<Song>().orderByDesc("id").last("LIMIT " + topN));
+            List<Song> latest = songMapper.selectList(
+                    new QueryWrapper<Song>()
+                            .nested(w -> w.eq("status", 1).or().isNull("status"))
+                            .orderByDesc("id")
+                            .last("LIMIT " + topN));
             return R.success("推荐（兜底：最新歌曲）", latest);
         }
 
@@ -111,6 +119,7 @@ public class RecommendServiceImpl implements RecommendService {
             Map.Entry<Integer, Double> e = top.get(idx);
             Song s = byId.get(e.getKey());
             if (s == null) continue;
+            if (s.getStatus() != null && s.getStatus() == 0) continue;
             RecommendSongVO vo = new RecommendSongVO();
             vo.setSong(s);
 

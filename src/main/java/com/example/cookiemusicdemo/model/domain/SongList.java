@@ -21,6 +21,11 @@ public class SongList {
 
     private String introduction;
 
+    /**
+     * 上架状态：0-下架，1-上架（NULL 视为上架，兼容旧数据）
+     */
+    private Byte status;
+
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);

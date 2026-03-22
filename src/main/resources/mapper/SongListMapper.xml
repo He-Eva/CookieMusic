@@ -6,15 +6,58 @@
         <result column="title" property="title" jdbcType="VARCHAR" />
         <result column="pic" property="pic" jdbcType="VARCHAR" />
         <result column="style" property="style" jdbcType="VARCHAR" />
+        <result column="status" property="status" jdbcType="TINYINT" />
     </resultMap>
     <resultMap id="ResultMapWithBLOBs" type="com.example.cookiemusicdemo.model.domain.SongList" extends="BaseResultMap">
         <result column="introduction" property="introduction" jdbcType="LONGVARCHAR" />
     </resultMap>
     <sql id="Base_Column_List">
-        id, title, pic, style
+        id, title, pic, style, status
     </sql>
     <sql id="Blob_Column_List">
         introduction
     </sql>
+
+    <!-- 管理端列表：不含 introduction 大字段 -->
+    <select id="selectAdminSongListPage" resultMap="BaseResultMap">
+        SELECT id, title, pic, style, status
+        FROM song_list
+        <where>
+            <if test="keyword != null and keyword != ''">
+                (title LIKE CONCAT('%', #{keyword}, '%') OR style LIKE CONCAT('%', #{keyword}, '%'))
+            </if>
+            <if test="status != null">
+                <choose>
+                    <when test="status == 1">
+                        AND (status = 1 OR status IS NULL)
+                    </when>
+                    <otherwise>
+                        AND status = #{status}
+                    </otherwise>
+                </choose>
+            </if>
+        </where>
+        ORDER BY id DESC
+        LIMIT #{offset}, #{limit}
+    </select>
+
+    <select id="countAdminSongLists" resultType="long">
+        SELECT COUNT(1) FROM song_list
+        <where>
+            <if test="keyword != null and keyword != ''">
+                (title LIKE CONCAT('%', #{keyword}, '%') OR style LIKE CONCAT('%', #{keyword}, '%'))
+            </if>
+            <if test="status != null">
+                <choose>
+                    <when test="status == 1">
+                        AND (status = 1 OR status IS NULL)
+                    </when>
+                    <otherwise>
+                        AND status = #{status}
+                    </otherwise>
+                </choose>
+            </if>
+        </where>
+    </select>
 
 </mapper>

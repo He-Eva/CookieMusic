@@ -30,12 +30,14 @@ public class AdminAuthInterceptor implements HandlerInterceptor {
             return true;
         }
 
-        // protect /admin/** and song management write APIs
+        // protect /admin/** and content-management write APIs
         boolean isAdminPath = uri.startsWith("/admin/");
         boolean isSongWritePath = uri.startsWith("/song/")
                 && !("GET".equalsIgnoreCase(method) || "HEAD".equalsIgnoreCase(method));
+        boolean isSongListProtected = isSongListNeedAdmin(uri, method);
+        boolean isListSongProtected = isListSongNeedAdmin(uri, method);
 
-        if (!isAdminPath && !isSongWritePath) {
+        if (!isAdminPath && !isSongWritePath && !isSongListProtected && !isListSongProtected) {
             return true;
         }
 
@@ -50,6 +52,42 @@ public class AdminAuthInterceptor implements HandlerInterceptor {
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.getWriter().write(JSON.toJSONString(R.error("管理员未登录或登录已过期")));
         return false;
+    }
+
+    /** 歌单：仅列表/详情/按标题或风格查询可匿名 GET，其余需管理员 */
+    private boolean isSongListNeedAdmin(String uri, String method) {
+        if (!uri.startsWith("/songList")) {
+            return false;
+        }
+        boolean isGet = "GET".equalsIgnoreCase(method) || "HEAD".equalsIgnoreCase(method);
+        if (isGet) {
+            if ("/songList/delete".equals(uri)) {
+                return true;
+            }
+            if ("/songList".equals(uri)
+                    || "/songList/detail".equals(uri)
+                    || uri.startsWith("/songList/likeTitle/detail")
+                    || uri.startsWith("/songList/style/detail")) {
+                return false;
+            }
+            return true;
+        }
+        return true;
+    }
+
+    /** 歌单内歌曲：仅按歌单查列表可匿名 GET，其余需管理员 */
+    private boolean isListSongNeedAdmin(String uri, String method) {
+        if (!uri.startsWith("/listSong")) {
+            return false;
+        }
+        boolean isGet = "GET".equalsIgnoreCase(method) || "HEAD".equalsIgnoreCase(method);
+        if (isGet) {
+            if (uri.startsWith("/listSong/detail")) {
+                return false;
+            }
+            return true;
+        }
+        return true;
     }
 }
 
