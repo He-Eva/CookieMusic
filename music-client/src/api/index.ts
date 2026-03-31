@@ -211,8 +211,10 @@ const HttpManager = {
 
   // =======================> 笔记社区 API
   // 发布笔记
-  addPost: ({ consumerId, title, content, coverUrl, images, topic }) =>
-    post(`post/add`, { consumerId, title, content, coverUrl, images, topic }),
+  addPost: ({ consumerId, title, content, coverUrl, images, topic, refSongId, refSongName }) =>
+    post(`post/add`, { consumerId, title, content, coverUrl, images, topic, refSongId, refSongName }),
+  // 帖子图片上传地址（el-upload action）
+  postImageUploadUrl: () => `${getBaseURL()}/post/image/upload`,
   // 笔记列表（分页）
   getPostList: ({ pageNum = 1, pageSize = 10, order = "latest", topic = "", feed = "all", consumerId }) => {
     const params = [
@@ -235,6 +237,8 @@ const HttpManager = {
     get(`post/liked?consumerId=${consumerId}&pageNum=${pageNum}&pageSize=${pageSize}`),
   // 点赞 / 取消 / toggle
   likePost: ({ postId, consumerId, like }) => post(`post/like`, { postId, consumerId, like }),
+  // 当前用户是否已点赞该帖子
+  postLikeStatus: ({ postId, consumerId }) => post(`post/like/status`, { postId, consumerId }),
   // 添加评论
   addPostComment: ({ postId, consumerId, content }) => post(`post/comment/add`, { postId, consumerId, content }),
   // 评论列表

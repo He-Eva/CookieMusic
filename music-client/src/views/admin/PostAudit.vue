@@ -121,6 +121,10 @@
           <div class="detail-value">{{ detailItem.topic || "-" }}</div>
         </div>
         <div class="detail-section">
+          <div class="detail-label">关联歌曲</div>
+          <div class="detail-value">{{ detailItem.refSongName || (detailItem.refSongId ? `歌曲 ${detailItem.refSongId}` : "-") }}</div>
+        </div>
+        <div class="detail-section">
           <div class="detail-label">正文</div>
           <div class="detail-content">{{ detailItem.content || "（无正文）" }}</div>
         </div>

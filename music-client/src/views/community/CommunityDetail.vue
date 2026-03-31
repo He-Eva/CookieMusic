@@ -10,6 +10,9 @@
         </div>
       </template>
 
+      <el-empty v-if="!post && !loading" description="帖子已提交，等待审核中" />
+
+      <template v-else>
       <div class="meta">
         <span v-if="post?.topic">#{{ post.topic }}</span>
         <span class="time">{{ formatTime(post?.createTime) }}</span>
@@ -27,7 +30,14 @@
         </div>
       </div>
 
+      <div v-if="post?.refSongId" class="rel-song" @click="goSong(post.refSongId)">
+        关联歌曲：{{ post.refSongName || `歌曲 ${post.refSongId}` }}
+      </div>
+
       <div class="content">{{ post?.content }}</div>
+      <div v-if="detailImages.length" class="post-images">
+        <el-image v-for="(img, idx) in detailImages" :key="idx" class="post-image" fit="cover" :src="attachImageUrl(img)" />
+      </div>
 
       <div class="stats">
         <el-button :type="liked ? 'primary' : 'default'" @click="toggleLike">
@@ -35,6 +45,7 @@
         </el-button>
         <span class="comment-count">评论 {{ post?.commentCount || 0 }}</span>
       </div>
+      </template>
     </el-card>
 
     <el-card class="card comment-card">
@@ -122,6 +133,22 @@ const commentTotal = ref(0);
 const commentPageNum = ref(1);
 const commentPageSize = ref(10);
 
+const detailImages = computed(() => {
+  const raw = post.value?.images;
+  if (!raw) return [];
+  if (Array.isArray(raw)) return raw.filter(Boolean);
+  try {
+    const arr = JSON.parse(String(raw));
+    if (Array.isArray(arr)) return arr.filter(Boolean);
+  } catch (e) {
+    // fall back for legacy comma-separated format
+  }
+  return String(raw)
+    .split(",")
+    .map((x) => x.trim())
+    .filter(Boolean);
+});
+
 function formatTime(t: any) {
   if (!t) return "";
   const d = new Date(t);
@@ -135,6 +162,10 @@ function goBack() {
   router.push({ path: "/community" });
 }
 
+function goSong(id: number) {
+  router.push({ path: `/lyric/${id}` });
+}
+
 async function fetchDetail() {
   if (!Number.isFinite(postId.value) || postId.value <= 0) return;
   loading.value = true;
@@ -143,18 +174,33 @@ async function fetchDetail() {
     if (res?.success) {
       post.value = res.data;
       await refreshFollowStatus();
+      await refreshLikeStatus();
     } else {
       post.value = null;
-      proxy.$message({ message: res?.message || "内容不存在", type: "error" });
+      // Newly published posts may still be pending review; avoid noisy toast here.
     }
   } finally {
     loading.value = false;
   }
 }
 
+async function refreshLikeStatus() {
+  if (!post.value) return;
+  if (!consumerId.value) {
+    liked.value = false;
+    return;
+  }
+  const res = (await HttpManager.postLikeStatus({
+    postId: postId.value,
+    consumerId: consumerId.value,
+  })) as any;
+  if (res?.success) {
+    liked.value = !!res.data;
+  }
+}
+
 const showFollowButton = computed(() => {
   if (!post.value) return false;
-  if (!store.getters.token) return false;
   if (!consumerId.value) return false;
   // don't show follow button on self
   return consumerId.value !== Number(post.value.consumerId);
@@ -338,6 +384,31 @@ watch(
   white-space: pre-wrap;
   line-height: 1.6;
   color: #333;
+}
+
+.rel-song {
+  margin: 6px 0 10px;
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: #ecf5ff;
+  color: #409eff;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.post-images {
+  margin-top: 12px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 10px;
+}
+
+.post-image {
+  width: 100%;
+  height: 140px;
+  border-radius: 6px;
 }
 
 .stats {

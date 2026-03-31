@@ -180,4 +180,21 @@ public class MinioController {
 
         return new ResponseEntity<>(bytes, headers, HttpStatus.OK);
     }
+
+    // 获取帖子图片
+    @GetMapping("/user01/post/img/{fileName:.+}")
+    public ResponseEntity<byte[]> getPostImage(@PathVariable String fileName) throws Exception {
+        InputStream stream = minioClient.getObject(
+                GetObjectArgs.builder()
+                        .bucket(bucketName)
+                        .object("post/img/" + fileName)
+                        .build()
+        );
+
+        byte[] bytes = IOUtils.toByteArray(stream);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.IMAGE_JPEG);
+        return new ResponseEntity<>(bytes, headers, HttpStatus.OK);
+    }
 }

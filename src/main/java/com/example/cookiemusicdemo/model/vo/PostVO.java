@@ -14,6 +14,8 @@ public class PostVO implements Serializable {
     private String coverUrl;
     private String images;
     private String topic;
+    private Integer refSongId;
+    private String refSongName;
     private Byte status;
     private Integer likeCount;
     private Integer commentCount;

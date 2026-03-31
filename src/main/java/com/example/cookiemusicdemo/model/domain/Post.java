@@ -29,6 +29,12 @@ public class Post implements Serializable {
 
     private String topic;
 
+    @TableField("ref_song_id")
+    private Integer refSongId;
+
+    @TableField("ref_song_name")
+    private String refSongName;
+
     private Byte status;
 
     @TableField("like_count")

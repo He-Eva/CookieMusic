@@ -18,6 +18,8 @@ public interface PostService extends IService<Post> {
 
     R likePost(PostLikeRequest request);
 
+    R likeStatus(PostLikeRequest request);
+
     R addComment(PostCommentRequest request);
 
     R listComment(Long postId, Integer pageNum, Integer pageSize);

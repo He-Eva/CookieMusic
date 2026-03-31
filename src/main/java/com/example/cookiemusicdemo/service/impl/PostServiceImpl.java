@@ -47,6 +47,10 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
         }
         Post post = new Post();
         BeanUtils.copyProperties(postRequest, post);
+        if (post.getRefSongId() != null && post.getRefSongId() <= 0) {
+            post.setRefSongId(null);
+            post.setRefSongName(null);
+        }
         // 社区内容先入待审
         post.setStatus((byte) 0);
         post.setLikeCount(0);
@@ -112,6 +116,9 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
 
         long postId = request.getPostId();
         int consumerId = request.getConsumerId();
+        if (consumerId <= 0) {
+            return R.error("请先登录");
+        }
 
         // Ensure post exists (and is visible)
         Post post = postMapper.selectById(postId);
@@ -153,6 +160,19 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
             }
             return R.error("取消点赞失败");
         }
+    }
+
+    @Override
+    public R likeStatus(PostLikeRequest request) {
+        if (request == null || request.getPostId() == null || request.getConsumerId() == null) {
+            return R.error("参数错误");
+        }
+        if (request.getConsumerId() <= 0) {
+            return R.error("请先登录");
+        }
+        QueryWrapper<PostLike> wrapper = new QueryWrapper<>();
+        wrapper.eq("post_id", request.getPostId()).eq("consumer_id", request.getConsumerId());
+        return R.success("点赞状态", postLikeMapper.selectCount(wrapper) > 0);
     }
 
     @Transactional
@@ -200,7 +220,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
 
     @Override
     public R listUserPost(Integer consumerId, Integer pageNum, Integer pageSize) {
-        if (consumerId == null) return R.error("参数错误");
+        if (consumerId == null || consumerId <= 0) return R.error("参数错误");
         int pn = (pageNum == null || pageNum < 1) ? 1 : pageNum;
         int ps = (pageSize == null || pageSize < 1 || pageSize > 50) ? 10 : pageSize;
         int offset = (pn - 1) * ps;
@@ -214,7 +234,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
 
     @Override
     public R listLikedPost(Integer consumerId, Integer pageNum, Integer pageSize) {
-        if (consumerId == null) return R.error("参数错误");
+        if (consumerId == null || consumerId <= 0) return R.error("参数错误");
         int pn = (pageNum == null || pageNum < 1) ? 1 : pageNum;
         int ps = (pageSize == null || pageSize < 1 || pageSize > 50) ? 10 : pageSize;
         int offset = (pn - 1) * ps;

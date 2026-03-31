@@ -13,5 +13,7 @@ public class PostRequest {
      */
     private String images;
     private String topic;
+    private Integer refSongId;
+    private String refSongName;
 }
 

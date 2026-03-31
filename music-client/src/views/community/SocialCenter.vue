@@ -64,7 +64,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, getCurrentInstance, onMounted, ref } from "vue";
+import { computed, getCurrentInstance, onMounted, ref, watch } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 import { HttpManager } from "@/api";
@@ -105,6 +105,14 @@ async function refresh() {
   if (!consumerId.value) return;
   loading.value = true;
   try {
+    // Keep follow/follower counters in tab titles fresh regardless of active tab.
+    const [followingRes, followerRes] = (await Promise.all([
+      HttpManager.getFollowingUsers(consumerId.value),
+      HttpManager.getFollowerUsers(consumerId.value),
+    ])) as any[];
+    followingUsers.value = followingRes?.data?.items || [];
+    followerUsers.value = followerRes?.data?.items || [];
+
     if (activeTab.value === "myPosts") {
       const res = (await HttpManager.getUserPostList({
         consumerId: consumerId.value,
@@ -122,11 +130,13 @@ async function refresh() {
       posts.value = res?.data?.items || [];
       total.value = res?.data?.total || 0;
     } else if (activeTab.value === "followings") {
-      const res = (await HttpManager.getFollowingUsers(consumerId.value)) as any;
-      followingUsers.value = res?.data?.items || [];
+      // already loaded above
+      posts.value = [];
+      total.value = 0;
     } else if (activeTab.value === "followers") {
-      const res = (await HttpManager.getFollowerUsers(consumerId.value)) as any;
-      followerUsers.value = res?.data?.items || [];
+      // already loaded above
+      posts.value = [];
+      total.value = 0;
     }
   } catch (e: any) {
     proxy?.$message?.({ message: e?.data?.message || "加载失败", type: "error" });
@@ -148,6 +158,11 @@ function onSizeChange(ps: number) {
 
 onMounted(() => {
   changeIndex(NavName.Social);
+  refresh();
+});
+
+watch(activeTab, () => {
+  pageNum.value = 1;
   refresh();
 });
 </script>

@@ -35,7 +35,11 @@
           <el-image class="avatar" fit="cover" :src="attachImageUrl(item.authorAvatar)" />
           <span class="author-name">{{ item.authorName || `用户 ${item.consumerId}` }}</span>
         </div>
+        <div v-if="item.refSongId" class="rel-song" @click.stop="goSong(item.refSongId)">
+          关联歌曲：{{ item.refSongName || `歌曲 ${item.refSongId}` }}
+        </div>
         <div class="content">{{ item.content }}</div>
+        <el-image v-if="item.coverUrl" class="cover" fit="cover" :src="attachImageUrl(item.coverUrl)" />
         <div class="stats">
           <span>点赞 {{ item.likeCount || 0 }}</span>
           <span>评论 {{ item.commentCount || 0 }}</span>
@@ -59,7 +63,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, getCurrentInstance, onMounted, ref } from "vue";
+import { computed, getCurrentInstance, onMounted, ref, watch } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 import { HttpManager } from "@/api";
@@ -150,6 +154,10 @@ function goDetail(id: number) {
   router.push({ path: `${RouterName.CommunityDetail}/${id}` });
 }
 
+function goSong(id: number) {
+  router.push({ path: `${RouterName.Lyric}/${id}` });
+}
+
 function goPublish() {
   if (!checkStatus(true)) return;
   router.push({ path: RouterName.CommunityPublish });
@@ -157,6 +165,11 @@ function goPublish() {
 
 onMounted(() => {
   changeIndex(NavName.Community);
+  refresh();
+});
+
+watch(order, () => {
+  pageNum.value = 1;
   refresh();
 });
 
@@ -253,6 +266,25 @@ const attachImageUrl = HttpManager.attachImageUrl;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+.rel-song {
+  margin-top: 8px;
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #ecf5ff;
+  color: #409eff;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.cover {
+  width: 100%;
+  height: 160px;
+  border-radius: 6px;
+  margin-top: 10px;
 }
 
 .stats {

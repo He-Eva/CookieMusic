@@ -35,7 +35,10 @@ export default function () {
 
   // 判断登录状态
   function checkStatus(status?: boolean) {
-    if (!token.value) {
+    // 用户行为（点赞/评论/关注等）必须有有效 userId，避免 consumerId=0 导致脏数据
+    const uid = store.getters.userId;
+    const hasUser = uid !== null && uid !== undefined && String(uid) !== "" && Number(uid) > 0;
+    if (!hasUser) {
       if (status !== false)
         (proxy as any).$message({
           message: "请先登录",
