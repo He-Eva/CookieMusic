@@ -172,4 +172,70 @@ public class MinioUploadController {
             throw new RuntimeException(e);
         }
     }
+
+    /**
+     * 登录页左侧封面图，固定 key：site/img/login-cover.&lt;ext&gt;
+     *
+     * @return 成功时返回前端可用的相对路径，如 user01/site/img/login-cover.jpg；失败返回 null
+     */
+    public static String uploadSiteLoginCover(MultipartFile file) {
+        if (file == null || file.isEmpty()) {
+            return null;
+        }
+        try {
+            init();
+            String ext = resolveLoginCoverExt(file);
+            String objectName = "site/img/login-cover." + ext;
+            InputStream inputStream = file.getInputStream();
+            long size = file.getSize() > 0 ? file.getSize() : inputStream.available();
+            String ct = file.getContentType();
+            if (ct == null || ct.isEmpty()) {
+                ct = "image/jpeg";
+            }
+            minioClient.putObject(
+                    PutObjectArgs.builder()
+                            .bucket(bucketName)
+                            .object(objectName)
+                            .stream(inputStream, size, -1)
+                            .contentType(ct)
+                            .build()
+            );
+            return "user01/site/img/login-cover." + ext;
+        } catch (MinioException | IOException | NoSuchAlgorithmException | InvalidKeyException e) {
+            e.printStackTrace();
+            return null;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static String resolveLoginCoverExt(MultipartFile file) {
+        String ct = file.getContentType();
+        if (ct != null) {
+            String lower = ct.toLowerCase();
+            if (lower.contains("png")) {
+                return "png";
+            }
+            if (lower.contains("webp")) {
+                return "webp";
+            }
+            if (lower.contains("gif")) {
+                return "gif";
+            }
+            if (lower.contains("jpeg") || lower.contains("jpg")) {
+                return "jpg";
+            }
+        }
+        String name = file.getOriginalFilename();
+        if (name != null && name.contains(".")) {
+            String e = name.substring(name.lastIndexOf('.') + 1).toLowerCase();
+            if ("jpeg".equals(e)) {
+                return "jpg";
+            }
+            if ("jpg".equals(e) || "png".equals(e) || "webp".equals(e) || "gif".equals(e)) {
+                return e;
+            }
+        }
+        return "jpg";
+    }
 }

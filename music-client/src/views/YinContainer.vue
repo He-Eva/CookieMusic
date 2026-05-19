@@ -47,6 +47,7 @@ window.addEventListener("beforeunload", () => {
   padding: 0;
 }
 .el-main {
+  position: relative;
   padding-left: 0;
   padding-right: 0;
 }

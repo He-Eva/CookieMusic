@@ -146,7 +146,7 @@ onMounted(() => {
 }
 .head h2 {
   margin: 0;
-  font-size: 20px;
+  font-size: 25px;
 }
 .mb {
   margin-bottom: 12px;
@@ -159,18 +159,18 @@ onMounted(() => {
   border-radius: 10px;
 }
 .card-label {
-  font-size: 13px;
+  font-size: 18px;
   color: #909399;
 }
 .card-value {
   margin-top: 8px;
-  font-size: 28px;
+  font-size: 33px;
   font-weight: 700;
   color: #303133;
 }
 .card-sub {
   margin-top: 6px;
-  font-size: 12px;
+  font-size: 17px;
   color: #909399;
 }
 .card-sub.warn {
@@ -179,7 +179,7 @@ onMounted(() => {
 }
 .card-sub2 {
   margin-top: 10px;
-  font-size: 13px;
+  font-size: 18px;
   color: #606266;
   line-height: 1.5;
 }

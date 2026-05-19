@@ -235,6 +235,8 @@ const HttpManager = {
   // 我点赞的笔记
   getLikedPostList: ({ consumerId, pageNum = 1, pageSize = 10 }) =>
     get(`post/liked?consumerId=${consumerId}&pageNum=${pageNum}&pageSize=${pageSize}`),
+  // 删除自己的笔记
+  deleteOwnPost: ({ postId, consumerId }) => post(`post/delete`, { postId, consumerId }),
   // 点赞 / 取消 / toggle
   likePost: ({ postId, consumerId, like }) => post(`post/like`, { postId, consumerId, like }),
   // 当前用户是否已点赞该帖子

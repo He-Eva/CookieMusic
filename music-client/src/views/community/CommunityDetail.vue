@@ -5,6 +5,15 @@
         <div class="header">
           <div class="title">{{ post?.title || "未命名" }}</div>
           <div class="actions">
+            <el-popconfirm
+              v-if="isOwnPost"
+              title="确认删除这条笔记？删除后不可恢复。"
+              @confirm="onDeletePost"
+            >
+              <template #reference>
+                <el-button type="danger" plain :loading="deleteSubmitting">删除</el-button>
+              </template>
+            </el-popconfirm>
             <el-button @click="goBack">返回</el-button>
           </div>
         </div>
@@ -118,6 +127,13 @@ const postId = computed(() => Number(route.params.id));
 
 const loading = ref(false);
 const post = ref<any>(null);
+const deleteSubmitting = ref(false);
+
+const isOwnPost = computed(() => {
+  if (!post.value) return false;
+  if (!consumerId.value) return false;
+  return consumerId.value === Number(post.value.consumerId);
+});
 
 const liked = ref(false);
 
@@ -160,6 +176,27 @@ function formatTime(t: any) {
 
 function goBack() {
   router.push({ path: "/community" });
+}
+
+async function onDeletePost() {
+  if (!post.value || !consumerId.value) return;
+  deleteSubmitting.value = true;
+  try {
+    const res = (await HttpManager.deleteOwnPost({
+      postId: postId.value,
+      consumerId: consumerId.value,
+    })) as any;
+    if (res?.success) {
+      proxy?.$message?.({ message: res?.message || "删除成功", type: "success" });
+      router.push({ path: "/community" });
+      return;
+    }
+    proxy?.$message?.({ message: res?.message || "删除失败", type: "warning" });
+  } catch (e: any) {
+    proxy?.$message?.({ message: e?.data?.message || "删除失败", type: "error" });
+  } finally {
+    deleteSubmitting.value = false;
+  }
 }
 
 function goSong(id: number) {
@@ -229,7 +266,10 @@ async function toggleFollow() {
       userId: consumerId.value,
       followUserId: Number(post.value.consumerId),
     })) as any;
-    proxy.$message({ message: res.message, type: res.type });
+    proxy.$message({
+      message: res?.message || (res?.success ? "操作成功" : "操作失败，请稍后重试"),
+      type: res?.type || (res?.success ? "success" : "warning"),
+    });
     if (res?.success) {
       isFollowing.value = !!res.data;
     }
@@ -266,7 +306,10 @@ async function toggleLike() {
     consumerId: consumerId.value,
     like: null,
   })) as any;
-  proxy.$message({ message: res.message, type: res.type });
+  proxy.$message({
+    message: res?.message || (res?.success ? "操作成功" : "操作失败，请稍后重试"),
+    type: res?.type || (res?.success ? "success" : "warning"),
+  });
   if (res?.success) {
     liked.value = !!res.data;
     await fetchDetail();
@@ -283,7 +326,10 @@ async function submitComment() {
       consumerId: consumerId.value,
       content: commentContent.value,
     })) as any;
-    proxy.$message({ message: res.message, type: res.type });
+    proxy.$message({
+      message: res?.message || (res?.success ? "操作成功" : "操作失败，请稍后重试"),
+      type: res?.type || (res?.success ? "success" : "warning"),
+    });
     if (res?.success) {
       commentContent.value = "";
       commentPageNum.value = 1;
@@ -347,7 +393,7 @@ watch(
 
 .title {
   font-weight: 700;
-  font-size: 18px;
+  font-size: 21px;
 }
 
 .meta {
@@ -364,7 +410,7 @@ watch(
   align-items: center;
   gap: 12px;
   color: #666;
-  font-size: 13px;
+  font-size: 16px;
 }
 
 .author {
@@ -394,7 +440,7 @@ watch(
   border-radius: 999px;
   background: #ecf5ff;
   color: #409eff;
-  font-size: 12px;
+  font-size: 15px;
   cursor: pointer;
 }
 
@@ -443,7 +489,7 @@ watch(
   display: flex;
   justify-content: space-between;
   color: #888;
-  font-size: 12px;
+  font-size: 15px;
   margin-bottom: 6px;
 }
 

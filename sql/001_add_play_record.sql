@@ -1,4 +1,4 @@
--- CookieMusicDemo schema upgrade
+-- Online Music schema upgrade
 -- Adds play history records to support:
 -- 1) personal center "history"
 -- 2) collaborative filtering recommendations (implicit feedback)

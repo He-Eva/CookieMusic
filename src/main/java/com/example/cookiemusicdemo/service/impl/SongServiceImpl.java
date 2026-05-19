@@ -4,7 +4,9 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.cookiemusicdemo.common.R;
 import com.example.cookiemusicdemo.controller.MinioUploadController;
+import com.example.cookiemusicdemo.mapper.SingerMapper;
 import com.example.cookiemusicdemo.mapper.SongMapper;
+import com.example.cookiemusicdemo.model.domain.Singer;
 import com.example.cookiemusicdemo.model.domain.Song;
 import com.example.cookiemusicdemo.model.request.SongRequest;
 import com.example.cookiemusicdemo.service.SongService;
@@ -37,6 +39,9 @@ public class SongServiceImpl extends ServiceImpl<SongMapper, Song> implements So
 
     @Autowired
     private SongMapper songMapper;
+
+    @Autowired
+    private SingerMapper singerMapper;
 
     @Value("${minio.bucket-name}")
     private String bucketName;
@@ -223,8 +228,28 @@ public class SongServiceImpl extends ServiceImpl<SongMapper, Song> implements So
 
     @Override
     public R songOfSingerName(String name) {
+        String keyword = name == null ? "" : name.trim();
+        if (keyword.isEmpty()) {
+            return allSong();
+        }
+
+        QueryWrapper<Singer> singerQw = new QueryWrapper<>();
+        singerQw.like("name", keyword).select("id");
+        List<Singer> singerRows = singerMapper.selectList(singerQw);
+        List<Integer> singerIds = new ArrayList<>();
+        for (Singer s : singerRows) {
+            if (s != null && s.getId() != null) {
+                singerIds.add(s.getId());
+            }
+        }
+
         QueryWrapper<Song> queryWrapper = new QueryWrapper<>();
-        queryWrapper.like("name",name);
+        queryWrapper.and(w -> {
+            w.like("name", keyword);
+            if (!singerIds.isEmpty()) {
+                w.or().in("singer_id", singerIds);
+            }
+        });
         applyOnlineOnly(queryWrapper);
         List<Song> songs = songMapper.selectList(queryWrapper);
         if (songs.isEmpty()){

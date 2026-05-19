@@ -1,6 +1,16 @@
 @import "./var.scss";
 @import "./global.scss";
 
+/* 全局字号上调约 3 级：根字号 +3px，Element Plus 使用 large（见 main.ts） */
+html {
+  font-size: 19px;
+}
+
+body {
+  font-family: $font-family;
+  font-size: 1rem;
+}
+
 html,
 body,
 div,

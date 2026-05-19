@@ -11,8 +11,8 @@
     <groupId>com.example</groupId>
     <artifactId>CookieMusicDemo</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>CookieMusicDemo</name>
-    <description>music-website project for Spring Boot</description>
+    <name>Online Music</name>
+    <description>Online Music — Spring Boot backend</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

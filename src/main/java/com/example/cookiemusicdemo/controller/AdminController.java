@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 
@@ -208,5 +209,15 @@ public class AdminController {
     @PostMapping("/admin/post/offline")
     public R offlinePost(@RequestBody AdminPostAuditRequest request) {
         return postService.offlinePost(request == null ? null : request.getPostId());
+    }
+
+    /** 上传登录页左侧封面图至 MinIO（site/img/login-cover.*），需管理员已登录 */
+    @PostMapping("/admin/site/login-cover")
+    public R adminUploadLoginCover(@RequestParam("file") MultipartFile file) {
+        String path = MinioUploadController.uploadSiteLoginCover(file);
+        if (path == null) {
+            return R.error("上传失败：请选择图片文件，或检查 MinIO 与 bucket 配置");
+        }
+        return R.success("登录页封面已更新", path);
     }
 }

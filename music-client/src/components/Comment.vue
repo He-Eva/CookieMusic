@@ -166,7 +166,7 @@ const attachImageUrl = HttpManager.attachImageUrl;
     line-height: 50px;
 
     .comment-desc {
-      font-size: 14px;
+      font-size: 17px;
       font-weight: 400;
       color: $color-grey;
       margin-left: 10px;
@@ -202,7 +202,7 @@ const attachImageUrl = HttpManager.attachImageUrl;
         width: 100%;
       }
       .time {
-        font-size: 0.6rem;
+        font-size: 0.66rem;
         color: rgba(0, 0, 0, 0.5);
       }
       .name {

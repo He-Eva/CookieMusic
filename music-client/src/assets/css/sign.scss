@@ -3,16 +3,21 @@
 
 @media screen and (min-width: $sm) {
   .sign {
-    width: 300px;
+    width: min(460px, calc(50vw - 40px));
+    max-width: 520px;
+    min-width: 380px;
     position: absolute;
-    left: 60vw;
-    top: $header-height + 60px;
+    /* 右侧 50% 空白区域的几何中心（相对 el-main 全宽） */
+    left: 75%;
+    top: 50%;
+    right: auto;
+    transform: translate(-50%, -50%);
   }
 }
 
 @media screen and (max-width: $sm) {
   .sign {
-    width: 60vw;
+    width: min(92vw, 420px);
     position: relative;
     margin: auto;
     margin-top: -78vh;
@@ -20,19 +25,62 @@
 }
 
 .sign {
-  padding: 30px 50px;
-  border-radius: 10px;
-  background-color: $color-white;
+  padding: 44px 52px 48px;
+  border-radius: 16px;
+  background-color: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 16px 48px rgba(15, 23, 42, 0.14), 0 4px 16px rgba(15, 23, 42, 0.08);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.85);
 
   .sign-head {
     text-align: center;
-    margin-bottom: 10px;
-    font-size: 20px;
+    margin-bottom: 20px;
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: #1f2937;
+  }
+
+  :deep(.sign-login-type) {
+    width: 100%;
+    display: flex;
+    margin-bottom: 8px;
+  }
+  :deep(.el-radio-button) {
+    flex: 1;
+  }
+  :deep(.el-radio-button__inner) {
+    width: 100%;
+    padding: 14px 12px;
+    font-size: 16px;
+    font-weight: 500;
+  }
+
+  :deep(.el-form-item) {
+    margin-bottom: 22px;
+  }
+
+  :deep(.el-input__wrapper) {
+    min-height: 48px;
+    padding: 6px 16px;
+    border-radius: 10px;
+  }
+  :deep(.el-input__inner) {
+    font-size: 17px;
+  }
+
+  :deep(.sign-btn .el-button) {
+    min-height: 46px;
+    font-size: 16px;
     font-weight: 600;
+    padding: 12px 20px;
+    border-radius: 10px;
   }
 
   .sign-btn:deep(.el-form-item__content) {
     @include layout(space-between);
+    gap: 16px;
+    margin-top: 8px;
     button {
       width: 50%;
     }

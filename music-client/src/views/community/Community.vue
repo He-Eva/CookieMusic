@@ -181,124 +181,146 @@ const attachImageUrl = HttpManager.attachImageUrl;
   width: 90%;
   margin: 0 auto;
   padding-top: 20px;
-}
 
-.toolbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 16px;
-}
+  /* 工具栏：单选、按钮、输入框在 small 基础上再加大约 2 档 */
+  .toolbar :deep(.el-radio-button__inner) {
+    font-size: 15px;
+  }
+  .toolbar :deep(.el-button) {
+    font-size: 15px;
+  }
+  .toolbar :deep(.el-input__inner),
+  .toolbar :deep(.el-input__wrapper) {
+    font-size: 15px;
+  }
 
-.left {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
-}
+  /* 分页、空状态 */
+  :deep(.el-pagination),
+  :deep(.el-pagination .el-pagination__total),
+  :deep(.el-pagination__sizes .el-input__inner) {
+    font-size: 15px;
+  }
+  :deep(.el-empty__description) {
+    font-size: 16px;
+  }
 
-.topic-input {
-  width: 220px;
-}
+  .toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
 
-.list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 12px;
-}
+  .left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
 
-.card {
-  cursor: pointer;
-}
+  .topic-input {
+    width: 220px;
+  }
 
-.title-row {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  align-items: baseline;
-}
+  .list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 12px;
+  }
 
-.title {
-  font-weight: 700;
-  font-size: 16px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
+  .card {
+    cursor: pointer;
+  }
 
-.meta {
-  display: flex;
-  gap: 10px;
-  color: #8a8a8a;
-  font-size: 12px;
-  white-space: nowrap;
-}
+  .title-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    align-items: baseline;
+  }
 
-.author-row {
-  margin-top: 10px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: #555;
-  font-size: 13px;
-}
+  .title {
+    font-weight: 700;
+    font-size: 21px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 
-.avatar {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  flex: 0 0 auto;
-}
+  .meta {
+    display: flex;
+    gap: 10px;
+    color: #8a8a8a;
+    font-size: 17px;
+    white-space: nowrap;
+  }
 
-.author-name {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
+  .author-row {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #555;
+    font-size: 18px;
+  }
 
-.content {
-  margin-top: 10px;
-  color: #333;
-  font-size: 14px;
-  line-height: 1.5;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
+  .avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    flex: 0 0 auto;
+  }
 
-.rel-song {
-  margin-top: 8px;
-  display: inline-flex;
-  align-items: center;
-  padding: 2px 8px;
-  border-radius: 999px;
-  background: #ecf5ff;
-  color: #409eff;
-  font-size: 12px;
-  cursor: pointer;
-}
+  .author-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 
-.cover {
-  width: 100%;
-  height: 160px;
-  border-radius: 6px;
-  margin-top: 10px;
-}
+  .content {
+    margin-top: 10px;
+    color: #333;
+    font-size: 19px;
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
 
-.stats {
-  margin-top: 10px;
-  display: flex;
-  gap: 14px;
-  color: #666;
-  font-size: 12px;
-}
+  .rel-song {
+    margin-top: 8px;
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: #ecf5ff;
+    color: #409eff;
+    font-size: 17px;
+    cursor: pointer;
+  }
 
-.pager {
-  margin: 18px 0 30px;
-  display: flex;
-  justify-content: center;
+  .cover {
+    width: 100%;
+    height: 160px;
+    border-radius: 6px;
+    margin-top: 10px;
+  }
+
+  .stats {
+    margin-top: 10px;
+    display: flex;
+    gap: 14px;
+    color: #666;
+    font-size: 17px;
+  }
+
+  .pager {
+    margin: 18px 0 30px;
+    display: flex;
+    justify-content: center;
+  }
 }
 </style>
 

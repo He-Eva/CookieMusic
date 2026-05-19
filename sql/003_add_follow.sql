@@ -1,4 +1,4 @@
--- CookieMusicDemo schema upgrade
+-- Online Music schema upgrade
 -- Follow relationship: consumer -> consumer
 -- Safe to run multiple times.
 

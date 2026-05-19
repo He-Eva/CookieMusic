@@ -207,7 +207,7 @@ export default defineComponent({
     margin: 8px 0 12px;
   }
   h1 {
-    font-size: 22px;
+    font-size: 25px;
   }
 
   p {
@@ -224,7 +224,7 @@ export default defineComponent({
       margin: 10px 0;
     }
     span {
-      font-size: 60px;
+      font-size: 63px;
     }
     & > div:last-child {
       margin-left: 10%;

@@ -181,7 +181,7 @@ public class MinioController {
         return new ResponseEntity<>(bytes, headers, HttpStatus.OK);
     }
 
-    // 获取帖子图片
+    //获取帖子图片
     @GetMapping("/user01/post/img/{fileName:.+}")
     public ResponseEntity<byte[]> getPostImage(@PathVariable String fileName) throws Exception {
         InputStream stream = minioClient.getObject(
@@ -196,5 +196,36 @@ public class MinioController {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.IMAGE_JPEG);
         return new ResponseEntity<>(bytes, headers, HttpStatus.OK);
+    }
+
+    /** 站点静态资源：登录页封面 site/img/login-cover.* */
+    @GetMapping("/user01/site/img/{fileName:.+}")
+    public ResponseEntity<byte[]> getSiteImage(@PathVariable String fileName) throws Exception {
+        InputStream stream = minioClient.getObject(
+                GetObjectArgs.builder()
+                        .bucket(bucketName)
+                        .object("site/img/" + fileName)
+                        .build()
+        );
+
+        byte[] bytes = IOUtils.toByteArray(stream);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(siteImageMediaType(fileName));
+        return new ResponseEntity<>(bytes, headers, HttpStatus.OK);
+    }
+
+    private static MediaType siteImageMediaType(String fileName) {
+        String lower = fileName.toLowerCase();
+        if (lower.endsWith(".png")) {
+            return MediaType.IMAGE_PNG;
+        }
+        if (lower.endsWith(".gif")) {
+            return MediaType.IMAGE_GIF;
+        }
+        if (lower.endsWith(".webp")) {
+            return MediaType.parseMediaType("image/webp");
+        }
+        return MediaType.IMAGE_JPEG;
     }
 }

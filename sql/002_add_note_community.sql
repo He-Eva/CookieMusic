@@ -1,4 +1,4 @@
--- CookieMusicDemo schema upgrade
+-- Online Music schema upgrade
 -- Note community (posts) minimal schema:
 -- - post: user-generated notes/dynamics
 -- - post_comment: comments under a post

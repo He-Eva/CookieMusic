@@ -25,12 +25,32 @@ export default function () {
 
   // 获取歌曲名
   function getSongTitle(str) {
-    return str.split("-")[1];
+    if (!str) return "";
+    const parts = String(str)
+      .split("-")
+      .map((x) => x.trim())
+      .filter(Boolean);
+    // 兼容旧数据：`歌手-歌名`
+    if (parts.length >= 2) {
+      return parts.slice(1).join("-").trim();
+    }
+    // 兼容新数据：仅存歌名
+    return String(str).trim();
   }
 
   // 获取歌手名
   function getSingerName(str) {
-    return str.split("-")[0];
+    if (!str) return "未知歌手";
+    const parts = String(str)
+      .split("-")
+      .map((x) => x.trim())
+      .filter(Boolean);
+    // 兼容旧数据：`歌手-歌名`
+    if (parts.length >= 2) {
+      return parts[0];
+    }
+    // 兼容新数据：仅存歌名（无歌手信息）
+    return "未知歌手";
   }
 
   // 判断登录状态
@@ -50,16 +70,16 @@ export default function () {
   }
 
   // 播放
-  function playMusic({ id, url, pic, index, name, lyric, currentSongList }) {
+  function playMusic({ id, url, pic, index, name, singerName, lyric, currentSongList }) {
     const songTitle = getSongTitle(name);
-    const singerName = getSingerName(name);
+    const resolvedSingerName = singerName || getSingerName(name);
     proxy.$store.dispatch("playMusic", {
       id,
       url,
       pic,
       index,
       songTitle,
-      singerName,
+      singerName: resolvedSingerName,
       lyric,
       currentSongList,
     });

@@ -58,7 +58,7 @@
         layout="prev, pager, next, sizes, total"
         :current-page="pageNum"
         :page-size="pageSize"
-        :page-sizes="[10, 20, 50]"
+        :page-sizes="[15, 30, 50, 100]"
         :total="total"
         @current-change="onPageChange"
         @size-change="onSizeChange"
@@ -133,7 +133,7 @@ const singerList = ref<any[]>([]);
 const loading = ref(false);
 const total = ref(0);
 const pageNum = ref(1);
-const pageSize = ref(10);
+const pageSize = ref(15);
 const keyword = ref("");
 const statusFilter = ref<any>("");
 

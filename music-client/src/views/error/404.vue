@@ -18,7 +18,7 @@
 }
 
 .error-code {
-  font-size: 250px;
+  font-size: 253px;
   font-weight: bolder;
   color: #000000;
 }

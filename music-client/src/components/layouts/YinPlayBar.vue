@@ -292,6 +292,7 @@ export default defineComponent({
           pic: song.pic,
           index: this.currentPlayIndex,
           name: song.name,
+          singerName: song.singerName,
           lyric: song.lyric,
           currentSongList: this.currentPlayList,
         });

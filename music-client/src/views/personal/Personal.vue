@@ -176,6 +176,7 @@ export default defineComponent({
     const historyTotal = ref(0);
     const historyRows = ref<any[]>([]);
     const songCache = new Map<number, any>();
+    const singerNameCache = new Map<number, string>();
 
     function formatPlayTime(v: any) {
       if (!v) return "";
@@ -205,6 +206,18 @@ export default defineComponent({
       return song;
     }
 
+    async function ensureSingerCache() {
+      if (singerNameCache.size > 0) return;
+      const res = (await HttpManager.getAllSinger()) as ResponseBody;
+      const list = Array.isArray(res?.data) ? res.data : [];
+      list.forEach((s: any) => {
+        const id = Number(s?.id);
+        if (Number.isFinite(id) && s?.name) {
+          singerNameCache.set(id, s.name);
+        }
+      });
+    }
+
     async function loadPlayHistory() {
       if (!userId.value) return;
       try {
@@ -222,13 +235,22 @@ export default defineComponent({
           new Set<number>(items.map((x: any) => Number(x.songId)).filter((x: any) => Number.isFinite(x)))
         );
         await Promise.all(songIds.map((sid: number) => getSongByIdCached(sid)));
+        await ensureSingerCache();
 
         historyRows.value = items.map((it: any) => {
           const sid = Number(it.songId);
           const song = songCache.get(sid);
+          const singerId = Number(song?.singerId);
+          const singerName =
+            song?.singerName ||
+            (Number.isFinite(singerId) ? singerNameCache.get(singerId) : "") ||
+            "未知歌手";
+          const songName = song?.songName || song?.name || `歌曲 ${sid}`;
           return {
             ...song,
             songId: sid,
+            songName,
+            singerName,
             playTime: it.playTime,
             playSeconds: it.playSeconds,
             playTimeText: formatPlayTime(it.playTime),
@@ -256,6 +278,7 @@ export default defineComponent({
           pic: row.pic,
           index: 0,
           name: row.name,
+          singerName: row.singerName || "未知歌手",
           lyric: row.lyric,
           currentSongList: historyRows.value.map((x: any) => x),
         });
@@ -356,12 +379,12 @@ export default defineComponent({
     top: -120px;
 
     .username {
-      font-size: 50px;
+      font-size: 53px;
       font-weight: 600;
     }
 
     .introduction {
-      font-size: 20px;
+      font-size: 23px;
       font-weight: 500;
     }
   }
@@ -369,6 +392,24 @@ export default defineComponent({
     position: absolute;
     right: 10vw;
     margin-top: -120px;
+  }
+}
+
+/* 收藏 / 歌单 / 历史：在全局放大基础上再略加大，避免与顶部超大昵称对比显得过小 */
+.personal-body {
+  :deep(.el-tabs__item) {
+    font-size: 1.1rem;
+  }
+  :deep(.el-tabs__content) {
+    font-size: 1rem;
+  }
+  :deep(.el-table),
+  :deep(.el-table th.el-table__cell),
+  :deep(.el-table td.el-table__cell) {
+    font-size: 1rem;
+  }
+  :deep(.el-empty__description) {
+    font-size: 1rem;
   }
 }
 

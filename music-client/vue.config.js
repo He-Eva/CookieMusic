@@ -58,6 +58,11 @@ module.exports = defineConfig({
   chainWebpack: (config) => {
     config.resolve.alias.set('@', __dirname + '/src')
 
+    config.plugin('html').tap((args) => {
+      args[0].title = 'Online Music'
+      return args
+    })
+
     config.plugin('define').tap((definitions) => {
       // 开发：请求发到当前 devServer 同源，由 proxy 转发，JSESSIONID 才能带上
       // 生产：直连后端（可用环境变量 VUE_APP_API_BASE 覆盖）

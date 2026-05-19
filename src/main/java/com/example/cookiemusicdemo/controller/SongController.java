@@ -72,7 +72,7 @@ public class SongController {
     // 返回指定歌手名的歌曲
     @GetMapping("/song/singerName/detail")
     public R songOfSingerName(@RequestParam String name) {
-        return songService.songOfSingerName('%' + name + '%');
+        return songService.songOfSingerName(name);
     }
 
     // 更新歌曲信息

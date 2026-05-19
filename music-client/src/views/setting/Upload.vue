@@ -83,12 +83,22 @@ export default defineComponent({
 });
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .upload {
   width: 100%;
   height: 300px;
   display: flex;
   justify-content: center;
   align-items: center;
+
+  :deep(.el-upload__text) {
+    font-size: 17px;
+  }
+  :deep(.el-upload__tip) {
+    font-size: 15px;
+  }
+  :deep(.el-icon--upload) {
+    font-size: 56px;
+  }
 }
 </style>

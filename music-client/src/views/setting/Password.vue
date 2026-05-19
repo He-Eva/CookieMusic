@@ -1,5 +1,5 @@
 <template>
-  <el-form ref="passwordForm" label-width="70px" :model="form" :rules="rules">
+  <el-form ref="passwordForm" class="setting-form" label-width="100px" :model="form" :rules="rules">
     <el-form-item label="旧密码" prop="oldPassword">
       <el-input type="password" v-model="form.oldPassword" />
     </el-form-item>
@@ -89,4 +89,5 @@ export default defineComponent({
 });
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+</style>

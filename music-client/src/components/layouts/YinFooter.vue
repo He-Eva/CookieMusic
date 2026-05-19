@@ -30,7 +30,7 @@ export default defineComponent({
   height: $footer-height;
   padding: 20px 0;
   box-sizing: border-box;
-  font-size: 14px;
+  font-size: 17px;
   @include layout(center, center, column);
 }
 

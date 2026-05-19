@@ -56,7 +56,7 @@ export default defineComponent({
     content: "回到顶部";
     position: absolute;
     font-weight: bold;
-    font-size: small;
+    font-size: 16px;
     width: 30px;
     top: -50%;
     left: 50%;

@@ -5,6 +5,7 @@ import com.example.cookiemusicdemo.common.R;
 import com.example.cookiemusicdemo.model.domain.Post;
 import com.example.cookiemusicdemo.model.request.AdminPostAuditRequest;
 import com.example.cookiemusicdemo.model.request.PostCommentRequest;
+import com.example.cookiemusicdemo.model.request.PostDeleteRequest;
 import com.example.cookiemusicdemo.model.request.PostLikeRequest;
 import com.example.cookiemusicdemo.model.request.PostRequest;
 
@@ -27,6 +28,8 @@ public interface PostService extends IService<Post> {
     R listUserPost(Integer consumerId, Integer pageNum, Integer pageSize);
 
     R listLikedPost(Integer consumerId, Integer pageNum, Integer pageSize);
+
+    R deleteOwnPost(PostDeleteRequest request);
 
     R listAdminPost(Integer pageNum, Integer pageSize, Integer status);
 

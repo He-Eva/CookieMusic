@@ -2,6 +2,7 @@ package com.example.cookiemusicdemo.controller;
 
 import com.example.cookiemusicdemo.common.R;
 import com.example.cookiemusicdemo.model.request.PostCommentRequest;
+import com.example.cookiemusicdemo.model.request.PostDeleteRequest;
 import com.example.cookiemusicdemo.model.request.PostLikeRequest;
 import com.example.cookiemusicdemo.model.request.PostRequest;
 import com.example.cookiemusicdemo.service.PostService;
@@ -109,6 +110,12 @@ public class PostController {
             @RequestParam(required = false) Integer pageSize
     ) {
         return postService.listLikedPost(consumerId, pageNum, pageSize);
+    }
+
+    // 删除自己的笔记
+    @PostMapping("/post/delete")
+    public R deleteOwnPost(@RequestBody PostDeleteRequest request) {
+        return postService.deleteOwnPost(request);
     }
 }
 

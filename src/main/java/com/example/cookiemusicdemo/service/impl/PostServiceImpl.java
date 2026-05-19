@@ -11,6 +11,7 @@ import com.example.cookiemusicdemo.model.domain.PostComment;
 import com.example.cookiemusicdemo.model.domain.PostLike;
 import com.example.cookiemusicdemo.model.request.AdminPostAuditRequest;
 import com.example.cookiemusicdemo.model.request.PostCommentRequest;
+import com.example.cookiemusicdemo.model.request.PostDeleteRequest;
 import com.example.cookiemusicdemo.model.request.PostLikeRequest;
 import com.example.cookiemusicdemo.model.request.PostRequest;
 import com.example.cookiemusicdemo.model.vo.PostVO;
@@ -244,6 +245,26 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
         data.put("pageNum", pn);
         data.put("pageSize", ps);
         return R.success("我点赞的笔记", data);
+    }
+
+    @Override
+    @CacheEvict(value = "post_list", allEntries = true)
+    public R deleteOwnPost(PostDeleteRequest request) {
+        if (request == null || request.getPostId() == null || request.getConsumerId() == null || request.getConsumerId() <= 0) {
+            return R.error("参数错误");
+        }
+        Post db = postMapper.selectById(request.getPostId());
+        if (db == null) {
+            return R.error("内容不存在");
+        }
+        if (!request.getConsumerId().equals(db.getConsumerId())) {
+            return R.error("仅可删除自己的笔记");
+        }
+        // 用户主动删除：置为 2（删除）
+        if (postMapper.updatePostStatus(request.getPostId(), 2) > 0) {
+            return R.success("删除成功");
+        }
+        return R.error("删除失败");
     }
 
     @Override

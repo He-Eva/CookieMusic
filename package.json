@@ -1,4 +1,5 @@
 {
+  "name": "online-music-demo",
   "dependencies": {
     "vue-resource": "^1.5.3"
   }

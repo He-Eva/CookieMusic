@@ -39,9 +39,9 @@
     <el-table :data="items" border stripe v-loading="loading" class="audit-table">
       <el-table-column prop="id" label="ID" width="80" />
       <el-table-column prop="authorName" label="作者" width="140" />
-      <el-table-column prop="title" label="标题" min-width="180" />
-      <el-table-column prop="topic" label="话题" width="120" />
-      <el-table-column label="状态" width="110">
+      <el-table-column prop="title" label="标题" min-width="160" show-overflow-tooltip />
+      <el-table-column prop="topic" label="话题" width="100" show-overflow-tooltip />
+      <el-table-column label="状态" width="100">
         <template #default="scope">
           <el-tag :type="statusTag(scope.row.status)">{{ statusText(scope.row.status) }}</el-tag>
         </template>
@@ -49,33 +49,35 @@
       <el-table-column label="发布时间" width="180">
         <template #default="scope">{{ formatTime(scope.row.createTime) }}</template>
       </el-table-column>
-      <el-table-column label="操作" width="260" align="center">
+      <el-table-column label="操作" min-width="340" width="360" align="center" fixed="right">
         <template #default="scope">
-          <el-button size="small" @click="openDetail(scope.row.id)">详情</el-button>
-          <el-button
-            size="small"
-            type="success"
-            :disabled="Number(scope.row.status) === 1"
-            @click="audit(scope.row.id, 1)"
-          >
-            通过
-          </el-button>
-          <el-button
-            size="small"
-            type="warning"
-            :disabled="Number(scope.row.status) === 2"
-            @click="audit(scope.row.id, 2)"
-          >
-            驳回
-          </el-button>
-          <el-button
-            size="small"
-            type="danger"
-            :disabled="Number(scope.row.status) === 3"
-            @click="offline(scope.row.id)"
-          >
-            下架
-          </el-button>
+          <div class="op-actions">
+            <el-button size="small" @click="openDetail(scope.row.id)">详情</el-button>
+            <el-button
+              size="small"
+              type="success"
+              :disabled="Number(scope.row.status) === 1"
+              @click="audit(scope.row.id, 1)"
+            >
+              通过
+            </el-button>
+            <el-button
+              size="small"
+              type="warning"
+              :disabled="Number(scope.row.status) === 2"
+              @click="audit(scope.row.id, 2)"
+            >
+              驳回
+            </el-button>
+            <el-button
+              size="small"
+              type="danger"
+              :disabled="Number(scope.row.status) === 3"
+              @click="offline(scope.row.id)"
+            >
+              下架
+            </el-button>
+          </div>
         </template>
       </el-table-column>
     </el-table>
@@ -299,12 +301,12 @@ const attachImageUrl = HttpManager.attachImageUrl;
 }
 .hero-title h2 {
   margin: 0;
-  font-size: 24px;
+  font-size: 29px;
 }
 .hero-title p {
   margin: 6px 0 0;
   color: #909399;
-  font-size: 13px;
+  font-size: 18px;
 }
 .hero-tools {
   display: flex;
@@ -325,11 +327,11 @@ const attachImageUrl = HttpManager.attachImageUrl;
 }
 .stat-title {
   color: #909399;
-  font-size: 12px;
+  font-size: 17px;
 }
 .stat-value {
   margin-top: 6px;
-  font-size: 24px;
+  font-size: 29px;
   font-weight: 700;
   color: #303133;
 }
@@ -346,6 +348,27 @@ const attachImageUrl = HttpManager.attachImageUrl;
   border-radius: 10px;
   overflow: hidden;
   background: #fff;
+}
+
+/* 操作列：四枚按钮单行排列、不换行 */
+.op-actions {
+  display: inline-flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.audit-table :deep(.op-actions .el-button) {
+  margin: 0 !important;
+  flex-shrink: 0;
+}
+
+.audit-table :deep(.el-table__fixed-right .cell),
+.audit-table :deep(td.el-table__cell:last-child .cell) {
+  white-space: nowrap;
+  overflow: visible;
 }
 .pager {
   margin-top: 14px;
@@ -367,7 +390,7 @@ const attachImageUrl = HttpManager.attachImageUrl;
   padding: 10px 12px;
 }
 .detail-label {
-  font-size: 12px;
+  font-size: 17px;
   color: #909399;
   margin-bottom: 6px;
 }
@@ -375,7 +398,7 @@ const attachImageUrl = HttpManager.attachImageUrl;
   color: #303133;
 }
 .detail-value.title {
-  font-size: 15px;
+  font-size: 20px;
   font-weight: 600;
 }
 .detail-content {

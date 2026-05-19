@@ -4,7 +4,7 @@
     <div class="sign-head">
       <span>帐号登录</span>
     </div>
-    <el-radio-group v-model="loginType" style="margin-bottom: 12px">
+    <el-radio-group v-model="loginType" class="sign-login-type">
       <el-radio-button label="user">用户登录</el-radio-button>
       <el-radio-button label="admin">管理员登录</el-radio-button>
     </el-radio-group>

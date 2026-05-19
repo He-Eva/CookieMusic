@@ -1,1 +1,1 @@
-export const MUSICNAME = "cookie-music";
+export const MUSICNAME = "Online Music";

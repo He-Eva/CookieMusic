@@ -94,11 +94,19 @@ try {
 .recommend {
   width: 90%;
   margin: 18px auto 0;
+  /* 猜你喜欢列表：表头与单元格（较全站略小一号） */
+  :deep(.el-table th.el-table__cell),
+  :deep(.el-table td.el-table__cell) {
+    font-size: 1rem;
+  }
+  :deep(.el-table .cell) {
+    line-height: 1.5;
+  }
 }
 .recommend-title {
   height: 60px;
   line-height: 60px;
-  font-size: 28px;
+  font-size: 29px;
   font-weight: 500;
   text-align: center;
   color: $color-black;

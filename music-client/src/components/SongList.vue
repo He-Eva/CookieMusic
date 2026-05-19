@@ -29,7 +29,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, getCurrentInstance, toRefs, computed, reactive } from "vue";
+import { defineComponent, getCurrentInstance, toRefs, computed, reactive, ref, onMounted } from "vue";
 import { useStore } from "vuex";
 import { MoreFilled, Delete, Download } from "@element-plus/icons-vue";
 
@@ -54,6 +54,7 @@ export default defineComponent({
     const store = useStore();
 
     const { songList } = toRefs(props);
+    const singerNameMap = ref<Map<number, string>>(new Map());
 
     const iconList = reactive({
       dislike: Icon.Dislike,
@@ -67,11 +68,29 @@ export default defineComponent({
       const list = [];
       songList.value.forEach((item: any, index) => {
         item["songName"] = getSongTitle(item.name);
-        item["singerName"] = getSingerName(item.name);
+        // 优先用后端关系字段 singerId 映射歌手名；再回退到已有字段或旧格式拆分
+        item["singerName"] =
+          (item.singerId ? singerNameMap.value.get(Number(item.singerId)) : "") ||
+          item.singerName ||
+          getSingerName(item.name);
         item["index"] = index;
         list.push(item);
       });
       return list;
+    });
+
+    onMounted(async () => {
+      try {
+        const res = (await HttpManager.getAllSinger()) as any;
+        const list = Array.isArray(res?.data) ? res.data : [];
+        const mp = new Map<number, string>();
+        list.forEach((s: any) => {
+          if (s?.id && s?.name) mp.set(Number(s.id), String(s.name));
+        });
+        singerNameMap.value = mp;
+      } catch (e) {
+        // ignore; UI will fallback to old parse logic
+      }
     });
 
     function handleClick(row) {
@@ -81,6 +100,7 @@ export default defineComponent({
         pic: row.pic,
         index: row.index,
         name: row.name,
+        singerName: row.singerName,
         lyric: row.lyric,
         currentSongList: songList.value,
       });

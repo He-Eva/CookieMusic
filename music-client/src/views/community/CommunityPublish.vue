@@ -295,7 +295,7 @@ changeIndex(NavName.Community);
 .upload-tip {
   margin-top: 8px;
   color: #999;
-  font-size: 12px;
+  font-size: 15px;
 }
 
 .image-list {
@@ -346,7 +346,7 @@ changeIndex(NavName.Community);
 }
 
 .image-name {
-  font-size: 12px;
+  font-size: 15px;
   color: #666;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -355,7 +355,7 @@ changeIndex(NavName.Community);
 
 .cover-tag {
   display: inline-block;
-  font-size: 12px;
+  font-size: 15px;
   color: #fff;
   background: linear-gradient(135deg, #409eff, #66b1ff);
   padding: 2px 6px;
@@ -366,7 +366,7 @@ changeIndex(NavName.Community);
 
 .error-text {
   margin-top: 6px;
-  font-size: 12px;
+  font-size: 15px;
   color: #f56c6c;
 }
 </style>

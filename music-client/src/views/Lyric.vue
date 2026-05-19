@@ -67,12 +67,12 @@ export default defineComponent({
       if (idx < 0) return;
       for (let j = 0; j < els.length; j++) {
         els[j].style.color = "#000";
-        els[j].style.fontSize = "14px";
+        els[j].style.fontSize = "19px";
       }
-      lrcTop.value = -idx * 30 + 50 + "px";
+      lrcTop.value = -idx * 46 + 50 + "px";
       if (els[idx]) {
         els[idx].style.color = "#95d2f6";
-        els[idx].style.fontSize = "18px";
+        els[idx].style.fontSize = "23px";
       }
     }
 
@@ -118,7 +118,7 @@ export default defineComponent({
     li {
       width: 100%;
       line-height: 40px;
-      font-size: 18px;
+      font-size: 21px;
       padding-left: 10%;
     }
   }
@@ -138,10 +138,10 @@ export default defineComponent({
       transition: all 1s;
       li {
         width: 100%;
-        height: 40px;
+        height: 46px;
         text-align: center;
-        font-size: 14px;
-        line-height: 40px;
+        font-size: 19px;
+        line-height: 46px;
       }
     }
     .no-lyric {
@@ -149,7 +149,7 @@ export default defineComponent({
       margin: 100px 0;
 
       span {
-        font-size: 18px;
+        font-size: 23px;
         text-align: center;
       }
     }

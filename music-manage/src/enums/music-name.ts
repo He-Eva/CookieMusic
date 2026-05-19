@@ -1,1 +1,1 @@
-export const MUSICNAME = 'cookie-music 后台管理'
+export const MUSICNAME = 'Online Music 后台管理'

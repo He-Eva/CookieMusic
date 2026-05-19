@@ -1,5 +1,5 @@
 <template>
-  <el-form ref="updateForm" label-width="70px" :model="registerForm" :rules="SignUpRules">
+  <el-form ref="updateForm" class="setting-form" label-width="100px" :model="registerForm" :rules="SignUpRules">
     <el-form-item prop="username" label="用户名">
       <el-input v-model="registerForm.username" placeholder="用户名"></el-input>
     </el-form-item>
@@ -116,8 +116,4 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.btn ::v-deep .el-form-item__content {
-  display: flex;
-  justify-content: center;
-}
 </style>

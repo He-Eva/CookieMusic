@@ -34,12 +34,28 @@
 
       <div v-else class="post-grid">
         <el-card v-for="item in posts" :key="item.id" class="post-card" shadow="hover" @click="goDetail(item.id)">
+          <div v-if="activeTab === 'myPosts'" class="post-actions" @click.stop>
+            <el-popconfirm title="确认删除这条笔记？" @confirm="onDeletePost(item.id)">
+              <template #reference>
+                <el-button type="danger" size="small" plain>删除</el-button>
+              </template>
+            </el-popconfirm>
+          </div>
           <div class="title">{{ item.title || "未命名" }}</div>
           <div class="meta">
             <span>{{ item.authorName || `用户 ${item.consumerId}` }}</span>
             <span>{{ formatTime(item.createTime) }}</span>
           </div>
           <div class="content">{{ item.content }}</div>
+          <div v-if="getPostImages(item).length" class="post-images">
+            <el-image
+              v-for="(img, idx) in getPostImages(item).slice(0, 3)"
+              :key="`${item.id}-${idx}`"
+              class="post-image"
+              fit="cover"
+              :src="attachImageUrl(img)"
+            />
+          </div>
           <div class="stats">
             <span>点赞 {{ item.likeCount || 0 }}</span>
             <span>评论 {{ item.commentCount || 0 }}</span>
@@ -99,6 +115,51 @@ function formatTime(t: any) {
 
 function goDetail(id: number) {
   router.push({ path: `${RouterName.CommunityDetail}/${id}` });
+}
+
+function getPostImages(post: any): string[] {
+  const raw = post?.images;
+  let imgs: string[] = [];
+  if (Array.isArray(raw)) {
+    imgs = raw.filter(Boolean);
+  } else if (raw) {
+    try {
+      const parsed = JSON.parse(String(raw));
+      if (Array.isArray(parsed)) imgs = parsed.filter(Boolean);
+    } catch (e) {
+      // fallback for old comma-separated format
+      imgs = String(raw)
+        .split(",")
+        .map((x) => x.trim())
+        .filter(Boolean);
+    }
+  }
+  // legacy posts may only store one cover image
+  if (!imgs.length && post?.coverUrl) {
+    imgs = [String(post.coverUrl)];
+  }
+  return imgs;
+}
+
+async function onDeletePost(postId: number) {
+  if (!consumerId.value) return;
+  try {
+    const res = (await HttpManager.deleteOwnPost({
+      postId,
+      consumerId: consumerId.value,
+    })) as any;
+    if (res?.success) {
+      proxy?.$message?.({ message: res?.message || "删除成功", type: "success" });
+      if (posts.value.length === 1 && pageNum.value > 1) {
+        pageNum.value -= 1;
+      }
+      await refresh();
+      return;
+    }
+    proxy?.$message?.({ message: res?.message || "删除失败", type: "warning" });
+  } catch (e: any) {
+    proxy?.$message?.({ message: e?.data?.message || "删除失败", type: "error" });
+  }
 }
 
 async function refresh() {
@@ -172,12 +233,28 @@ watch(activeTab, () => {
   width: 90%;
   margin: 0 auto;
   padding-top: 20px;
+
+  :deep(.el-tabs__item) {
+    font-size: 17px;
+  }
+  :deep(.el-pagination),
+  :deep(.el-pagination .el-pagination__total),
+  :deep(.el-pagination__sizes .el-input__inner) {
+    font-size: 15px;
+  }
+  :deep(.el-empty__description) {
+    font-size: 16px;
+  }
 }
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 12px;
+  h2 {
+    font-size: 22px;
+    font-weight: 600;
+  }
 }
 .post-grid {
   display: grid;
@@ -186,21 +263,29 @@ watch(activeTab, () => {
 }
 .post-card {
   cursor: pointer;
+  position: relative;
+}
+.post-actions {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
 }
 .title {
-  font-size: 16px;
+  font-size: 21px;
   font-weight: 700;
 }
 .meta {
   margin-top: 8px;
   color: #888;
-  font-size: 12px;
+  font-size: 17px;
   display: flex;
   justify-content: space-between;
 }
 .content {
   margin-top: 10px;
   color: #333;
+  font-size: 17px;
   line-height: 1.5;
   display: -webkit-box;
   -webkit-line-clamp: 3;
@@ -212,7 +297,18 @@ watch(activeTab, () => {
   display: flex;
   gap: 14px;
   color: #666;
-  font-size: 12px;
+  font-size: 17px;
+}
+.post-images {
+  margin-top: 10px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+.post-image {
+  width: 100%;
+  height: 90px;
+  border-radius: 6px;
 }
 .user-grid {
   display: grid;
@@ -231,6 +327,7 @@ watch(activeTab, () => {
 }
 .name {
   font-weight: 600;
+  font-size: 17px;
 }
 .pager {
   margin: 18px 0 30px;
