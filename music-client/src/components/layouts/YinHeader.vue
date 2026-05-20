@@ -7,7 +7,7 @@
     </div>
     <yin-header-nav class="yin-header-nav" :styleList="headerNavList" :activeName="activeNavName" @click="goPage"></yin-header-nav>
     <!--搜索框-->
-    <div class="header-search" v-if="!isAdmin">
+    <div class="header-search">
       <el-input placeholder="搜索" :prefix-icon="Search" v-model="keywords" @keyup.enter="goSearch()" />
     </div>
     <!--设置-->
@@ -30,7 +30,7 @@ import { useStore } from "vuex";
 import YinIcon from "./YinIcon.vue";
 import YinHeaderNav from "./YinHeaderNav.vue";
 import mixin from "@/mixins/mixin";
-import { HEADERNAVLIST, ADMIN_HEADERNAVLIST, SIGNLIST, MENULIST, Icon, MUSICNAME, RouterName, NavName } from "@/enums";
+import { HEADERNAVLIST, SIGNLIST, MENULIST, Icon, MUSICNAME, RouterName, NavName } from "@/enums";
 import { HttpManager } from "@/api";
 
 export default defineComponent({
@@ -44,10 +44,7 @@ export default defineComponent({
     const { changeIndex, routerManager } = mixin();
 
     const musicName = ref(MUSICNAME);
-    const normalHeaderNavList = ref(HEADERNAVLIST); // 普通用户导航栏
-    const adminHeaderNavList = ref(ADMIN_HEADERNAVLIST); // 管理员导航栏
     const signList = ref(SIGNLIST); // 右侧导航栏
-    const menuList = ref(MENULIST); // 用户下拉菜单项
     const iconList = reactive({
       ERJI: Icon.ERJI,
     });
@@ -56,17 +53,20 @@ export default defineComponent({
     const userPic = computed(() => store.getters.userPic);
     const token = computed(() => store.getters.token);
     const isAdmin = computed(() => Boolean(store.getters.isAdmin) || localStorage.getItem("cm_isAdmin") === "true");
-    const headerNavList = computed(() => (isAdmin.value ? adminHeaderNavList.value : normalHeaderNavList.value));
+    // 顶栏始终使用用户端导航；管理员从头像菜单进入后台
+    const headerNavList = ref(HEADERNAVLIST);
+    const menuList = computed(() => {
+      const list = [...MENULIST];
+      if (isAdmin.value) {
+        return [{ name: "管理后台", path: RouterName.AdminDashboard }, ...list];
+      }
+      return list;
+    });
 
     function goPage(path, name) {
       if (!path && !name) {
-        if (isAdmin.value) {
-          changeIndex(NavName.AdminAudit);
-          routerManager(RouterName.AdminDashboard, { path: RouterName.AdminDashboard });
-        } else {
-          changeIndex(NavName.Home);
-          routerManager(RouterName.Home, { path: RouterName.Home });
-        }
+        changeIndex(NavName.Home);
+        routerManager(RouterName.Home, { path: RouterName.Home });
       } else {
         changeIndex(name);
         routerManager(path, { path });
@@ -79,6 +79,8 @@ export default defineComponent({
         proxy.$store.commit("clearUser");
         changeIndex(NavName.Home);
         routerManager(RouterName.Home, { path: RouterName.Home });
+      } else if (path === RouterName.AdminDashboard) {
+        routerManager(RouterName.AdminDashboard, { path: RouterName.AdminDashboard });
       } else {
         routerManager(path, { path });
       }

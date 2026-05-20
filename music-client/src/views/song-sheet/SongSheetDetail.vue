@@ -66,16 +66,24 @@ export default defineComponent({
     const nowUserId = computed(() => store.getters.userId);
     const isCollected = ref(false);
 
-    nowSongListId.value = songDetails.value.id; // 给歌单ID赋值
+    nowSongListId.value = songDetails.value?.id ?? ""; // 给歌单ID赋值
 
-    // 收集歌单里面的歌曲
+    // 收集歌单里面的歌曲（跳过已删除/下架歌曲，避免 data 为 null 时访问 data[0] 崩溃）
     async function getSongId(id) {
-      const result = (await HttpManager.getListSongOfSongId(id)) as ResponseBody;
-      // 获取歌单里的歌曲信息
-      for (const item of result.data) {
-        // 获取单里的歌曲
-        const resultSong = (await HttpManager.getSongOfId(item.songId)) as ResponseBody;
-        currentSongList.value.push(resultSong.data[0]);
+      if (!id) return;
+      currentSongList.value = [];
+      try {
+        const result = (await HttpManager.getListSongOfSongId(id)) as ResponseBody;
+        if (!result?.success || !Array.isArray(result.data)) return;
+        for (const item of result.data) {
+          if (!item?.songId) continue;
+          const resultSong = (await HttpManager.getSongOfId(item.songId)) as ResponseBody;
+          if (resultSong?.success && Array.isArray(resultSong.data) && resultSong.data.length > 0) {
+            currentSongList.value.push(resultSong.data[0]);
+          }
+        }
+      } catch (e) {
+        console.error("加载歌单歌曲失败", e);
       }
     }
     // 获取评分

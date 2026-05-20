@@ -73,7 +73,7 @@ import { NavName, RouterName } from "@/enums";
 const store = useStore();
 const router = useRouter();
 const { proxy } = getCurrentInstance() as any;
-const { changeIndex, checkStatus } = mixin();
+const { changeIndex, checkStatus, playSongById } = mixin();
 
 const token = computed(() => store.getters.token);
 const consumerId = computed(() => Number(store.getters.userId || 0));
@@ -154,8 +154,8 @@ function goDetail(id: number) {
   router.push({ path: `${RouterName.CommunityDetail}/${id}` });
 }
 
-function goSong(id: number) {
-  router.push({ path: `${RouterName.Lyric}/${id}` });
+async function goSong(id: number) {
+  await playSongById(id, true);
 }
 
 function goPublish() {

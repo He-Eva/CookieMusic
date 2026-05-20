@@ -17,3 +17,8 @@ DROP TABLE IF EXISTS backup_comment_songlist_userid_20260417;
 DROP TABLE IF EXISTS backup_comment_songlist_userid_20260417_v2;
 
 DROP TABLE IF EXISTS singer_name_backup;
+
+-- 014 / 017 / normalize_record_times 脚本产生的备份表
+DROP TABLE IF EXISTS singer_merge_backup;
+DROP TABLE IF EXISTS backup_unplayable_song_deleted;
+DROP TABLE IF EXISTS backup_record_times_snapshot;

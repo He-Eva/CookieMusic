@@ -29,10 +29,12 @@
 
 <script lang="ts">
 import { computed, defineComponent, ref, watch } from "vue";
+import { useRoute } from "vue-router";
 import { useStore } from "vuex";
 import Comment from "@/components/Comment.vue";
 import { parseLyric } from "@/utils";
 import { HttpManager } from "@/api";
+import mixin from "@/mixins/mixin";
 
 export default defineComponent({
   components: {
@@ -40,6 +42,8 @@ export default defineComponent({
   },
   setup() {
     const store = useStore();
+    const route = useRoute();
+    const { playSongById } = mixin();
 
     const lrcTop = ref("80px"); // 歌词滑动
     const lyricArr = ref([]); // 当前歌曲的歌词
@@ -52,9 +56,50 @@ export default defineComponent({
     const songTitle = computed(() => store.getters.songTitle); // 歌名
     const singerName = computed(() => store.getters.singerName); // 歌手名
     const songPic = computed(() => store.getters.songPic); // 歌曲图片
-    watch(songId, () => {
-      lyricArr.value = parseLyric(currentPlayList.value[currentPlayIndex.value].lyric);
+
+    /** 从接口拉最新歌词（改库后播放列表/Vuex 里仍是旧 lyric，必须刷新） */
+    async function loadLyricFromServer(id: string | number) {
+      const sid = Number(id);
+      if (!Number.isFinite(sid)) return;
+      try {
+        const res = (await HttpManager.getSongOfId(sid)) as ResponseBody;
+        if (!res?.success || !Array.isArray(res.data) || !res.data[0]) return;
+        const text = res.data[0].lyric ?? "";
+        lyricArr.value = parseLyric(text);
+        store.commit("setLyric", text);
+        const list = [...(currentPlayList.value as any[])];
+        const idx = currentPlayIndex.value as number;
+        if (idx >= 0 && list[idx]) {
+          list[idx] = { ...list[idx], lyric: text };
+          store.commit("setCurrentPlayList", list);
+        }
+        updateLyricByTime(Number(curTime.value) || 0);
+      } catch (e) {
+        console.error("load lyric failed", e);
+      }
+    }
+
+    watch(songId, (id) => {
+      if (id) loadLyricFromServer(id);
     });
+
+    // 路由 /lyric/:id 与播放器不一致时（如从社区点关联歌曲）拉歌并播放
+    watch(
+      () => route.params.id,
+      async (rawId) => {
+        const rid = Number(rawId);
+        if (!Number.isFinite(rid) || rid <= 0) return;
+        const cur = Number(store.getters.songId);
+        if (cur === rid) {
+          await loadLyricFromServer(rid);
+          return;
+        }
+        const ok = await playSongById(rid, false);
+        if (ok) await loadLyricFromServer(rid);
+      },
+      { immediate: true }
+    );
+
     function updateLyricByTime(t: number) {
       if (!lyricArr.value.length) return;
       const els = document.querySelectorAll(".has-lyric li") as NodeListOf<HTMLElement>;
@@ -80,8 +125,6 @@ export default defineComponent({
     watch(curTime, () => updateLyricByTime(Number(curTime.value) || 0));
     // 拖动松手 seek 时，立即滚动到对应歌词（不等下一次 timeupdate）
     watch(changeTime, () => updateLyricByTime(Number(changeTime.value) || 0));
-
-    lyricArr.value = lyric.value ? parseLyric(lyric.value) : [];
 
     return {
       songPic,

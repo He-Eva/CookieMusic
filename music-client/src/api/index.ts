@@ -143,6 +143,12 @@ const HttpManager = {
   getAllSinger: () => get("singer"),
   // 通过性别对歌手分类
   getSingerOfSex: (sex) => get(`singer/sex/detail?sex=${sex}`),
+  addSinger: ({ name, sex, birth, location, introduction }) =>
+    post(`singer/add`, { name, sex, birth, location, introduction }),
+  updateSinger: ({ id, name, sex, birth, location, introduction }) =>
+    post(`singer/update`, { id, name, sex, birth, location, introduction }),
+  deleteSinger: (id) => deletes(`singer/delete?id=${id}`),
+  singerAvatarUploadUrl: (id) => `${getBaseURL()}/singer/avatar/update?id=${id}`,
 
   // =======================> 收藏 API 完成
   // 返回的指定用户ID的收藏列表
@@ -198,7 +204,7 @@ const HttpManager = {
   // 下载音乐
   downloadMusic: (url) => get(url, { responseType: "blob" }),
 
-  //======================> 点赞api的优化 避免有些是重复的点赞！新增数据表了得
+  //======================> 点赞api的优化 避免有些是重复的点赞！新增数据表
 
   testAlreadySupport:({commentId,userId}) => post(`userSupport/test`, {commentId,userId}),
 

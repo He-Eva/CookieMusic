@@ -7,6 +7,7 @@
         <el-menu-item index="/admin/post-audit">帖子审核</el-menu-item>
         <el-menu-item index="/admin/user">用户管理</el-menu-item>
         <el-menu-item index="/admin/comment">评论管理</el-menu-item>
+        <el-menu-item index="/admin/singer">歌手管理</el-menu-item>
         <el-menu-item index="/admin/song">歌曲管理</el-menu-item>
         <el-menu-item index="/admin/song-list">歌单管理</el-menu-item>
       </el-menu>
@@ -15,6 +16,7 @@
       <header class="admin-topbar">
         <div class="title">管理员工作台</div>
         <div class="actions">
+          <el-button size="small" @click="goFront">返回前台</el-button>
           <el-button size="small" @click="goSetting">改密</el-button>
           <el-button size="small" type="danger" @click="logout">退出</el-button>
         </div>
@@ -38,6 +40,10 @@ const activePath = computed(() => route.path);
 
 function goDashboard() {
   router.push("/admin/dashboard");
+}
+
+function goFront() {
+  router.push("/");
 }
 
 function goSetting() {

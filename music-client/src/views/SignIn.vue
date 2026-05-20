@@ -74,8 +74,8 @@ export default defineComponent({
             proxy.$store.commit("setUserId", "");
             proxy.$store.commit("setUsername", registerForm.username);
             proxy.$store.commit("setUserPic", "/user01/consumer/img/default.jpg");
-            changeIndex(NavName.AdminAudit);
-            routerManager(RouterName.AdminDashboard, { path: RouterName.AdminDashboard });
+            changeIndex(NavName.Home);
+            routerManager(RouterName.Home, { path: RouterName.Home });
           } else {
             proxy.$store.commit("setIsAdmin", false);
             proxy.$store.commit("setUserId", result.data[0].id);

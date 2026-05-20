@@ -71,12 +71,12 @@ export default defineComponent({
     });
 
     async function handleSignUp() {
-      let canRun = true;
-      (proxy.$refs["signUpForm"] as any).validate((valid) => {
-        if (!valid) return (canRun = false);
-      });
-      if (!canRun) return;
-
+      const form = proxy.$refs["signUpForm"] as any;
+      try {
+        await form.validate();
+      } catch {
+        return;
+      }
 
       try {
         const username = registerForm.username;

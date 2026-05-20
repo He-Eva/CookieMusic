@@ -151,6 +151,11 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import("@/views/admin/CommentManage.vue"),
       },
       {
+        path: "singer",
+        name: "admin-singer",
+        component: () => import("@/views/admin/SingerManage.vue"),
+      },
+      {
         path: "song",
         name: "admin-song-center",
         component: () => import("@/views/admin/SongManage.vue"),
@@ -175,14 +180,8 @@ router.beforeEach((to, _from, next) => {
   const token = store.getters.token;
   const isAdmin = Boolean(store.getters.isAdmin) || localStorage.getItem("cm_isAdmin") === "true";
 
-  // 管理员模式：优先使用后台路由
-  const adminAllowedPrefix = ["/admin", "/setting", "/sign-in", "/404"];
-  const isAdminAllowed = adminAllowedPrefix.some((prefix) => to.path.startsWith(prefix));
-
   if (requireAuth && !token) {
     next({ path: "/sign-in" });
-  } else if (isAdmin && !isAdminAllowed) {
-    next({ path: "/admin/post-audit" });
   } else if (adminOnly && !isAdmin) {
     next({ path: "/" });
   } else {

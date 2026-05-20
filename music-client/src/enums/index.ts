@@ -5,7 +5,7 @@ import { NavName, HEADERNAVLIST, ADMIN_HEADERNAVLIST, SIGNLIST, MENULIST } from 
 import { singerStyle } from "./singer";
 import { SONGSTYLE } from "./songList";
 import { RouterName } from "./router-name";
-import { validatePassword, SignInRules, SignUpRules } from "./validate";
+import { validatePassword, SignInRules, SignUpRules, USE_STRICT_SIGNUP } from "./validate";
 
 export {
   AREA,
@@ -22,4 +22,5 @@ export {
   validatePassword,
   SignInRules,
   SignUpRules,
+  USE_STRICT_SIGNUP,
 };

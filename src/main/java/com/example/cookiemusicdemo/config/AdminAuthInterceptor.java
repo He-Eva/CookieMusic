@@ -34,10 +34,12 @@ public class AdminAuthInterceptor implements HandlerInterceptor {
         boolean isAdminPath = uri.startsWith("/admin/");
         boolean isSongWritePath = uri.startsWith("/song/")
                 && !("GET".equalsIgnoreCase(method) || "HEAD".equalsIgnoreCase(method));
+        boolean isSingerWritePath = uri.startsWith("/singer/")
+                && !("GET".equalsIgnoreCase(method) || "HEAD".equalsIgnoreCase(method));
         boolean isSongListProtected = isSongListNeedAdmin(uri, method);
         boolean isListSongProtected = isListSongNeedAdmin(uri, method);
 
-        if (!isAdminPath && !isSongWritePath && !isSongListProtected && !isListSongProtected) {
+        if (!isAdminPath && !isSongWritePath && !isSingerWritePath && !isSongListProtected && !isListSongProtected) {
             return true;
         }
 

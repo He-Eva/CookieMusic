@@ -26,6 +26,14 @@ const API_PREFIXES = [
   'download',
 ]
 
+/** 浏览器刷新页面时 Accept 含 text/html，应走 Vue 而不是转发到 Spring Boot */
+function spaHtmlBypass(req) {
+  const accept = req.headers?.accept || ''
+  if (accept.includes('text/html')) {
+    return '/index.html'
+  }
+}
+
 function buildProxy() {
   const target = process.env.VUE_APP_BACKEND || 'http://localhost:8888'
   const proxy = {}
@@ -34,6 +42,7 @@ function buildProxy() {
       target,
       changeOrigin: true,
       ws: true,
+      bypass: spaHtmlBypass,
     }
   }
   return proxy
@@ -43,6 +52,7 @@ module.exports = defineConfig({
   transpileDependencies: true,
   devServer: {
     port: 8080,
+    historyApiFallback: true,
     proxy: buildProxy(),
     // Element Plus 表格在 Tab 切换时会触发 ResizeObserver，属无害警告；不弹出 dev overlay
     client: {

@@ -85,6 +85,52 @@ export default function () {
     });
   }
 
+  /** 按歌曲 ID 拉取详情、写入播放器并可选跳转歌词页（社区关联歌曲等） */
+  async function playSongById(songId: number | string, goLyric = true) {
+    const sid = Number(songId);
+    if (!Number.isFinite(sid) || sid <= 0) return false;
+    try {
+      const res = (await HttpManager.getSongOfId(sid)) as ResponseBody;
+      if (!res?.success || !Array.isArray(res.data) || !res.data[0]) {
+        (proxy as any)?.$message?.({
+          message: res?.message || "歌曲不存在或已下架",
+          type: "warning",
+        });
+        return false;
+      }
+      const song = res.data[0];
+      if (!song.url) {
+        (proxy as any)?.$message?.({
+          message: "该歌曲暂无音频资源",
+          type: "warning",
+        });
+        return false;
+      }
+      const currentSongList = [{ ...song, index: 0 }];
+      playMusic({
+        id: song.id,
+        url: song.url,
+        pic: song.pic,
+        index: 0,
+        name: song.name,
+        singerName: song.singerName,
+        lyric: song.lyric,
+        currentSongList,
+      });
+      store.commit("setIsPlay", true);
+      if (goLyric) {
+        routerManager(RouterName.Lyric, { path: `${RouterName.Lyric}/${song.id}` });
+      }
+      return true;
+    } catch (e: any) {
+      (proxy as any)?.$message?.({
+        message: e?.data?.message || "加载歌曲失败",
+        type: "error",
+      });
+      return false;
+    }
+  }
+
   function getFileName(path) {
     const parts = path.split('/');
     return parts[parts.length - 1];
@@ -179,6 +225,7 @@ export default function () {
     changeIndex,
     checkStatus,
     playMusic,
+    playSongById,
     routerManager,
     goBack,
     downloadMusic,

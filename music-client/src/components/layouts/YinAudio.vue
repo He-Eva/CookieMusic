@@ -171,9 +171,8 @@ export default defineComponent({
     }
     // 音乐播放时记录音乐的播放位置
     function timeupdate() {
+      if (!divRef.value) return;
       proxy.$store.commit("setCurTime", divRef.value.currentTime);
-      // console.log("audio-curtime" + divRef.value.currentTime)
-      
     }
     // 音乐播放结束时触发
     function ended() {
@@ -183,7 +182,7 @@ export default defineComponent({
 
       // 上报播放记录（避免频繁请求：仅在播放结束时写一次）
       try {
-        if (token.value && userId.value && songId.value) {
+        if (token.value && userId.value && songId.value && divRef.value) {
           const playSeconds = Math.floor(divRef.value.currentTime || 0);
           if (playSeconds > 0) {
             HttpManager.addPlayRecord({

@@ -118,7 +118,7 @@ const route = useRoute();
 const router = useRouter();
 const store = useStore();
 const { proxy } = getCurrentInstance() as any;
-const { changeIndex, checkStatus } = mixin();
+const { changeIndex, checkStatus, playSongById } = mixin();
 const attachImageUrl = HttpManager.attachImageUrl;
 
 const consumerId = computed(() => Number(store.getters.userId || 0));
@@ -199,8 +199,8 @@ async function onDeletePost() {
   }
 }
 
-function goSong(id: number) {
-  router.push({ path: `/lyric/${id}` });
+async function goSong(id: number) {
+  await playSongById(id, true);
 }
 
 async function fetchDetail() {
