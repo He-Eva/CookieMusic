@@ -1,3 +1,4 @@
+<!-- 【组件】歌曲/歌单评论：getAllComment、点赞 setSupport -->
 <template>
   <div class="comment">
     <h2 class="comment-title">

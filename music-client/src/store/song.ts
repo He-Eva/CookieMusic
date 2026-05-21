@@ -1,9 +1,13 @@
 import { getBaseURL } from "@/api/request";
 import { Icon } from "@/enums";
 
+/**
+ * Vuex 模块：全局播放器状态（与 YinAudio、YinPlayBar、Lyric 联动）
+ * 页面点播放 → dispatch playMusic → 更新本模块 → 各组件 getters 响应
+ */
 export default {
   state: {
-    /** 音乐信息 */
+    /** 当前正在播放的一首：ID、URL、封面、歌名、歌手、歌词数组 */
     songId: "", // 音乐 ID
     songTitle: "", // 歌名
     songUrl: "", // 音乐 URL
@@ -98,6 +102,7 @@ export default {
     },
   },
   actions: {
+    /** 统一切歌入口：各页面 playMusic mixin 最终调用此处 */
     playMusic: ({ commit }, { id, url, pic, index, songTitle, singerName, lyric, currentSongList }) => {
       commit("setSongId", id);
       commit("setSongUrl", url);

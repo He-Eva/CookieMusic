@@ -1,3 +1,4 @@
+<!-- 【页面】搜索 /search  子页 SearchSong / SearchSongList，词来自 configure.searchWord -->
 <template>
   <div class="search">
     <yin-nav :styleList="searchNavList" :activeName="activeName" @click="handleChangeView"></yin-nav>

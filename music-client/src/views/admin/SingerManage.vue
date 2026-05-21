@@ -1,3 +1,4 @@
+<!-- 【页面】管理-歌手 CRUD + 头像 /admin/singer -->
 <template>
   <div class="admin-page singer-manage">
     <div class="header">

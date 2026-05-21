@@ -1,3 +1,9 @@
+/**
+ * 前端路由配置 + 全局导航守卫
+ * - 用户端页面挂在 YinContainer 下（带顶栏、播放条）
+ * - 管理端 /admin 独立布局（AdminContainer）
+ * - meta.requireAuth：需登录；meta.adminOnly：需管理员
+ */
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import store from "@/store";
 const routes: Array<RouteRecordRaw> = [
@@ -9,16 +15,19 @@ const routes: Array<RouteRecordRaw> = [
     path: "/404",
     component: () => import("@/views/error/404.vue"),
   },
+  // ========== 用户端主布局（顶栏 + 底部播放器） ==========
   {
     path: "/",
     name: "yin-container",
     component: () => import("@/views/YinContainer.vue"),
     children: [
+      // 首页：轮播、猜你喜欢推荐
       {
         path: "/",
         name: "home",
         component: () => import("@/views/Home.vue"),
       },
+      // 登录 / 注册
       {
         path: "/sign-in",
         name: "sign-in",
@@ -29,6 +38,7 @@ const routes: Array<RouteRecordRaw> = [
         name: "sign-up",
         component: () => import("@/views/SignUp.vue"),
       },
+      // 个人中心（需登录）
       {
         path: "/personal",
         name: "personal",
@@ -37,6 +47,7 @@ const routes: Array<RouteRecordRaw> = [
         },
         component: () => import("@/views/personal/Personal.vue"),
       },
+      // 歌单
       {
         path: "/song-sheet",
         name: "song-sheet",
@@ -47,6 +58,7 @@ const routes: Array<RouteRecordRaw> = [
         name: "song-sheet-detail",
         component: () => import("@/views/song-sheet/SongSheetDetail.vue"),
       },
+      // 歌手
       {
         path: "/singer",
         name: "singer",
@@ -57,16 +69,19 @@ const routes: Array<RouteRecordRaw> = [
         name: "singer-detail",
         component: () => import("@/views/singer/SingerDetail.vue"),
       },
+      // 歌词页（与底部播放条联动）
       {
         path: "/lyric/:id",
         name: "lyric",
         component: () => import("@/views/Lyric.vue"),
       },
+      // 搜索
       {
         path: "/search",
         name: "search",
         component: () => import("@/views/search/Search.vue"),
       },
+      // 社区笔记
       {
         path: "/community",
         name: "community",
@@ -98,6 +113,7 @@ const routes: Array<RouteRecordRaw> = [
         name: "personal-data",
         component: () => import("@/views/setting/PersonalData.vue"),
       },
+      // 用户设置（资料、改密、注销）
       {
         path: "/setting",
         name: "setting",
@@ -118,6 +134,7 @@ const routes: Array<RouteRecordRaw> = [
       },
     ],
   },
+  // ========== 管理后台（独立侧栏，无 YinHeader） ==========
   {
     path: "/admin",
     component: () => import("@/views/admin/AdminContainer.vue"),
@@ -150,6 +167,7 @@ const routes: Array<RouteRecordRaw> = [
         name: "admin-comment",
         component: () => import("@/views/admin/CommentManage.vue"),
       },
+      // 歌手增删改 + 头像上传
       {
         path: "singer",
         name: "admin-singer",
@@ -174,6 +192,7 @@ const router = createRouter({
   routes,
 });
 
+// 全局守卫：未登录拦截；非管理员禁止进入 /admin
 router.beforeEach((to, _from, next) => {
   const requireAuth = to.matched.some((record) => record.meta && (record.meta as any).requireAuth);
   const adminOnly = to.matched.some((record) => record.meta && (record.meta as any).adminOnly);

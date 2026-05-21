@@ -1,3 +1,4 @@
+<!-- 【页面】歌手列表 /singer -->
 <template>
   <div class="play-list-container">
     <yin-nav :styleList="singerStyle" :activeName="activeName" @click="handleChangeView"></yin-nav>

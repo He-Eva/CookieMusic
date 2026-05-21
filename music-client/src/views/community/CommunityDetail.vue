@@ -1,3 +1,4 @@
+<!-- 【页面】笔记详情 /community/detail/:id  点赞、评论、关联歌曲播放 -->
 <template>
   <div class="detail">
     <el-card class="card" v-loading="loading">

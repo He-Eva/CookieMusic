@@ -1,3 +1,4 @@
+<!-- 【布局】右侧当前播放队列，数据来自 Vuex currentPlayList -->
 <template>
   <transition name="aside-fade">
     <div class="yin-current-play" v-if="showAside">

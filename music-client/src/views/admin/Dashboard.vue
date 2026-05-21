@@ -1,3 +1,4 @@
+<!-- 【页面】管理看板 /admin/dashboard  adminDashboardStats -->
 <template>
   <div class="dashboard">
     <div class="head">

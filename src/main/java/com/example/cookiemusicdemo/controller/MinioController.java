@@ -148,7 +148,7 @@ public class MinioController {
     //获取头像
     @GetMapping("/user01/consumer/img/{fileName:.+}")
     public ResponseEntity<byte[]> getImage3(@PathVariable String fileName) throws Exception {
-        System.out.println("00000000000000000");
+//        System.out.println("00000000000000000");
         InputStream stream = minioClient.getObject(
                 GetObjectArgs.builder()
                         .bucket(bucketName)

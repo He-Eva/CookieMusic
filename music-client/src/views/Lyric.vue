@@ -1,3 +1,4 @@
+<!-- 【页面】歌词 /lyric/:id  parseLyric + Vuex curTime 高亮；可切歌 -->
 <template>
   <div class="song-container">
     <el-image class="song-pic" fit="contain" :src="attachImageUrl(songPic)" />

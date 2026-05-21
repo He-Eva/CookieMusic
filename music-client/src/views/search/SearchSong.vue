@@ -1,3 +1,4 @@
+<!-- 【页面】搜索-歌曲 Tab -->
 <template>
   <div class="search-song">
     <song-list :songList="currentSongList"></song-list>

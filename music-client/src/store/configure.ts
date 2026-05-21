@@ -1,3 +1,10 @@
+/**
+ * Vuex 模块：全站 UI 与登录标记（非播放业务）
+ * - token：是否已登录（同步 localStorage）
+ * - searchWord：顶栏搜索后写入，搜索页读取
+ * - showAside：右侧「当前播放列表」显隐
+ * - activeNavName：顶栏导航高亮项
+ */
 export default {
   state: {
     token: localStorage.getItem("token") === "true",

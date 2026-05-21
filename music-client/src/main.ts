@@ -1,3 +1,4 @@
+/** Vue 应用入口：挂载 Router、Vuex、Element Plus */
 import { createApp } from "vue";
 import ElementPlus from "element-plus";
 import App from "./App.vue";

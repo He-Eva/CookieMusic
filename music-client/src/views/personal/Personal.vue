@@ -1,3 +1,4 @@
+<!-- 【页面】个人中心：资料、收藏、笔记、历史播放 getPlayRecordByUser -->
 <template>
   <div class="personal">
     <div class="personal-info">

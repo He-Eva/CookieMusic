@@ -1,7 +1,12 @@
+/**
+ * 前端 API 字典（所有与后端的 HTTP 调用集中在此）
+ * 使用：import { HttpManager } from "@/api"
+ * 说明：业务逻辑在各自 .vue / mixin，此处只负责拼 URL 与 method
+ */
 import { getBaseURL, get, post, deletes } from "./request";
 
 const HttpManager = {
-  // 获取图片信息
+  /** 相对路径转可访问完整 URL（歌曲、图片、MinIO 资源） */
   attachImageUrl: (url) => {
     const fallback = `${getBaseURL()}/user01/consumer/img/default.jpg`;
     return url ? `${getBaseURL()}/${url}` : fallback;

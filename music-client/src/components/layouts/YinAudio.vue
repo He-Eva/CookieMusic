@@ -1,3 +1,4 @@
+<!-- 【布局】全局播放器：隐藏 audio，读 Vuex songUrl；上报 playRecord -->
 <template>
   <audio
     :src="attachImageUrl(songUrl)"
@@ -20,6 +21,7 @@
 </template>
 
 <script lang="ts">
+/** 监听 Vuex isPlay/songUrl/volume/changeTime，驱动原生 audio 元素 */
 import { defineComponent, ref, getCurrentInstance, computed, watch } from "vue";
 import { useStore } from "vuex";
 import { HttpManager } from "@/api";

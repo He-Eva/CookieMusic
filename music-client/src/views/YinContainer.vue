@@ -1,3 +1,4 @@
+<!-- 【布局】用户端主外壳：顶栏 + 页面路由 + 播放条 + 隐藏音频 + 页脚；刷新后从 sessionStorage 恢复 Vuex -->
 <template>
   <el-container>
     <el-header>

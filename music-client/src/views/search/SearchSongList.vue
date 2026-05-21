@@ -1,3 +1,4 @@
+<!-- 【页面】搜索-歌单 Tab -->
 <template>
   <div class="search-song-list">
     <play-list :playList="playList" path="song-sheet-detail"></play-list>

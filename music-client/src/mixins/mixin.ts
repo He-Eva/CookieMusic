@@ -1,3 +1,7 @@
+/**
+ * 全局混入方法（各页面 setup / methods 中调用 mixin()）
+ * 核心：playMusic 切歌、playSongById 按 ID 播放、routerManager 跳转、checkStatus 登录校验
+ */
 import { getCurrentInstance, computed } from "vue";
 import { useStore } from "vuex";
 import { LocationQueryRaw } from "vue-router";

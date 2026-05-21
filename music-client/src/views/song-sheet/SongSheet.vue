@@ -1,3 +1,4 @@
+<!-- 【页面】歌单列表 /song-sheet -->
 <template>
   <div class="play-list-container">
     <yin-nav :styleList="songStyle" :activeName="activeName" @click="handleChangeView"></yin-nav>

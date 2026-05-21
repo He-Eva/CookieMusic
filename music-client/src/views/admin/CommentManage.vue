@@ -1,3 +1,4 @@
+<!-- 【页面】管理-评论删除 /admin/comment -->
 <template>
   <div class="admin-page">
     <div class="header">

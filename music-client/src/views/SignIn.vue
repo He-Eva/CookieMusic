@@ -1,3 +1,4 @@
+<!-- 【页面】登录 /sign-in  用户 signIn / 管理员 adminSignIn -->
 <template>
   <yin-login-logo></yin-login-logo>
   <div class="sign">

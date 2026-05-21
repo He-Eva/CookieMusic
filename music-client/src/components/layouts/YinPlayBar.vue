@@ -1,3 +1,4 @@
+<!-- 【布局】底部播放条：进度、上下首、音量、打开当前播放列表 -->
 <template>
   <div class="play-bar" :class="{ show: !toggle }">
     <div class="fold" :class="{ turn: toggle }">
@@ -118,7 +119,7 @@ export default defineComponent({
       if (!checkStatus()) return;
 
       const userId = userIdVO.value;
-      const type = '0'; //这里要看看 不能直接写死
+      const type = '0'; 
       const songId = songIdVO.value;
 
       const result = isCollection.value

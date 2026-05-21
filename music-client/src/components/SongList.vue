@@ -1,3 +1,4 @@
+<!-- 【组件】歌曲表格，点击行/编辑图标 → mixin.playMusic -->
 <template>
   <div class="content">
     <el-table highlight-current-row :data="dataList" @row-click="handleClick">

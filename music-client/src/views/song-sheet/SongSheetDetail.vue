@@ -1,3 +1,4 @@
+<!-- 【页面】歌单详情：歌曲列表、播放、收藏、评分、评论 -->
 <template>
   <el-container>
     <el-aside class="album-slide">

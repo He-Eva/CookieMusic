@@ -1,3 +1,4 @@
+<!-- 【页面】发布笔记 /community/publish  addPost + 图片上传 -->
 <template>
   <div class="publish">
     <el-card class="card">

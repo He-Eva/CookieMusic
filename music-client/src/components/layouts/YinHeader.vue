@@ -1,3 +1,4 @@
+<!-- 【布局】顶栏：导航、搜索(commit searchWord)、登录/头像菜单(含管理后台) -->
 <template>
   <div class="yin-header">
     <!--图标-->

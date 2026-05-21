@@ -1,3 +1,4 @@
+<!-- 【页面】社交中心 /social  关注、粉丝 -->
 <template>
   <div class="social-center">
     <div class="header">

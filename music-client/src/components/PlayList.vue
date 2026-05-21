@@ -1,3 +1,4 @@
+<!-- 【组件】歌单/歌手卡片网格，点击跳转 detail 路由 -->
 <template>
   <div class="play-list">
     <div class="play-title" v-if="title">{{ title }}</div>

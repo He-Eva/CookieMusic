@@ -1,3 +1,9 @@
+/**
+ * axios 实例与拦截器
+ * - withCredentials：携带 Session Cookie
+ * - 401/403：跳转登录页
+ * - get/post/deletes：供 api/index.ts 封装调用
+ */
 import axios from "axios";
 import router from "@/router";
 

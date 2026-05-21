@@ -1,4 +1,10 @@
-// 解析日期
+/**
+ * 前端工具函数
+ * - getBirth / formatDate：日期展示
+ * - parseLyric：LRC 歌词 → [[秒, 文本], ...] 供 Lyric.vue
+ * - formatSeconds：秒数 → m:ss 供播放条
+ */
+// 解析日期（生日等，仅年月日）
 export function getBirth(value) {
   if (value == null || value == "") return "";
   const date = new Date(value);

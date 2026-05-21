@@ -1,3 +1,4 @@
+<!-- 【页面】注册 /sign-up  HttpManager.SignUp -->
 <template>
   <yin-login-logo></yin-login-logo>
   <div class="sign">

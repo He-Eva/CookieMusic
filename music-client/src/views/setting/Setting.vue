@@ -1,3 +1,4 @@
+<!-- 【页面】设置 /setting  资料、改密、注销 -->
 <template>
   <div class="setting">
     <h1>设置</h1>

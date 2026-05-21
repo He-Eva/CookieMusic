@@ -1,3 +1,4 @@
+<!-- 【页面】歌手详情 /singer-detail/:id -->
 <template>
   <el-container>
     <el-aside class="album-slide">

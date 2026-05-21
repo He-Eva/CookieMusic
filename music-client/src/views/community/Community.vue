@@ -1,3 +1,4 @@
+<!-- 【页面】社区笔记列表 /community  getPostList 最新/最热/话题 -->
 <template>
   <div class="community">
     <div class="toolbar">

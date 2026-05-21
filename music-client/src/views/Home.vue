@@ -1,3 +1,4 @@
+<!-- 【页面】首页 /  接口：getBannerList、getRecommendSongs、getSongList、getAllSinger -->
 <template>
   <!--轮播图-->
   <el-carousel v-if="swiperList.length" class="swiper-container" type="card" height="20vw" :interval="4000">

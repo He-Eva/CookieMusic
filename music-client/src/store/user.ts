@@ -1,3 +1,8 @@
+/**
+ * Vuex 模块：当前登录用户资料
+ * - 普通用户：userId / username / userPic
+ * - 管理员：isAdmin=true，userId 可能为空
+ */
 export default {
   state: {
     userId: localStorage.getItem("cm_userId") || "", // ID（持久化）

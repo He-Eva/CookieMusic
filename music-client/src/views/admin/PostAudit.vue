@@ -1,3 +1,4 @@
+<!-- 【页面】管理-帖子审核 /admin/post-audit -->
 <template>
   <div class="post-audit">
     <div class="hero">

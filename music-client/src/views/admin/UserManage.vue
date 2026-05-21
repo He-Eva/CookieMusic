@@ -1,3 +1,4 @@
+<!-- 【页面】管理-用户禁用 /admin/user -->
 <template>
   <div class="admin-page">
     <div class="header">

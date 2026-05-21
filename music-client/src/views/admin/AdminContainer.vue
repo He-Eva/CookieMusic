@@ -1,3 +1,4 @@
+<!-- 【布局】管理后台侧栏 + router-view；路由 /admin/* -->
 <template>
   <div class="admin-layout">
     <aside class="admin-side">

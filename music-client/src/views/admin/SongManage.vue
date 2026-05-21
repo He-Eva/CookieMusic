@@ -1,3 +1,4 @@
+<!-- 【页面】管理-歌曲上下架 /admin/song -->
 <template>
   <div class="song-manage">
     <div class="header">
